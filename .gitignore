@@ -1,0 +1,8 @@
+.idea
+.idea/*.*
+/node_modules
+.eslintrc.*
+package-lock.*
+dump.rdb
+/Project/public
+/Project/routes
