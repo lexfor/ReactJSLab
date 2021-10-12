@@ -14,7 +14,7 @@ export default class RequestResult {
 
   /**
    * Set result
-   * @param {string} value
+   * @param {any} value
    */
   set setValue(value) {
     this.value = value;

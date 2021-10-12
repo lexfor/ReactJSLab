@@ -1,75 +1,47 @@
 import {
-  AuthenticationRepository,
-  AuthenticationService,
   AuthenticationController,
   JwtService,
 } from './api/authentication';
-import { PatientController, PatientRepository, PatientService } from './api/patient';
+import { PatientController } from './api/patient';
 import { ResolutionService, ResolutionRepository, ResolutionController } from './api/resolutions';
-import {DoctorController, DoctorRepository, DoctorService, DoctorSpecializationRepository} from './api/doctor';
+import {
+  DoctorController, DoctorService, DoctorSpecializationRepository,
+} from './api/doctor';
 import { SpecializationsRepository, SpecializationsService, SpecializationsController } from './api/specializations';
 import { connection } from './api/helpers/DBconnection';
 import { initializeDB } from './api/helpers/DBInitializator';
-import {AppointmentsController, AppointmentsRepository, AppointmentsService} from "./api/appointments";
-import {StatusesController, StatusesRepository, StatusesService} from "./api/statuses";
-import {AdminsRepository, AdminsService} from "./api/admins";
+import { AppointmentsController, AppointmentsRepository, AppointmentsService } from './api/appointments';
+import { StatusesController, StatusesRepository, StatusesService } from './api/statuses';
+import { UsersRepository, UsersService } from './api/users';
 
 class Injector {
   constructor() {
     console.log('using SQL');
     initializeDB(connection).then(console.log('Database initialized'));
-    this.patientRepository = new PatientRepository(connection);
     this.resolutionRepository = new ResolutionRepository(connection);
-    this.authenticationRepository = new AuthenticationRepository(connection);
-    this.doctorRepository = new DoctorRepository(connection);
     this.specializationsRepository = new SpecializationsRepository(connection);
     this.doctorSpecializationRepository = new DoctorSpecializationRepository(connection);
     this.appointmentsRepository = new AppointmentsRepository(connection);
     this.statusesRepository = new StatusesRepository(connection);
-    this.adminsRepository = new AdminsRepository(connection);
+    this.usersRepository = new UsersRepository(connection);
 
-    this.patientService = new PatientService(this.patientRepository);
     this.jwtService = new JwtService();
-    this.authenticationService = new AuthenticationService(this.authenticationRepository);
     this.resolutionService = new ResolutionService(this.resolutionRepository);
-    this.doctorService = new DoctorService(this.doctorRepository, this.doctorSpecializationRepository);
+    this.doctorService = new DoctorService(this.doctorSpecializationRepository);
     this.specializationsService = new SpecializationsService(this.specializationsRepository);
     this.appointmentsService = new AppointmentsService(this.appointmentsRepository);
     this.statusesService = new StatusesService(this.statusesRepository);
-    this.adminsService = new AdminsService(this.adminsRepository);
+    this.usersService = new UsersService(this.usersRepository);
 
     this.authenticationController = new AuthenticationController(
-      this.authenticationService,
-      this.patientService,
+      this.usersService,
       this.jwtService,
-      this.doctorService,
-      this.adminsService,
     );
-
-    this.patientController = new PatientController(
-      this.patientService,
-      this.authenticationService,
-    );
-
-    this.resolutionController = new ResolutionController(
-      this.resolutionService,
-      this.patientService,
-      this.doctorService,
-    );
-
-    this.doctorController = new DoctorController(
-      this.doctorService,
-      this.authenticationService,
-    );
-
+    this.patientController = new PatientController(this.usersService);
+    this.resolutionController = new ResolutionController(this.resolutionService);
+    this.doctorController = new DoctorController(this.doctorService, this.usersService);
     this.specializationsController = new SpecializationsController(this.specializationsService);
-
-    this.appointmentsController = new AppointmentsController(
-        this.appointmentsService,
-        this.patientService,
-        this.doctorService
-    );
-
+    this.appointmentsController = new AppointmentsController(this.appointmentsService);
     this.statusesController = new StatusesController(this.statusesService);
   }
 

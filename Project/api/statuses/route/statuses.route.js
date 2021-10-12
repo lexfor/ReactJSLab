@@ -5,9 +5,9 @@ import { injector } from '../../../Injector';
 const router = express();
 const statusesController = injector.getStatusesController;
 
-router.get('/api/statuses', async (req, res) => {
-    const result = await statusesController.getAllStatuses();
-    res.status(result.getStatus).json(result.getValue);
+router.get('/', async (req, res) => {
+  const result = await statusesController.getAllStatuses();
+  res.status(result.getStatus).json(result.getValue);
 });
 
 export default router;

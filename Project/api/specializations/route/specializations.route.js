@@ -5,9 +5,9 @@ import { injector } from '../../../Injector';
 const router = express();
 const specializationsController = injector.getSpecializationsController;
 
-router.get('/api/specializations', async (req, res) => {
-    const result = await specializationsController.getAllSpecializations();
-    res.status(result.getStatus).json(result.getValue);
+router.get('/', async (req, res) => {
+  const result = await specializationsController.getAllSpecializations();
+  res.status(result.getStatus).json(result.getValue);
 });
 
 export default router;

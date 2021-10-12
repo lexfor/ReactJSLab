@@ -4,13 +4,12 @@ import { injector } from '../../../Injector';
 import {
   authenticationMiddleware,
   checkIDMiddleware,
-  checkResolutionMiddleware,
 } from '../../helpers/middleware';
 
 const router = express();
 const resolutionController = injector.getResolutionController;
 
-router.post('/api/resolutions', async (req, res, next) => {
+router.post('/', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
@@ -18,7 +17,7 @@ router.post('/api/resolutions', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.delete('/api/resolutions/:id', async (req, res, next) => {
+router.delete('/:id', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
@@ -26,7 +25,7 @@ router.delete('/api/resolutions/:id', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.put('/api/resolutions/:id', async (req, res, next) => {
+router.put('/:id', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
@@ -34,21 +33,20 @@ router.put('/api/resolutions/:id', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/api/resolutions/me', async (req, res, next) => {
+router.get('/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await resolutionController.getResolutions(req.userID);
+  const result = await resolutionController.getResolutions(req.userID, req.query.name);
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/api/resolutions/doctor/me', async (req, res, next) => {
+router.get('/doctor/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await resolutionController.getMyResolutions(req.userID);
+  const result = await resolutionController.getMyResolutions(req.userID, req.query.name);
   res.status(result.getStatus).json(result.getValue);
 });
-
 
 export default router;

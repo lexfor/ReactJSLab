@@ -6,3 +6,4 @@ export * from './checkIDMiddleware';
 export * from './checkResolutionMiddleware';
 export * from './refreshTokenMiddleware';
 export * from './checkDoctorMiddleware';
+export * from './photoMiddleware';

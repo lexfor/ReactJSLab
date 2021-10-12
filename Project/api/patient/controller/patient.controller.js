@@ -1,25 +1,26 @@
+import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../../helpers/RequestResult';
-import {ROLES, STATUSES} from '../../../constants';
+import { ROLES_ID } from '../../../constants';
 
 class PatientController {
-  constructor(patientService, authService) {
-    this.patientService = patientService;
-    this.authService = authService;
+  constructor(userService) {
+    this.userService = userService;
   }
 
   /**
    * register new patient
-   * @param {object} user
+   * @param {object} patient
    * @returns {Promise<object>} all founded patients with condition and status
    */
-  async registerPatient(user) {
+  async createPatient(patient) {
     const res = new RequestResult();
     try {
-      console.log(user);
-      const createdUser = await this.authService.register(user, ROLES.PATIENT);
-      const createdPatient = await this.patientService.createPatient(user, createdUser);
-      res.setValue = createdPatient.id;
-      res.setStatus = STATUSES.CREATED;
+      const userData = {
+        ...patient,
+        role: ROLES_ID.PATIENT,
+      };
+      res.setValue = await this.userService.createUser(userData);
+      res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -36,10 +37,8 @@ class PatientController {
   async deletePatient(patientID) {
     const res = new RequestResult();
     try {
-      const deletedPatient = await this.patientService.deletePatient(patientID);
-      await this.authService.deleteUser(deletedPatient.user_id);
-      res.setValue = deletedPatient.id;
-      res.setStatus = STATUSES.ACCEPTED;
+      res.setValue = await this.userService.deleteUser(patientID);
+      res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -57,30 +56,9 @@ class PatientController {
   async updatePatient(patientID, patient) {
     const res = new RequestResult();
     try {
-      await this.patientService.updatePatient(patientID, patient);
-      res.setValue = await this.patientService.getPatientByID(patientID);
-      res.setStatus = STATUSES.ACCEPTED;
-      return res;
-    } catch (e) {
-      res.setValue = e.message;
-      res.setStatus = e.status;
-      return res;
-    }
-  }
-
-  /**
-   * update my profile
-   * @param {string} userID
-   * @param {object} newPatientData
-   * @returns {Promise<object>} updated patient and status
-   */
-  async updateMyProfile(userID, newPatientData) {
-    const res = new RequestResult();
-    try {
-      const patient = await this.patientService.getPatientByUser(userID);
-      await this.patientService.updatePatient(patient.id, newPatientData);
-      res.setValue = await this.patientService.getPatientByID(patient.id);
-      res.setStatus = STATUSES.ACCEPTED;
+      await this.userService.updateUser(patientID, patient);
+      res.setValue = await this.userService.getUserByID(patientID, ROLES_ID.PATIENT);
+      res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -97,8 +75,8 @@ class PatientController {
   async getMyProfile(userID) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.patientService.getPatientByUser(userID);
-      res.setStatus = STATUSES.ACCEPTED;
+      res.setValue = await this.userService.getUserByID(userID, ROLES_ID.PATIENT);
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -115,8 +93,8 @@ class PatientController {
   async getPatients(name) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.patientService.getPatients(name);
-      res.setStatus = STATUSES.OK;
+      res.setValue = await this.userService.getUsers(ROLES_ID.PATIENT, name);
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

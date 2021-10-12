@@ -1,7 +1,7 @@
 import { v1 as uuidv1 } from 'uuid';
 import { promisify } from 'util';
+import { StatusCodes } from 'http-status-codes';
 import ApiError from '../../helpers/ApiError';
-import { STATUSES } from '../../../constants';
 
 class ResolutionRepository {
   constructor(connection) {
@@ -19,14 +19,14 @@ class ResolutionRepository {
       const resolution = {
         ...data,
         id: uuid,
-        createdTime: new Date().toISOString() ,
+        createdTime: new Date().toISOString(),
       };
       const queryAsync = promisify(this.connection.query).bind(this.connection);
       const sql = 'INSERT INTO resolutions SET ? ';
       await queryAsync(sql, resolution);
       return resolution;
     } catch (e) {
-      throw new ApiError(e.message, STATUSES.SERVER_ERROR);
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -43,7 +43,7 @@ class ResolutionRepository {
       await queryAsync(sql, [resolutionValue, resolutionID, doctorID]);
       return resolutionID;
     } catch (e) {
-      throw new ApiError(e.message, STATUSES.SERVER_ERROR);
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -60,47 +60,61 @@ class ResolutionRepository {
       await queryAsync(sql, [resolutionID, doctorID]);
       return { id: resolutionID };
     } catch (e) {
-      throw new ApiError(e.message, STATUSES.SERVER_ERROR);
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
   /**
    * Get resolutions
    * @param {string} patientID
+   * @param {string} name
    * @returns {Promise<array>} resolution data
    */
-  async getResolutions(patientID) {
+  async getResolutions(patientID, name) {
     try {
       const queryAsync = promisify(this.connection.query).bind(this.connection);
+      let nameCondition = '';
+      if (name) {
+        nameCondition = ` AND users.last_name = '%${name}%' OR 
+                users.first_name = '%${name}%'`;
+      }
       const sql = `SELECT 
                    resolutions.*, 
-                   doctors.first_name, 
-                   doctors.last_name
+                   users.first_name, 
+                   users.last_name
                    FROM resolutions
-                   INNER JOIN doctors ON resolutions.doctor_id = doctors.id
-                   WHERE resolutions.patient_id = ?`;
+                   INNER JOIN users ON resolutions.doctor_id = users.id
+                   WHERE resolutions.patient_id = ?
+                   ${nameCondition}`;
       const resolutions = await queryAsync(sql, [patientID]);
       return resolutions;
     } catch (e) {
-      throw new ApiError(e.message, STATUSES.SERVER_ERROR);
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
   /**
    * Get resolutions
    * @param {string} doctorID
+   * @param {string} name
    * @returns {Promise<array>} resolution data
    */
-  async getMyResolutions(doctorID) {
+  async getMyResolutions(doctorID, name) {
     try {
       const queryAsync = promisify(this.connection.query).bind(this.connection);
-      const sql = `SELECT resolutions.*, patients.first_name, patients.last_name FROM resolutions
-                   INNER JOIN patients ON resolutions.patient_id = patients.id
-                   WHERE resolutions.doctor_id = ?`;
+      let nameCondition = '';
+      if (name) {
+        nameCondition = ` AND users.last_name = '%${name}%' OR 
+                users.first_name = '%${name}%'`;
+      }
+      const sql = `SELECT resolutions.*, users.first_name, users.last_name FROM resolutions
+                   INNER JOIN users ON resolutions.patient_id = users.id
+                   WHERE resolutions.doctor_id = ?
+                   ${nameCondition}`;
       const resolutions = await queryAsync(sql, [doctorID]);
       return resolutions;
     } catch (e) {
-      throw new ApiError(e.message, STATUSES.SERVER_ERROR);
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

@@ -1,5 +1,6 @@
 import Ajv from 'ajv';
-import { NOT_AVAILABLE, STATUSES } from '../../../constants';
+import { StatusCodes } from 'http-status-codes';
+import { NOT_AVAILABLE } from '../../../constants';
 import { ValueSchema } from '../schemas/valueSchema';
 import { IDSchema } from '../schemas/IDSchema';
 
@@ -11,7 +12,7 @@ function checkResolutionMiddleware(req, res, next) {
   if (validationResult && validationUserResult) {
     next();
   } else {
-    res.status(STATUSES.BAD_REQUEST).json(NOT_AVAILABLE);
+    res.status(StatusCodes.BAD_REQUEST).json(NOT_AVAILABLE);
   }
 }
 

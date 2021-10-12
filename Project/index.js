@@ -38,13 +38,13 @@ try {
   app.use('/registration', express.static('./Project/public/registration'));
   app.use('/registration', registrationRouter);
 
-  app.use('/', patientRouter);
-  app.use('/', resolutionRouter);
-  app.use('/', authenticationRouter);
-  app.use('/', doctorRouter);
-  app.use('/', appointmentRouter);
-  app.use('/', specializationsRouter);
-  app.use('/', statusesRouter);
+  app.use('/api/patients', patientRouter);
+  app.use('/api/resolutions', resolutionRouter);
+  app.use('/api/auth', authenticationRouter);
+  app.use('/api/doctors', doctorRouter);
+  app.use('/api/appointments', appointmentRouter);
+  app.use('/api/specializations', specializationsRouter);
+  app.use('/api/statuses', statusesRouter);
 } catch (error) {
   console.log(error);
 }

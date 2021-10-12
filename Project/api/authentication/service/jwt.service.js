@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
+import { StatusCodes } from 'http-status-codes';
 import ApiError from '../../helpers/ApiError';
-import { STATUSES } from '../../../constants';
 
 const { sign, verify, decode } = jwt;
 
@@ -18,7 +18,7 @@ class JwtService {
       }, tokenKey, { expiresIn: +process.env.TOKEN_EXPIRATION });
       return { access_token: token };
     } catch (e) {
-      throw new ApiError('wrong sign', STATUSES.SERVER_ERROR);
+      throw new ApiError('wrong sign', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -32,7 +32,7 @@ class JwtService {
       const data = decode(token);
       return this.createSign(data.payload.userID);
     } catch (e) {
-      throw new ApiError('wrong sign', STATUSES.SERVER_ERROR);
+      throw new ApiError('wrong sign', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -46,7 +46,7 @@ class JwtService {
       const userID = verify(token, process.env.TOKEN_KEY);
       return userID;
     } catch (e) {
-      throw new ApiError('wrong token', STATUSES.FORBIDDEN);
+      throw new ApiError('wrong token', StatusCodes.FORBIDDEN);
     }
   }
 }

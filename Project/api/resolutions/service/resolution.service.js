@@ -1,6 +1,3 @@
-import { STATUSES } from '../../../constants';
-import ApiError from '../../helpers/ApiError';
-
 class ResolutionService {
   constructor(resolutionRepository) {
     this.resolutionRepository = resolutionRepository;
@@ -20,10 +17,15 @@ class ResolutionService {
    * Update resolution
    * @param {string} resolutionID
    * @param {string} resolution
+   * @param {string} doctorID
    * @returns {Promise<string>} resolution data
    */
   async updateResolution(resolutionID, resolution, doctorID) {
-    const result = await this.resolutionRepository.updateResolution(resolutionID, resolution, doctorID);
+    const result = await this.resolutionRepository.updateResolution(
+      resolutionID,
+      resolution,
+      doctorID,
+    );
     return result;
   }
 
@@ -41,20 +43,22 @@ class ResolutionService {
   /**
    * Get resolutions
    * @param {string} patientID
+   * @param {string} name
    * @returns {Promise<array>} resolution ID
    */
-  async getResolutions(patientID) {
-    const result = await this.resolutionRepository.getResolutions(patientID);
+  async getResolutions(patientID, name) {
+    const result = await this.resolutionRepository.getResolutions(patientID, name);
     return result;
   }
 
   /**
    * Get my resolutions
    * @param {string} doctorID
+   * @param {string} name
    * @returns {Promise<array>} resolution ID
    */
-  async getMyResolutions(doctorID) {
-    const result = await this.resolutionRepository.getMyResolutions(doctorID);
+  async getMyResolutions(doctorID, name) {
+    const result = await this.resolutionRepository.getMyResolutions(doctorID, name);
     return result;
   }
 }

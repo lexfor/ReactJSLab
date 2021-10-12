@@ -1,11 +1,9 @@
-import { STATUSES } from '../../../constants';
+import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../../helpers/RequestResult';
 
 class ResolutionController {
-  constructor(resolutionService, patientService, doctorService) {
+  constructor(resolutionService) {
     this.resolutionService = resolutionService;
-    this.patientService = patientService;
-    this.doctorService = doctorService;
   }
 
   /**
@@ -17,14 +15,13 @@ class ResolutionController {
   async createResolution(userID, resolution) {
     const res = new RequestResult();
     try {
-      const doctor = await this.doctorService.getDoctorByUserID(userID);
       const data = {
-        doctor_id: doctor.id,
+        doctor_id: userID,
         patient_id: resolution.patientID,
         value: resolution.resolution,
-      }
+      };
       res.setValue = await this.resolutionService.createResolution(data);
-      res.setStatus = STATUSES.CREATED;
+      res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -43,9 +40,12 @@ class ResolutionController {
   async updateResolution(resolutionID, resolution, userID) {
     const res = new RequestResult();
     try {
-      const doctor = await this.doctorService.getDoctorByUserID(userID);
-      res.setValue = await this.resolutionService.updateResolution(resolutionID, resolution.resolution, doctor.id);
-      res.setStatus = STATUSES.ACCEPTED;
+      res.setValue = await this.resolutionService.updateResolution(
+        resolutionID,
+        resolution.resolution,
+        userID,
+      );
+      res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -63,9 +63,8 @@ class ResolutionController {
   async deleteResolution(resolutionID, userID) {
     const res = new RequestResult();
     try {
-      const doctor = await this.doctorService.getDoctorByUserID(userID);
-      res.setValue = await this.resolutionService.deleteResolution(resolutionID, doctor.id);
-      res.setStatus = STATUSES.ACCEPTED;
+      res.setValue = await this.resolutionService.deleteResolution(resolutionID, userID);
+      res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -77,14 +76,14 @@ class ResolutionController {
   /**
    * Get resolutions
    * @param {string} userID
+   * @param {string} name
    * @returns {Promise<object>} resolution data and status
    */
-  async getResolutions( userID) {
+  async getResolutions(userID, name) {
     const res = new RequestResult();
     try {
-      const patient = await this.patientService.getPatientByUser(userID);
-      res.setValue = await this.resolutionService.getResolutions(patient.id);
-      res.setStatus = STATUSES.OK;
+      res.setValue = await this.resolutionService.getResolutions(userID, name);
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -96,14 +95,14 @@ class ResolutionController {
   /**
    * Get my resolutions
    * @param {string} userID
+   * @param {string} name
    * @returns {Promise<object>} resolution data and status
    */
-  async getMyResolutions( userID) {
+  async getMyResolutions(userID, name) {
     const res = new RequestResult();
     try {
-      const doctor = await this.doctorService.getDoctorByUserID(userID);
-      res.setValue = await this.resolutionService.getMyResolutions(doctor.id)
-      res.setStatus = STATUSES.OK;
+      res.setValue = await this.resolutionService.getMyResolutions(userID, name);
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

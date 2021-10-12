@@ -1,13 +1,11 @@
+import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../../helpers/RequestResult';
-import {ROLES, STATUSES} from '../../../constants';
+import { ROLES_ID } from '../../../constants';
 
 class AuthenticationController {
-  constructor(authenticationService, patientService, jwtService, doctorService, adminsService) {
-    this.authenticationService = authenticationService;
-    this.patientService = patientService;
+  constructor(usersService, jwtService) {
+    this.usersService = usersService;
     this.jwtService = jwtService;
-    this.doctorService = doctorService;
-    this.adminsService = adminsService;
   }
 
   /**
@@ -18,13 +16,15 @@ class AuthenticationController {
   async register(user) {
     const res = new RequestResult();
     try {
-      const createdUser = await this.authenticationService.register(user, ROLES.PATIENT);
-      await this.patientService.createPatient(user, createdUser);
+      const userData = {
+        ...user,
+        role: ROLES_ID.PATIENT,
+      };
+      const createdUser = await this.usersService.createUser(userData);
       const result = this.jwtService.createSign(createdUser.id);
-      result.user = await this.patientService.getPatientByUser(createdUser.id);
-      result.role = ROLES.PATIENT;
+      result.user = createdUser;
       res.setValue = result;
-      res.setStatus = STATUSES.CREATED;
+      res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -41,24 +41,12 @@ class AuthenticationController {
   async login(user) {
     const res = new RequestResult();
     try {
-      const foundedUser = await this.authenticationService.login(user);
+      const foundedUser = await this.usersService.login(user);
+
       const result = this.jwtService.createSign(foundedUser.id);
-
-      switch (foundedUser.role) {
-        case "Patient":
-          result.user = await this.patientService.getPatientByUser(foundedUser.id);
-          break;
-        case "Doctor":
-          result.user = await this.doctorService.getDoctorByUserID(foundedUser.id);
-          break;
-        case "Admin":
-          result.user = await this.adminsService.getAdminByUserID(foundedUser.id);
-          break;
-      }
-
-      result.role = foundedUser.role;
+      result.user = foundedUser;
       res.setValue = result;
-      res.setStatus = STATUSES.OK;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -76,7 +64,7 @@ class AuthenticationController {
     const res = new RequestResult();
     try {
       res.setValue = this.jwtService.verifySign(token);
-      res.setStatus = STATUSES.OK;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -94,7 +82,7 @@ class AuthenticationController {
     const res = new RequestResult();
     try {
       res.setValue = this.jwtService.refreshToken(token);
-      res.setStatus = STATUSES.OK;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -106,14 +94,14 @@ class AuthenticationController {
   /**
    * change user password
    * @param {string} userID
-   * @param {object} password
+   * @param {object} passwords
    * @returns {Promise<object>} status
    */
-  async changePassword(userID, { oldPassword, newPassword }) {
+  async changePassword(userID, passwords) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.authenticationService.changePassword(userID, oldPassword, newPassword);
-      res.setStatus = STATUSES.OK;
+      res.setValue = await this.usersService.changePassword(userID, passwords);
+      res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
       res.setValue = e.message;

@@ -9,7 +9,7 @@ export async function resolutionDefine(connection) {
     patient_id VARCHAR(255),
     doctor_id VARCHAR(255),
     PRIMARY KEY (id),
-    FOREIGN KEY (patient_id) REFERENCES patients(id),
-    FOREIGN KEY (doctor_id) REFERENCES doctors(id))`;
+    FOREIGN KEY (patient_id) REFERENCES users(id),
+    FOREIGN KEY (doctor_id) REFERENCES users(id))`;
   await queryAsync(sqlQuery);
 }

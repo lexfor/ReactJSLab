@@ -1,9 +1,7 @@
 import {
-  userDefine,
-  patientDefine,
+  usersDefine,
   resolutionDefine,
-  doctorDefine,
-  adminDefine,
+  rolesDefine,
   specializationDefine,
   doctorSpecializationsDefine,
   appointmentDefine,
@@ -11,13 +9,12 @@ import {
 } from './models';
 
 export async function initializeDB(connection) {
-  await userDefine(connection);
+  await rolesDefine(connection);
   await specializationDefine(connection);
-  await patientDefine(connection);
-  await doctorDefine(connection);
-  await adminDefine(connection);
-  await resolutionDefine(connection);
   await statusesDefine(connection);
+
+  await usersDefine(connection);
+  await resolutionDefine(connection);
   await appointmentDefine(connection);
   await doctorSpecializationsDefine(connection);
 }

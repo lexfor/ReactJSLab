@@ -1,6 +1,7 @@
 import Ajv from 'ajv';
+import { StatusCodes } from 'http-status-codes';
 import { LogingSchema } from '../schemas/LogingSchema';
-import { NOT_AVAILABLE, STATUSES } from '../../../constants';
+import { NOT_AVAILABLE } from '../../../constants';
 
 const ajv = new Ajv();
 
@@ -9,7 +10,7 @@ function checkLoginDataMiddleware(req, res, next) {
   if (validationResult) {
     next();
   } else {
-    res.status(STATUSES.BAD_REQUEST).json(NOT_AVAILABLE);
+    res.status(StatusCodes.BAD_REQUEST).json(NOT_AVAILABLE);
   }
 }
 
