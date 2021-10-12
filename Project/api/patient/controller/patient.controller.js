@@ -3,8 +3,9 @@ import RequestResult from '../../helpers/RequestResult';
 import { ROLES_ID } from '../../../constants';
 
 class PatientController {
-  constructor(userService) {
+  constructor(userService, resolutionService) {
     this.userService = userService;
+    this.resolutionService = resolutionService;
   }
 
   /**
@@ -93,7 +94,17 @@ class PatientController {
   async getPatients(name) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.userService.getUsers(ROLES_ID.PATIENT, name);
+      const patients = await this.userService.getUsers(ROLES_ID.PATIENT, name);
+      const result = patients.map(async (patient) => {
+        const resolutions = await this.resolutionService.getResolutions(patient.id);
+        patient.resolutions = '';
+        resolutions.forEach((resolution) => {
+          patient.resolutions += resolution.value;
+          patient.resolutions += '. '
+        });
+        return patient;
+      });
+      res.setValue = await Promise.all(result);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

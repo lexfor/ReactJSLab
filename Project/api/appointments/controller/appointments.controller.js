@@ -28,12 +28,13 @@ class AppointmentsController {
   /**
      * delete appointment
      * @param {string} appointmentID
+     * @param {string} userID
      * @returns {Promise<object>} delete appointment ID and status
      */
-  async deleteAppointment(appointmentID) {
+  async deleteAppointment(appointmentID, userID) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.deleteAppointment(appointmentID);
+      res.setValue = await this.appointmentService.deleteAppointment(appointmentID, userID);
       res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {

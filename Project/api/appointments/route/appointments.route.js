@@ -19,7 +19,7 @@ router.delete('/:id', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
-  const result = await appointmentsController.deleteAppointment(req.params.id);
+  const result = await appointmentsController.deleteAppointment(req.params.id, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 

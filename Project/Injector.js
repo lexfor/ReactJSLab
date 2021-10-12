@@ -37,7 +37,7 @@ class Injector {
       this.usersService,
       this.jwtService,
     );
-    this.patientController = new PatientController(this.usersService);
+    this.patientController = new PatientController(this.usersService, this.resolutionService);
     this.resolutionController = new ResolutionController(this.resolutionService);
     this.doctorController = new DoctorController(this.doctorService, this.usersService);
     this.specializationsController = new SpecializationsController(this.specializationsService);

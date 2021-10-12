@@ -29,13 +29,14 @@ class AppointmentsRepository {
   /**
      * delete an appointment
      * @param {string} appointmentID
+     * @param {string} userID
      * @returns {Promise<object>} deleted appointment ID
      */
-  async deleteAppointment(appointmentID) {
+  async deleteAppointment(appointmentID, userID) {
     try {
       const queryAsync = promisify(this.connection.query).bind(this.connection);
-      const sql = 'DELETE FROM appointments WHERE id = ?';
-      await queryAsync(sql, appointmentID);
+      const sql = 'DELETE FROM appointments WHERE id = ? AND doctor_id = ?';
+      await queryAsync(sql, [appointmentID, userID]);
       return appointmentID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);

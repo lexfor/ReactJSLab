@@ -21,6 +21,8 @@ export const CONDITION = {
   PATIENT: 'patient_id',
 };
 
+export const NEXT_VISIT_MOTHS_DELAY = 1;
+
 export const NOT_AVAILABLE = 'N/A';
 
 export const MAX_PHOTO_SIZE = 1000000;

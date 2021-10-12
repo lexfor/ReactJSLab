@@ -1,3 +1,5 @@
+import {NEXT_VISIT_MOTHS_DELAY} from "../../../constants";
+
 class ResolutionService {
   constructor(resolutionRepository) {
     this.resolutionRepository = resolutionRepository;
@@ -47,7 +49,8 @@ class ResolutionService {
    * @returns {Promise<array>} resolution ID
    */
   async getResolutions(patientID, name) {
-    const result = await this.resolutionRepository.getResolutions(patientID, name);
+    let result = await this.resolutionRepository.getResolutions(patientID, name);
+    result = this.createNextVisitDate(result);
     return result;
   }
 
@@ -58,8 +61,22 @@ class ResolutionService {
    * @returns {Promise<array>} resolution ID
    */
   async getMyResolutions(doctorID, name) {
-    const result = await this.resolutionRepository.getMyResolutions(doctorID, name);
+    let result = await this.resolutionRepository.getMyResolutions(doctorID, name);
+    result = this.createNextVisitDate(result);
     return result;
+  }
+
+  /**
+   * Set next visit date
+   * @param {array} resolutions
+   * @returns {array} result resolutions
+   */
+  createNextVisitDate(resolutions) {
+    return resolutions.map((resolution) => {
+      resolution.nextVisit = new Date(resolution.createdTime);
+      resolution.nextVisit.setMonth(resolution.nextVisit.getMonth() + NEXT_VISIT_MOTHS_DELAY);
+      return resolution;
+    });
   }
 }
 

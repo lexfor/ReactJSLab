@@ -98,10 +98,10 @@ class UsersRepository {
     try {
       const queryAsync = promisify(this.connection.query).bind(this.connection);
       const sql = `
-                SELECT * 
+                SELECT users.*, roles.role_name 
                 FROM users
-                WHERE id = ?
-                AND role_id = ?`;
+                INNER JOIN roles ON roles.id = users.role_id
+                WHERE users.id = ?`;
       const [result] = await queryAsync(sql, userID);
       return result;
     } catch (e) {
@@ -124,8 +124,9 @@ class UsersRepository {
       }
       const queryAsync = promisify(this.connection.query).bind(this.connection);
       const sql = `
-                SELECT *
+                SELECT users.*, roles.role_name 
                 FROM users
+                INNER JOIN roles ON roles.id = users.role_id
                 WHERE role_id = ?
                 ${nameCondition}`;
       return await queryAsync(sql, role);

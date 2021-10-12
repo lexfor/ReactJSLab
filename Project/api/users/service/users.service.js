@@ -2,7 +2,7 @@ import fs from 'fs';
 import { v1 as uuidv1 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
-import { DEFAULT_PHOTO_PATH } from '../../../constants';
+import {DEFAULT_PHOTO_PATH, ROLES_ID} from '../../../constants';
 import ApiError from '../../helpers/ApiError';
 
 class UsersService {
@@ -26,7 +26,8 @@ class UsersService {
       role_id: userData.role,
     };
     await this.usersRepository.createUser(user);
-    return user;
+    const result = await this.getUserByID(user.id);
+    return result;
   }
 
   /**

@@ -60,7 +60,6 @@ router.put('/:id', (req, res, next) => {
 
 router.get('/', async (req, res) => {
   const result = await doctorController.getDoctors(req.query.specializationID, req.query.name);
-  console.log(result);
   res.status(result.getStatus).json(result.getValue);
 });
 

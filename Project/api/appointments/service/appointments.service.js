@@ -27,10 +27,11 @@ class AppointmentsService {
   /**
      * delete an appointment
      * @param {string} appointmentID
+     * @param {string} userID
      * @returns {Promise<object>} delete appointment
      */
-  async deleteAppointment(appointmentID) {
-    const deletedAppointmentID = await this.appointmentsRepository.deleteAppointment(appointmentID);
+  async deleteAppointment(appointmentID, userID) {
+    const deletedAppointmentID = await this.appointmentsRepository.deleteAppointment(appointmentID, userID);
     return deletedAppointmentID;
   }
 
