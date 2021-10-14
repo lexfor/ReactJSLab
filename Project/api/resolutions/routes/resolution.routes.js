@@ -37,7 +37,16 @@ router.get('/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await resolutionController.getResolutions(req.userID, req.query.name);
+  const result = await resolutionController.getResolutions(
+    req.userID,
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.firstNameSort,
+    req.query.lastNameSort,
+    req.query.dateSort,
+    req.query.nextDateSort,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -45,7 +54,16 @@ router.get('/doctor/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await resolutionController.getMyResolutions(req.userID, req.query.name);
+  const result = await resolutionController.getMyResolutions(
+    req.userID,
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.firstNameSort,
+    req.query.lastNameSort,
+    req.query.dateSort,
+    req.query.nextDateSort,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 

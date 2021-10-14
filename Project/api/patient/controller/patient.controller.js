@@ -3,15 +3,14 @@ import RequestResult from '../../helpers/RequestResult';
 import { ROLES_ID } from '../../../constants';
 
 class PatientController {
-  constructor(userService, resolutionService) {
+  constructor(userService) {
     this.userService = userService;
-    this.resolutionService = resolutionService;
   }
 
   /**
    * register new patient
    * @param {object} patient
-   * @returns {Promise<object>} all founded patients with condition and status
+   * @returns {Promise<object>} patient and status
    */
   async createPatient(patient) {
     const res = new RequestResult();
@@ -76,7 +75,7 @@ class PatientController {
   async getMyProfile(userID) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.userService.getUserByID(userID, ROLES_ID.PATIENT);
+      res.setValue = await this.userService.getUserByID(userID);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -89,22 +88,20 @@ class PatientController {
   /**
    * Get all patients
    * @param {string} name
+   * @param {string} firstNameSort
+   * @param {number} offset
+   * @param {number} count
+   * @param {string} lastNameSort
    * @returns {Promise<object>} all founded patients with condition and status
    */
-  async getPatients(name) {
+  async getPatients(offset, count, name, firstNameSort, lastNameSort) {
     const res = new RequestResult();
     try {
-      const patients = await this.userService.getUsers(ROLES_ID.PATIENT, name);
-      const result = patients.map(async (patient) => {
-        const resolutions = await this.resolutionService.getResolutions(patient.id);
-        patient.resolutions = '';
-        resolutions.forEach((resolution) => {
-          patient.resolutions += resolution.value;
-          patient.resolutions += '. '
-        });
-        return patient;
-      });
-      res.setValue = await Promise.all(result);
+      const sorts = {
+        firstNameSort,
+        lastNameSort,
+      };
+      res.setValue = await this.userService.getUsers(ROLES_ID.PATIENT, offset, count, name, sorts);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

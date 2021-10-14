@@ -1,8 +1,7 @@
-import fs from 'fs';
 import { v1 as uuidv1 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
-import {DEFAULT_PHOTO_PATH, ROLES_ID} from '../../../constants';
+import { DEFAULT_PHOTO_PATH } from '../../../constants';
 import ApiError from '../../helpers/ApiError';
 
 class UsersService {
@@ -26,8 +25,7 @@ class UsersService {
       role_id: userData.role,
     };
     await this.usersRepository.createUser(user);
-    const result = await this.getUserByID(user.id);
-    return result;
+    return user;
   }
 
   /**
@@ -61,14 +59,43 @@ class UsersService {
      * get users
      * @param {string} role
      * @param {string} name
-     * @returns {Promise<array>} users
+     * @param {number} offset
+     * @param {number} count
+     * @param {object} sorts
+     * @returns {Promise<object>} users
      */
-  async getUsers(role, name) {
-    let users = await this.usersRepository.getUsers(role, name);
-    users = users.map((user) => {
-      user.photo = fs.readFileSync(`.${user.photo}`);
-      return user;
-    });
+  async getUsers(role, offset, count, name, sorts) {
+    const users = await this.usersRepository.getUsers(role, offset, count, name, sorts);
+    return {
+      users,
+      total: await this.usersRepository.getQueryCount(role, name),
+    };
+  }
+
+  /**
+   * get doctors
+   * @param {string} name
+   * @param {number} offset
+   * @param {number} count
+   * @param {object} sorts
+   * @returns {Promise<object>} doctors
+   */
+  async getDoctors(offset, count, name, sorts) {
+    const users = await this.usersRepository.getDoctors(offset, count, name, sorts);
+    return {
+      users,
+      total: await this.usersRepository.getDoctorsQueryCount(name),
+    };
+  }
+
+  /**
+   * get doctors with chosen specialization
+   * @param {string} specializationID
+   * @param {string} name
+   * @returns {Promise<object[]>} doctors
+   */
+  async getDoctorsBySpecializations(specializationID, name) {
+    const users = await this.usersRepository.getDoctorsBySpecializations(specializationID, name);
     return users;
   }
 
@@ -79,7 +106,16 @@ class UsersService {
      */
   async getUserByID(userID) {
     const user = await this.usersRepository.getUserByID(userID);
-    user.photo = fs.readFileSync(`.${user.photo}`);
+    return user;
+  }
+
+  /**
+   * get doctor by ID
+   * @param {string} userID
+   * @returns {Promise<object>} doctor data
+   */
+  async getDoctorByID(userID) {
+    const user = await this.usersRepository.getDoctorByID(userID);
     return user;
   }
 
@@ -94,7 +130,6 @@ class UsersService {
       throw new ApiError('no such user', StatusCodes.UNAUTHORIZED);
     }
     if (await bcrypt.compareSync(credentials.password, user.password)) {
-      user.photo = fs.readFileSync(`.${user.photo}`);
       return user;
     }
     throw new ApiError('wrong password', StatusCodes.UNAUTHORIZED);
@@ -111,7 +146,7 @@ class UsersService {
     if (await bcrypt.compareSync(passwords.oldPassword, user.password)) {
       await this.usersRepository.changePassword(
         userID,
-        await bcrypt.hashSync(passwords.nwePassword, +process.env.SALT),
+        await bcrypt.hashSync(passwords.newPassword, +process.env.SALT),
       );
       return user;
     }

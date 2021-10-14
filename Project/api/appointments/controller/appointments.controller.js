@@ -28,13 +28,13 @@ class AppointmentsController {
   /**
      * delete appointment
      * @param {string} appointmentID
-     * @param {string} userID
+     * @param {string} doctorID
      * @returns {Promise<object>} delete appointment ID and status
      */
-  async deleteAppointment(appointmentID, userID) {
+  async deleteAppointment(appointmentID, doctorID) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.deleteAppointment(appointmentID, userID);
+      res.setValue = await this.appointmentService.deleteAppointment(appointmentID, doctorID);
       res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
@@ -49,7 +49,7 @@ class AppointmentsController {
      * @param {string} appointmentID
      * @param {object} appointmentData
      * @param {string} doctorID
-     * @returns {Promise<object>} update appointment ID and status
+     * @returns {Promise<object>} update appointment and status
      */
   async updateAppointment(appointmentID, appointmentData, doctorID) {
     const res = new RequestResult();
@@ -72,12 +72,23 @@ class AppointmentsController {
      * get appointments
      * @param {string} doctorID
      * @param {string} name
-     * @returns {Promise<object>} update appointment ID and status
+     * @param {number} offset
+     * @param {number} count
+     * @param {string} dateSort
+     * @param {string} nameSort
+     * @returns {Promise<object>} appointments and status
      */
-  async getAppointmentsForDoctor(doctorID, name) {
+  async getAppointmentsForDoctor(doctorID, offset, count, name, dateSort, nameSort) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.getAppointmentsForDoctor(doctorID, name);
+      const sorts = { dateSort, nameSort };
+      res.setValue = await this.appointmentService.getAppointmentsForDoctor(
+        doctorID,
+        offset,
+        count,
+        name,
+        sorts,
+      );
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -91,12 +102,44 @@ class AppointmentsController {
      * get my appointments
      * @param {string} patientID
      * @param {string} name
-     * @returns {Promise<object>} update appointment ID and status
+     * @param {number} offset
+     * @param {number} count
+     * @param {string} dateSort
+     * @param {string} nameSort
+     * @param {string} dateStatus
+     * @returns {Promise<object>} appointments and status
      */
-  async getAppointmentsForPatient(patientID, name) {
+  async getAppointmentsForPatient(patientID, offset, count, name, dateStatus, dateSort, nameSort) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.getAppointmentsForPatient(patientID, name);
+      const sorts = { dateSort, nameSort };
+      res.setValue = await this.appointmentService.getAppointmentsForPatient(
+        patientID,
+        offset,
+        count,
+        name,
+        dateStatus,
+        sorts,
+      );
+      res.setStatus = StatusCodes.OK;
+      return res;
+    } catch (e) {
+      res.setValue = e.message;
+      res.setStatus = e.status;
+      return res;
+    }
+  }
+
+  /**
+   * get free time for appointments
+   * @param {string} date
+   * @param {string} doctorID
+   * @returns {Promise<object>} array of times and status
+   */
+  async getFreeAppointmentsTime(date, doctorID) {
+    const res = new RequestResult();
+    try {
+      res.setValue = await this.appointmentService.getFreeAppointmentsTime(date, doctorID);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

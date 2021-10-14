@@ -1,9 +1,11 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../../helpers/RequestResult';
+import { NEXT_VISIT_DAYS_DELAY, SECOND_VISIT } from '../../../constants';
 
 class ResolutionController {
-  constructor(resolutionService) {
+  constructor(resolutionService, appointmentService) {
     this.resolutionService = resolutionService;
+    this.appointmentService = appointmentService;
   }
 
   /**
@@ -15,12 +17,26 @@ class ResolutionController {
   async createResolution(userID, resolution) {
     const res = new RequestResult();
     try {
+      const appointment = await this.appointmentService.getAppointmentByID(
+        resolution.appointmentID,
+      );
+      appointment.visit_date.setDate(appointment.visit_date.getDate() + NEXT_VISIT_DAYS_DELAY);
+      const nextAppointment = await this.appointmentService.createAppointment(
+        appointment.patient_id,
+        {
+          doctorID: appointment.doctor_id,
+          reason: appointment.reason,
+          note: SECOND_VISIT,
+          date: appointment.visit_date,
+        },
+      );
       const data = {
-        doctor_id: userID,
-        patient_id: resolution.patientID,
+        appointment_id: resolution.appointmentID,
+        next_appointment_date: nextAppointment.visit_date,
         value: resolution.resolution,
       };
-      res.setValue = await this.resolutionService.createResolution(data);
+      const createdResolution = await this.resolutionService.createResolution(data, userID);
+      res.setValue = createdResolution;
       res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
@@ -58,7 +74,7 @@ class ResolutionController {
    * Delete resolution
    * @param {string} resolutionID
    * @param {string} userID
-   * @returns {Promise<object>} resolution data and status
+   * @returns {Promise<object>} resolution id and status
    */
   async deleteResolution(resolutionID, userID) {
     const res = new RequestResult();
@@ -76,13 +92,40 @@ class ResolutionController {
   /**
    * Get resolutions
    * @param {string} userID
+   * @param {number} offset
+   * @param {number} count
    * @param {string} name
-   * @returns {Promise<object>} resolution data and status
+   * @param {string} firstNameSort
+   * @param {string} lastNameSort
+   * @param {string} dateSort
+   * @param {string} nextDateSort
+   * @returns {Promise<object>} resolution array and status
    */
-  async getResolutions(userID, name) {
+  async getResolutions(
+    userID,
+    offset,
+    count,
+    name,
+    firstNameSort,
+    lastNameSort,
+    dateSort,
+    nextDateSort,
+  ) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.resolutionService.getResolutions(userID, name);
+      const sorts = {
+        firstNameSort,
+        lastNameSort,
+        dateSort,
+        nextDateSort,
+      };
+      res.setValue = await this.resolutionService.getResolutions(
+        userID,
+        offset,
+        count,
+        name,
+        sorts,
+      );
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -95,13 +138,40 @@ class ResolutionController {
   /**
    * Get my resolutions
    * @param {string} userID
+   * @param {number} offset
+   * @param {number} count
    * @param {string} name
-   * @returns {Promise<object>} resolution data and status
+   * @param {string} firstNameSort
+   * @param {string} lastNameSort
+   * @param {string} dateSort
+   * @param {string} nextDateSort
+   * @returns {Promise<object>} resolution array and status
    */
-  async getMyResolutions(userID, name) {
+  async getMyResolutions(
+    userID,
+    offset,
+    count,
+    name,
+    firstNameSort,
+    lastNameSort,
+    dateSort,
+    nextDateSort,
+  ) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.resolutionService.getMyResolutions(userID, name);
+      const sorts = {
+        firstNameSort,
+        lastNameSort,
+        dateSort,
+        nextDateSort,
+      };
+      res.setValue = await this.resolutionService.getMyResolutions(
+        userID,
+        offset,
+        count,
+        name,
+        sorts,
+      );
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

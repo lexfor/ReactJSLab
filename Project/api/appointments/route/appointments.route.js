@@ -39,7 +39,14 @@ router.get('/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await appointmentsController.getAppointmentsForDoctor(req.userID, req.query.name);
+  const result = await appointmentsController.getAppointmentsForDoctor(
+    req.userID,
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.dateSort,
+    req.query.nameSort,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -47,7 +54,23 @@ router.get('/patient/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
-  const result = await appointmentsController.getAppointmentsForPatient(req.userID, req.query.name);
+  const result = await appointmentsController.getAppointmentsForPatient(
+    req.userID,
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.dateStatus,
+    req.query.dateSort,
+    req.query.nameSort,
+  );
+  res.status(result.getStatus).json(result.getValue);
+});
+
+router.get('/time/free', async (req, res) => {
+  const result = await appointmentsController.getFreeAppointmentsTime(
+    req.query.date,
+    req.query.doctorID,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 

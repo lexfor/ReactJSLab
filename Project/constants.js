@@ -14,15 +14,33 @@ export const ROLES_ID = {
   ADMIN: '58ad6448-283c-11ec-9621-0242ac130002',
 };
 
-export const DEFAULT_PHOTO_PATH = '/Project/api/users/images/default.jpg';
+export const DEFAULT_PHOTO_PATH = '/Project/public/users/images/default.jpg';
 
-export const CONDITION = {
-  DOCTOR: 'doctor_id',
-  PATIENT: 'patient_id',
-};
-
-export const NEXT_VISIT_MOTHS_DELAY = 1;
+export const NEXT_VISIT_DAYS_DELAY = 7;
 
 export const NOT_AVAILABLE = 'N/A';
 
+export const SECOND_VISIT = 'repeat visit';
+
 export const MAX_PHOTO_SIZE = 1000000;
+
+export const WORK_HOURS = {
+  start: 8,
+  end: 20,
+};
+
+export const SORT_TYPE = {
+  ASC: 'up',
+  DESC: 'down',
+};
+
+export const DATE_STATUS_TYPE = {
+  UPCOMING: 'upcoming',
+  OUTDATE: 'done',
+};
+
+export const APPOINTMENTS_STATUSES = {
+  WAITING: '6e4350d4-280e-11ec-9621-0242ac130002',
+  CANCELED: '7d664e2c-280e-11ec-9621-0242ac130002',
+  CONFIRMED: '821eed70-280e-11ec-9621-0242ac130002',
+};

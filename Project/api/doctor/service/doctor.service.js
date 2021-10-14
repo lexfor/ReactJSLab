@@ -25,20 +25,6 @@ class DoctorService {
   }
 
   /**
-   * get doctor
-   * @param {string} doctorID
-   * @param {string} specializationID
-   * @returns {string} specializations
-   */
-  async getDoctorSpecializations(doctorID, specializationID) {
-    const specializations = await this.doctorSpecializationRepository.getDoctorSpecializations(
-      doctorID,
-      specializationID,
-    );
-    return specializations.specialization_name;
-  }
-
-  /**
    * update doctor
    * @param {string} doctorID
    * @param {object} doctor

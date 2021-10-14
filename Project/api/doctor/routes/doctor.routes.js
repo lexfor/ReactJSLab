@@ -10,7 +10,7 @@ import {
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, '/Project/api/users/images');
+    cb(null, '/Project/public/users/images');
   },
   filename(req, file, cb) {
     const uniqueSuffix = Date.now();
@@ -37,6 +37,11 @@ router.get('/me', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
+router.get('/specialization/:id', async (req, res) => {
+  const result = await doctorController.getDoctorsBySpecializations(req.params.id, req.query.name);
+  res.status(result.getStatus).json(result.getValue);
+});
+
 router.post('/', (req, res, next) => {
   checkDoctorMiddleware(req, res, next);
 }, async (req, res) => {
@@ -59,7 +64,14 @@ router.put('/:id', (req, res, next) => {
 });
 
 router.get('/', async (req, res) => {
-  const result = await doctorController.getDoctors(req.query.specializationID, req.query.name);
+  const result = await doctorController.getDoctors(
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.firstNameSort,
+    req.query.lastNameSort,
+    req.query.specializationSort,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 

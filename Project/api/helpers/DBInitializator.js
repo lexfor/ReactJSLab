@@ -14,7 +14,7 @@ export async function initializeDB(connection) {
   await statusesDefine(connection);
 
   await usersDefine(connection);
-  await resolutionDefine(connection);
   await appointmentDefine(connection);
+  await resolutionDefine(connection);
   await doctorSpecializationsDefine(connection);
 }

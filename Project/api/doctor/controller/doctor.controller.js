@@ -61,9 +61,9 @@ class DoctorController {
   async updateDoctor(userID, doctor) {
     const res = new RequestResult();
     try {
-      const result = await this.usersService.updateUser(userID, doctor);
+      await this.usersService.updateUser(userID, doctor);
       await this.doctorServices.updateDoctor(userID, doctor);
-      res.setValue = result;
+      res.setValue = await this.usersService.getDoctorByID(userID);
       res.setStatus = StatusCodes.ACCEPTED;
       return res;
     } catch (e) {
@@ -81,9 +81,35 @@ class DoctorController {
   async getMyProfile(userID) {
     const res = new RequestResult();
     try {
-      const user = await this.usersService.getUserByID(userID);
-      user.specializationName = await this.doctorServices.getDoctorSpecializations(userID, '');
-      res.setValue = user;
+      res.setValue = await this.usersService.getDoctorByID(userID);
+      res.setStatus = StatusCodes.OK;
+      return res;
+    } catch (e) {
+      res.setValue = e.message;
+      res.setStatus = e.status;
+      return res;
+    }
+  }
+
+  /**
+   * get all doctors
+   * @param {string} name
+   * @param {number} offset
+   * @param {number} count
+   * @param {string} firstNameSort
+   * @param {string} lastNameSort
+   * @param {string} specializationSort
+   * @returns {Promise<object>} doctors array and status
+   */
+  async getDoctors(offset, count, name, firstNameSort, lastNameSort, specializationSort) {
+    const res = new RequestResult();
+    try {
+      const sorts = {
+        firstNameSort,
+        lastNameSort,
+        specializationSort,
+      };
+      res.setValue = await this.usersService.getDoctors(offset, count, name, sorts);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -99,21 +125,10 @@ class DoctorController {
    * @param {string} name
    * @returns {Promise<object>} doctors array and status
    */
-  async getDoctors(specializationID, name) {
+  async getDoctorsBySpecializations(specializationID, name) {
     const res = new RequestResult();
     try {
-      const users = await this.usersService.getUsers(ROLES_ID.DOCTOR, name);
-      const result = users.map(async (user) => {
-        user.specializationName = await this.doctorServices.getDoctorSpecializations(
-          user.id,
-          specializationID,
-        );
-        console.log(user);
-        if (user.specializationName) {
-          return user;
-        }
-      });
-      res.setValue = await Promise.all(result);
+      res.setValue = await this.usersService.getDoctorsBySpecializations(specializationID, name);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

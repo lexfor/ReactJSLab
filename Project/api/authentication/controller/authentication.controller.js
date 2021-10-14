@@ -11,7 +11,7 @@ class AuthenticationController {
   /**
    * Create new user
    * @param {object} user
-   * @returns {Promise<object>} created jwt token and status
+   * @returns {Promise<object>} created jwt token, user and status
    */
   async register(user) {
     const res = new RequestResult();
@@ -36,13 +36,12 @@ class AuthenticationController {
   /**
    * Check user login
    * @param {object} user
-   * @returns {Promise<object>} created jwt token and status
+   * @returns {Promise<object>} jwt token, user and status
    */
   async login(user) {
     const res = new RequestResult();
     try {
       const foundedUser = await this.usersService.login(user);
-
       const result = this.jwtService.createSign(foundedUser.id);
       result.user = foundedUser;
       res.setValue = result;

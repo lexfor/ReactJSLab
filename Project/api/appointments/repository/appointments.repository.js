@@ -1,7 +1,8 @@
 import { promisify } from 'util';
-import { v1 as uuidv1 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../../helpers/ApiError';
+import { nameCondition, checkDoctorIDCondition, checkDateStatus } from '../../helpers/conditions/index';
+import { dateAndNameSort } from '../../helpers/sorts/index';
 
 class AppointmentsRepository {
   constructor(connection) {
@@ -15,12 +16,10 @@ class AppointmentsRepository {
      */
   async createAppointment(appointmentData) {
     try {
-      const uuid = uuidv1();
-      const data = { id: uuid, ...appointmentData };
       const queryAsync = promisify(this.connection.query).bind(this.connection);
       const sql = 'INSERT INTO appointments SET ?';
-      await queryAsync(sql, data);
-      return data;
+      await queryAsync(sql, appointmentData);
+      return appointmentData;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -65,23 +64,24 @@ class AppointmentsRepository {
      * get an appointments
      * @param {string} doctorID
      * @param {string} name
+     * @param {object} sorts
+     * @param {number} offset
+     * @param {number} count
      * @returns {Promise<array>} updated appointment ID
      */
-  async getAppointmentsForDoctor(doctorID, name) {
+  async getAppointmentsForDoctor(doctorID, offset, count, name, sorts) {
     try {
-      let nameCondition = '';
-      if (name) {
-        nameCondition = ` AND users.last_name = '%${name}%' OR 
-                users.first_name = '%${name}%'`;
-      }
       const queryAsync = promisify(this.connection.query).bind(this.connection);
-      const sql = `SELECT appointments.*, users.first_name, users.last_name, statuses.status, users.photo
+      const sql = `SELECT
+                         appointments.*, users.first_name, users.last_name, statuses.status_name, users.photo
                          FROM appointments 
                          JOIN users ON users.id = appointments.patient_id
                          JOIN statuses ON statuses.id = appointments.status_id
                          WHERE appointments.doctor_id = ?
-                         ${nameCondition}`;
-      const appointments = await queryAsync(sql, [doctorID]);
+                         ${nameCondition(name)}
+                         ${dateAndNameSort(sorts)}
+                         LIMIT ?,?`;
+      const appointments = await queryAsync(sql, [doctorID, +offset, +count]);
       return appointments;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
@@ -92,33 +92,117 @@ class AppointmentsRepository {
      * get an my appointments
      * @param {string} patientID
      * @param {string} name
+     * @param {number} offset
+     * @param {number} count
+     * @param {object} sorts
+     * @param {object} dateStatus
      * @returns {Promise<array>} updated appointment ID
      */
-  async getAppointmentsForPatient(patientID, name) {
+  async getAppointmentsForPatient(patientID, offset, count, name, dateStatus, sorts) {
     try {
-      console.log(patientID);
       const queryAsync = promisify(this.connection.query).bind(this.connection);
-      let nameCondition = '';
-      if (name) {
-        nameCondition = ` AND users.last_name = '%${name}%' OR 
-                users.first_name = '%${name}%'`;
-      }
-      const sql = `SELECT appointments.*,
+      const sql = `SELECT
+                         appointments.*,
                          users.first_name,
                          users.last_name,
-                         users.photo
-                         statuses.status, 
-                         specializations.specialization_name 
+                         users.photo,
+                         statuses.status_name, 
+                         (
+                         SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
+                         INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
+                         WHERE users.id = doctors_specializations.doctor_id
+                         ) as specialization_name
                          FROM appointments 
                          JOIN users ON users.id = appointments.doctor_id
-                         JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id
-                         JOIN specializations 
-                         ON specializations.id = doctors_specializations.specialization_id = specializations.id
                          JOIN statuses ON statuses.id = appointments.status_id
                          WHERE appointments.patient_id = ?
-                         ${nameCondition}`;
-      const appointments = await queryAsync(sql, [patientID]);
+                         ${nameCondition(name)}
+                         ${checkDateStatus(dateStatus)}
+                         ${dateAndNameSort(sorts)}
+                         LIMIT ?,?`;
+      const appointments = await queryAsync(sql, [patientID, +offset, +count]);
       return appointments;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * get an appointments
+   * @param {string} date
+   * @param {string} doctorID
+   * @returns {Promise<array>}appointments
+   */
+  async getAppointments(date, doctorID) {
+    try {
+      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const sql = `SELECT * FROM appointments 
+                         WHERE visit_date LIKE '%${date}%'
+                         ${checkDoctorIDCondition(doctorID)}`;
+      const appointments = await queryAsync(sql, [doctorID]);
+      return appointments;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * get an appointment data
+   * @param {string} appointmentID
+   * @returns {Promise<object>} appointment
+   */
+  async getAppointmentByID(appointmentID) {
+    try {
+      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const sql = `SELECT * FROM appointments 
+                         WHERE id = ?`;
+      const [appointment] = await queryAsync(sql, [appointmentID]);
+      return appointment;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * get an query result count
+   * @param {string} name
+   * @param {object} dateStatus
+   * @param {string} patientID
+   * @returns {Promise<number>} query result count
+   */
+  async getPatientQueryCount(patientID, name, dateStatus) {
+    try {
+      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const sql = `SELECT COUNT(*) as count, (
+                   SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
+                   INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
+                   WHERE users.id = doctors_specializations.doctor_id) as specialization_name FROM appointments
+                   JOIN users ON users.id = appointments.doctor_id
+                   WHERE appointments.patient_id = ?
+                   ${nameCondition(name)}
+                   ${checkDateStatus(dateStatus)}`;
+      const [count] = await queryAsync(sql, [patientID]);
+      return count.count;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * get an query result count
+   * @param {string} name
+   * @param {string} doctorID
+   * @returns {Promise<number>} query result count
+   */
+  async getDoctorQueryCount(doctorID, name) {
+    try {
+      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const sql = `SELECT COUNT(*) as count FROM appointments
+                   JOIN users ON users.id = appointments.patient_id
+                   WHERE appointments.doctor_id = ?
+                   ${nameCondition(name)}`;
+      const [count] = await queryAsync(sql, [doctorID]);
+      return count.count;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }

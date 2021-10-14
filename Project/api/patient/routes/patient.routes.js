@@ -9,11 +9,11 @@ import {
 
 const storage = multer.diskStorage({
   destination(req, file, cb) {
-    cb(null, '/Project/api/users/images');
+    cb(null, './Project/public/users/images');
   },
   filename(req, file, cb) {
     const uniqueSuffix = Date.now();
-    cb(null, `${uniqueSuffix}${file.originalname}`);
+    cb(null, `${uniqueSuffix}.${file.originalname.split('.')[1]}`);
   },
 });
 const upload = multer({ storage });
@@ -58,7 +58,13 @@ router.put('/:id', async (req, res, next) => {
 });
 
 router.get('/', async (req, res) => {
-  const result = await patientController.getPatients(req.query.name);
+  const result = await patientController.getPatients(
+    req.query.offset,
+    req.query.count,
+    req.query.name,
+    req.query.firstNameSort,
+    req.query.lastNameSort,
+  );
   res.status(result.getStatus).json(result.getValue);
 });
 
