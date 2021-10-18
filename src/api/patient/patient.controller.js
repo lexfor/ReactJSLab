@@ -17,9 +17,9 @@ class PatientController {
     try {
       const userData = {
         ...patient,
-        role: ROLES_ID.PATIENT,
+        role_id: ROLES_ID.PATIENT,
       };
-      await this.usersService.checkIsUserExist(userData.login);
+      await this.usersService.checkIsUserExist(userData.login, ROLES_ID.PATIENT);
       res.setValue = await this.usersService.createUser(userData);
       res.setStatus = StatusCodes.CREATED;
       return res;

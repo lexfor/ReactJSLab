@@ -3,10 +3,9 @@ import RequestResult from '../helpers/RequestResult';
 import { ROLES_ID } from '../../constants';
 
 class DoctorController {
-  constructor(doctorServices, usersService, specializationService) {
+  constructor(doctorServices, usersService) {
     this.doctorServices = doctorServices;
     this.usersService = usersService;
-    this.specializationService = specializationService;
   }
 
   /**
@@ -19,7 +18,7 @@ class DoctorController {
     try {
       const userData = {
         ...doctor,
-        role: ROLES_ID.DOCTOR,
+        role_id: ROLES_ID.DOCTOR,
       };
       await this.usersService.checkIsUserExist(userData.login);
       const user = await this.usersService.createUser(userData);
@@ -105,7 +104,6 @@ class DoctorController {
     const res = new RequestResult();
     try {
       const doctors = await this.usersService.getDoctors(data);
-      // doctors.users = await this.specializationService.getSpecialization(doctors.users);
       res.setValue = doctors;
       res.setStatus = StatusCodes.OK;
       return res;

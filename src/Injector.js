@@ -42,7 +42,6 @@ class Injector {
     this.doctorController = new DoctorController(
       this.doctorService,
       this.usersService,
-      this.specializationsService,
     );
     this.specializationsController = new SpecializationsController(this.specializationsService);
     this.appointmentsController = new AppointmentsController(

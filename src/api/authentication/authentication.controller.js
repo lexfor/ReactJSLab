@@ -18,7 +18,7 @@ class AuthenticationController {
     try {
       const userData = {
         ...user,
-        role: ROLES_ID.PATIENT,
+        role_id: ROLES_ID.PATIENT,
       };
       await this.usersService.checkIsUserExist(userData.login);
       const createdUser = await this.usersService.createUser(userData);

@@ -17,25 +17,6 @@ class SpecializationsService {
     }
     return specializations;
   }
-
-/*  /!**
-   * add specializations names
-   * @returns {Promise<array>} data array
-   *!/
-  async getSpecialization(data) {
-    for (const item of data) {
-      console.log(item);
-      const specializations = item.specialization_id.split(', ');
-      item.specialization_name = '';
-      for (const specialization of specializations) {
-        console.log(specialization);
-        const specialization_name = await this.specializationsRepository.getSpecializationByID(specialization);
-        console.log(specialization_name);
-        item.specialization_name += specialization_name;
-      }
-    }
-    return data;
-  } */
 }
 
 export { SpecializationsService };

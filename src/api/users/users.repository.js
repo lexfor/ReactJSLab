@@ -87,7 +87,7 @@ class UsersRepository {
       const queryAsync = promisify(this.connection.query).bind(this.connection);
       const sql = `SELECT users.*, roles.role_name FROM users 
                    INNER JOIN roles ON roles.id = users.role_id
-                   WHERE login = ? AND role = ?`;
+                   WHERE login = ? AND role_id = ?`;
       const [result] = await queryAsync(sql, [login, role]);
       return result;
     } catch (e) {

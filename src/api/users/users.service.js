@@ -23,7 +23,7 @@ class UsersService {
       photo: DEFAULT_PHOTO_PATH,
       login: userData.login,
       password: await bcrypt.hashSync(userData.password, +process.env.SALT),
-      role_id: userData.role,
+      role_id: userData.role_id,
     };
     await this.usersRepository.createUser(user);
     return user;
@@ -142,9 +142,10 @@ class UsersService {
   /**
    * check is user already exist
    * @param {string} login
+   * @param {string} role
    */
-  async checkIsUserExist(login) {
-    const user = await this.usersRepository.getUserByLogin(login);
+  async checkIsUserExist(login, role) {
+    const user = await this.usersRepository.getUserByLogin(login, role);
     if (user) {
       throw new ApiError('User already exist', StatusCodes.BAD_REQUEST);
     }
