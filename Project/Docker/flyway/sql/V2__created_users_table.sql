@@ -1,6 +1,0 @@
-USE lab;
-
-CREATE TABLE IF NOT EXISTS statuses (
-id VARCHAR(255),
-status VARCHAR(255),
-PRIMARY KEY (id))
