@@ -67,7 +67,7 @@ router.get('/doctor/me', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/doctor/specialization/:id', async (req, res, next) => {
+router.get('/doctor/specialization/:specializationID', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   paginationMiddleware(req, res, next);
 }, async (req, res) => {

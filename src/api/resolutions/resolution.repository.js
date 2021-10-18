@@ -229,7 +229,7 @@ class ResolutionRepository {
                    LIMIT ?,?`;
       let resolutions = await queryAsync(
         sql,
-        [data.patientID, data.specializationID, +data.offset, +data.count],
+        [data.patientID, +data.offset, +data.count],
       );
       resolutions = resolutions.map((resolution) => {
         resolution.visit_date = resolution.visit_date.toLocaleString();

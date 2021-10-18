@@ -7,7 +7,7 @@ export function dateCondition(date) {
   let dateConditionFilter = '';
   if (date) {
     dateConditionFilter = `AND (appointments.visit_date LIKE '%${date}%' 
-        OR resolutions.next_visit_date LIKE '%${date}%')`;
+        OR resolutions.next_appointment_date LIKE '%${date}%')`;
   }
   return dateConditionFilter;
 }
