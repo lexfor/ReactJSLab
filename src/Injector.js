@@ -12,9 +12,11 @@ import { connection } from './api/helpers/DBconnection';
 import { AppointmentsController, AppointmentsRepository, AppointmentsService } from './api/appointments';
 import { StatusesController } from './api/statuses';
 import { UsersRepository, UsersService } from './api/users';
+import {DB_ACCESS} from "./config";
 
 class Injector {
   constructor() {
+    console.log(DB_ACCESS);
     /*    initializeDB(connection).then(console.log('Database initialized')); */
     this.resolutionRepository = new ResolutionRepository(connection);
     this.specializationsRepository = new SpecializationsRepository(connection);
