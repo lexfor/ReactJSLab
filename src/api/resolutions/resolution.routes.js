@@ -7,7 +7,6 @@ import {
   paginationMiddleware,
   createResolutionMiddleware,
 } from '../helpers/middleware';
-import { SORT_TYPE, SORTS } from '../../constants';
 
 const router = express();
 const resolutionController = injector.getResolutionController;
@@ -45,8 +44,8 @@ router.get('/me', async (req, res, next) => {
     offset: req.query.offset,
     count: req.query.count,
     name: req.query.name,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -61,8 +60,8 @@ router.get('/doctor/me', async (req, res, next) => {
     offset: req.query.offset,
     count: req.query.count,
     name: req.query.name,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -77,8 +76,8 @@ router.get('/doctor/specialization/:specializationID', async (req, res, next) =>
     name: req.query.name,
     offset: req.query.offset,
     count: req.query.count,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -93,8 +92,8 @@ router.get('/date', async (req, res, next) => {
     name: req.query.name,
     offset: req.query.offset,
     count: req.query.count,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });

@@ -1,6 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import { NEXT_VISIT_DAYS_DELAY, SECOND_VISIT } from '../../constants';
+import {
+  NEXT_VISIT_DAYS_DELAY, SECOND_VISIT, SORT_TYPE, SORTS,
+} from '../../constants';
 
 class ResolutionController {
   constructor(resolutionService, appointmentService, usersService) {
@@ -106,8 +108,13 @@ class ResolutionController {
   async getPatientResolutionsByDoctorSpecializationID(data) {
     const res = new RequestResult();
     try {
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
       res.setValue = await this.resolutionService.getPatientResolutionsByDoctorSpecializationID(
-        data,
+        searchData,
       );
       res.setStatus = StatusCodes.OK;
       return res;
@@ -126,7 +133,12 @@ class ResolutionController {
   async getPatientResolutionsByDate(data) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.resolutionService.getPatientResolutionsByDate(data);
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
+      res.setValue = await this.resolutionService.getPatientResolutionsByDate(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -144,7 +156,12 @@ class ResolutionController {
   async getResolutions(data) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.resolutionService.getResolutions(data);
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
+      res.setValue = await this.resolutionService.getResolutions(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -162,7 +179,12 @@ class ResolutionController {
   async getMyResolutions(data) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.resolutionService.getMyResolutions(data);
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
+      res.setValue = await this.resolutionService.getMyResolutions(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

@@ -4,7 +4,6 @@ import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
   checkLoginDataMiddleware,
-  checkPasswordsMiddleware,
   checkUserMiddleware,
   refreshTokenMiddleware,
 } from '../helpers/middleware';

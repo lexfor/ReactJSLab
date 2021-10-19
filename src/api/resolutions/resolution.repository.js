@@ -123,8 +123,8 @@ class ResolutionRepository {
                    LIMIT ?,?`;
       let resolutions = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
       resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString();
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString();
+        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
+        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
         return resolution;
       });
       return resolutions;
@@ -152,8 +152,8 @@ class ResolutionRepository {
                    LIMIT ?,?`;
       let resolutions = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
       resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString();
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString();
+        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
+        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
         return resolution;
       });
       return resolutions;
@@ -191,8 +191,8 @@ class ResolutionRepository {
         [data.patientID, data.specializationID, +data.offset, +data.count],
       );
       resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString();
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString();
+        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
+        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
         return resolution;
       });
       return resolutions;
@@ -232,8 +232,8 @@ class ResolutionRepository {
         [data.patientID, +data.offset, +data.count],
       );
       resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString();
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString();
+        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
+        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
         return resolution;
       });
       return resolutions;

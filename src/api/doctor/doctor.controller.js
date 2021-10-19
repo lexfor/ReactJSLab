@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import { ROLES_ID } from '../../constants';
+import { ROLES_ID, SORT_TYPE, SORTS } from '../../constants';
 
 class DoctorController {
   constructor(doctorServices, usersService) {
@@ -20,7 +20,7 @@ class DoctorController {
         ...doctor,
         role_id: ROLES_ID.DOCTOR,
       };
-      await this.usersService.checkIsUserExist(userData.login);
+      await this.usersService.checkIsUserExist(userData.login, ROLES_ID.DOCTOR);
       const user = await this.usersService.createUser(userData);
       await this.doctorServices.createDoctor(doctor, user);
       res.setValue = user;
@@ -103,8 +103,12 @@ class DoctorController {
   async getDoctors(data) {
     const res = new RequestResult();
     try {
-      const doctors = await this.usersService.getDoctors(data);
-      res.setValue = doctors;
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
+      res.setValue = await this.usersService.getDoctors(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

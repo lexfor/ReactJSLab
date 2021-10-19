@@ -111,9 +111,8 @@ class AppointmentsService {
      */
   async getAppointmentsForDoctor(data) {
     const result = await this.appointmentsRepository.getAppointmentsForDoctor(data);
-    let total;
+    const { total } = result[0];
     const appointments = result.map((appointment) => {
-      total = appointment.total;
       delete appointment.total;
       return appointment;
     });
@@ -130,9 +129,8 @@ class AppointmentsService {
    */
   async getAppointmentsForPatient(data) {
     const result = await this.appointmentsRepository.getAppointmentsForPatient(data);
-    let total;
+    const { total } = result[0];
     const appointments = result.map((appointment) => {
-      total = appointment.total;
       delete appointment.total;
       return appointment;
     });

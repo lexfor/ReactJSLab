@@ -5,9 +5,7 @@ import {
   checkIDMiddleware,
   createAppointmentMiddleware,
   paginationMiddleware,
-  freeTimeMiddleware,
 } from '../helpers/middleware';
-import { SORT_TYPE, SORTS } from '../../constants';
 
 const router = express();
 const appointmentsController = injector.getAppointmentsController;
@@ -49,8 +47,8 @@ router.get('/me', async (req, res, next) => {
     offset: req.query.offset,
     count: req.query.count,
     name: req.query.name,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -65,14 +63,13 @@ router.get('/patient/me', async (req, res, next) => {
     count: req.query.count,
     name: req.query.name,
     dateStatus: req.query.dateStatus,
-    sort: SORTS[req.query.sort],
-    variant: SORT_TYPE[req.query.variant],
+    sort: req.query.sort,
+    variant: req.query.variant,
   });
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.get('/time/free', async (req, res, next) => {
-  // freeTimeMiddleware(req, res, next);
   next();
 }, async (req, res) => {
   const result = await appointmentsController.getFreeAppointmentsTime(
