@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
+import { SORT_TYPE, SORTS } from '../../constants';
 
 class AppointmentsController {
   constructor(appointmentService, usersService) {
@@ -84,7 +85,12 @@ class AppointmentsController {
   async getAppointmentsForDoctor(data) {
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.getAppointmentsForDoctor(data);
+      const searchData = {
+        ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
+      };
+      res.setValue = await this.appointmentService.getAppointmentsForDoctor(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -100,9 +106,14 @@ class AppointmentsController {
      * @returns {Promise<object>} appointments and status
      */
   async getAppointmentsForPatient(data) {
+    const searchData = {
+      ...data,
+      sort: SORTS[data.sort],
+      variant: SORT_TYPE[data.variant],
+    };
     const res = new RequestResult();
     try {
-      res.setValue = await this.appointmentService.getAppointmentsForPatient(data);
+      res.setValue = await this.appointmentService.getAppointmentsForPatient(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

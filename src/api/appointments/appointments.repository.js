@@ -113,7 +113,7 @@ class AppointmentsRepository {
                          LIMIT ?,?`;
       let appointments = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
       appointments = appointments.map((appointment) => {
-        appointment.visit_date = appointment.visit_date.toLocaleString();
+        appointment.visit_date = appointment.visit_date.toLocaleString('ru', { hour12: false });
         return appointment;
       });
       return appointments;

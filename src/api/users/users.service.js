@@ -66,9 +66,8 @@ class UsersService {
      */
   async getUsers(data) {
     const result = await this.usersRepository.getUsers(data);
-    let total;
+    const { total } = result[0];
     const users = result.map((user) => {
-      total = user.total;
       delete user.total;
       return user;
     });
@@ -85,9 +84,8 @@ class UsersService {
    */
   async getDoctors(data) {
     const result = await this.usersRepository.getDoctors(data);
-    let total;
+    const { total } = result[0];
     const users = result.map((doctor) => {
-      total = doctor.total;
       delete doctor.total;
       return doctor;
     });

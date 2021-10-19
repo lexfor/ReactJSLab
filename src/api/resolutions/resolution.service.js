@@ -89,9 +89,8 @@ class ResolutionService {
    */
   async getResolutions(data) {
     const result = await this.resolutionRepository.getResolutions(data);
-    let total;
+    const { total } = result[0];
     const resolutions = result.map((resolution) => {
-      total = resolution.total;
       delete resolution.total;
       return resolution;
     });
@@ -110,9 +109,8 @@ class ResolutionService {
     const result = await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(
       data,
     );
-    let total;
+    const { total } = result[0];
     const resolutions = result.map((resolution) => {
-      total = resolution.total;
       delete resolution.total;
       return resolution;
     });
@@ -129,9 +127,8 @@ class ResolutionService {
    */
   async getPatientResolutionsByDate(data) {
     const result = await this.resolutionRepository.getPatientResolutionsByDate(data);
-    let total;
+    const { total } = result[0];
     const resolutions = result.map((resolution) => {
-      total = resolution.total;
       delete resolution.total;
       return resolution;
     });
@@ -148,9 +145,8 @@ class ResolutionService {
    */
   async getMyResolutions(data) {
     const result = await this.resolutionRepository.getMyResolutions(data);
-    let total;
+    const { total } = result[0];
     const resolutions = result.map((resolution) => {
-      total = resolution.total;
       delete resolution.total;
       return resolution;
     });

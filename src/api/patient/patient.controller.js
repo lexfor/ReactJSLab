@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import { ROLES_ID } from '../../constants';
+import { ROLES_ID, SORT_TYPE, SORTS } from '../../constants';
 
 class PatientController {
   constructor(usersService) {
@@ -99,6 +99,8 @@ class PatientController {
     try {
       const patientData = {
         ...data,
+        sort: SORTS[data.sort],
+        variant: SORT_TYPE[data.variant],
         role: ROLES_ID.PATIENT,
       };
       res.setValue = await this.usersService.getUsers(patientData);
