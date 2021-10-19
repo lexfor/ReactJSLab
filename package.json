@@ -1,0 +1,54 @@
+{
+  "name": "lab",
+  "version": "1.0.0",
+  "description": "ITRex lab",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "build": "webpack",
+    "start": "node --experimental-specifier-resolution=node src/index.js",
+    "dev": "nodemon --experimental-specifier-resolution=node src/index.js",
+    "lint": "eslint src/api/**/*.js  src/*.js --fix",
+    "test": "jest --runInBand"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.[t|j]sx?$": "babel-jest"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lexfor/Lab.git"
+  },
+  "author": "Timofey Kinevich",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lexfor/Lab/issues"
+  },
+  "homepage": "https://github.com/lexfor/Lab#readme",
+  "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.15.0",
+    "@babel/preset-env": "^7.15.0",
+    "babel-jest": "^27.0.6",
+    "eslint": "^7.31.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-plugin-import": "^2.23.4",
+    "jest": "^27.0.6",
+    "nodemon": "^2.0.12",
+    "webpack-cli": "^4.7.2"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.15.3",
+    "ajv": "^6.12.6",
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "fs": "0.0.1-security",
+    "http-status-codes": "^2.1.4",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.3",
+    "mysql2": "^2.3.0",
+    "uuid": "^8.3.2"
+  }
+}

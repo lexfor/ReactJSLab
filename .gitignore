@@ -4,5 +4,4 @@
 .eslintrc.*
 package-lock.*
 dump.rdb
-/Project/public
-/Project/routes
+babel.config.json
