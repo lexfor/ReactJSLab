@@ -17,7 +17,7 @@ const production = {
 };
 
 const config = {
-  dev,
+  production,
 };
 
 const envConfig = config[env];
