@@ -5,7 +5,6 @@
   "main": "src/index.js",
   "type": "module",
   "scripts": {
-    "build": "webpack",
     "start": "node --experimental-specifier-resolution=node src/index.js",
     "dev": "nodemon --experimental-specifier-resolution=node src/index.js",
     "lint": "eslint src/api/**/*.js  src/*.js --fix",
