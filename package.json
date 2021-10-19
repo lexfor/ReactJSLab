@@ -1,8 +1,8 @@
 {
-  "name": "lab",
+  "name": "labapi",
   "version": "1.0.0",
-  "description": "ITRex lab",
-  "main": "index.js",
+  "description": "ITRex lab Api",
+  "main": "src/index.js",
   "type": "module",
   "scripts": {
     "build": "webpack",
@@ -18,14 +18,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lexfor/Lab.git"
+    "url": "git+https://gitlab.itrexgroup.com/maria.kukharchuk/react-lab-backend.git"
   },
   "author": "Timofey Kinevich",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/lexfor/Lab/issues"
+    "url": "https://gitlab.itrexgroup.com/maria.kukharchuk/react-lab-backend/issues"
   },
-  "homepage": "https://github.com/lexfor/Lab#readme",
+  "homepage": "https://gitlab.itrexgroup.com/maria.kukharchuk/react-lab-backend#readme",
   "devDependencies": {
     "@babel/plugin-transform-runtime": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
