@@ -5,9 +5,9 @@ dotenv.config();
 
 const env = process.env.NODE_ENV;
 
-const dev = {
+const production = {
   app: {
-    port: parseInt(process.env.DEV_APP_PORT, 10) || SERVER_PORT.APP_PORT,
+    port: parseInt(process.env.PORT, 10) || SERVER_PORT.APP_PORT,
   },
 
   storage: {
