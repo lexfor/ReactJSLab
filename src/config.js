@@ -10,11 +10,6 @@ const dev = {
     port: parseInt(process.env.DEV_APP_PORT, 10) || SERVER_PORT.APP_PORT,
   },
 
-  queueStorage: {
-    host: process.env.QUEUE_HOST,
-    port: SERVER_PORT.REDIS_PORT,
-  },
-
   storage: {
     host: process.env.STORAGE_HOST,
     port: SERVER_PORT.SQL_PORT,
