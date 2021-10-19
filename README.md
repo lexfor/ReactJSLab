@@ -1,12 +1,10 @@
 # React Lab Api 
 **How to run ?**
 
-    git clone https://github.com/lexfor/ReactJSLab.git
+    git clone https://gitlab.itrexgroup.com/maria.kukharchuk/react-lab-backend.git
     git checkout dev
-    cd reactapi/Project/docker
+    cd reactapi/Docker
     docker-compose up -d
 
-**API documents**
-    https://docs.google.com/document/d/1TQHAS75poZjwBbpvS_hEf_e9IOslbGIpgtYclDUyLkQ/edit
-    
-Still in progress.
+**Endpoints**
+    https://docs.google.com/spreadsheets/d/17A-KinO8CPfLgUXs-eHRj7Go7IrKO0YzOvZFL--r_mY/edit?usp=sharing
