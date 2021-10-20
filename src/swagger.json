@@ -604,6 +604,270 @@
           }
         }
       }
+    },
+    "/api/appointments": {
+      "post": {
+        "tags": [
+          "Appointments"
+        ],
+        "summary": "Create new appointment",
+        "parameters": [
+          {
+            "name": "date",
+            "in": "body",
+            "description": "Visit date",
+            "required": true,
+            "schema": {
+              "example": "2021-11-23 13:00",
+              "type": "string"
+            }
+          },
+          {
+            "name": "reason",
+            "in": "body",
+            "description": "Reason for visit",
+            "required": true,
+            "schema": {
+              "example": "stomach-ache",
+              "type": "string"
+            }
+          },
+          {
+            "name": "note",
+            "in": "body",
+            "description": "Note for visit reason",
+            "required": false,
+            "schema": {
+              "example": "I have a COVID",
+              "type": "string"
+            }
+          },
+          {
+            "name": "doctorID",
+            "in": "body",
+            "description": "Doctor ID for appointment",
+            "required": true,
+            "schema": {
+              "example": "882240b7-514a-48c3-a67f-6acfb1d35030",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/me": {
+      "get": {
+        "tags": ["Appointments"],
+        "summary": "Get all appointments for doctors",
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Doctors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "appointments": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AppointmentsForDoctor"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Appointment ID",
+        "type": "string"
+      }],
+      "delete": {
+        "tags": ["Appointments"],
+        "summary": "Delete a appointment",
+        "responses": {
+          "202": {
+            "description": "Deleted",
+            "schema": {
+              "description": "Deleted appointment ID",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Appointments"],
+        "summary": "Update a appointment status",
+        "parameters": [{
+          "name": "status",
+          "in": "body",
+          "description": "Appointment status",
+          "required": true,
+          "schema": {
+            "example": "Waiting for confirmation",
+            "type": "string"
+          }
+        }],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/patient/me": {
+      "get": {
+        "tags": ["Appointments"],
+        "summary": "Get all appointments for patients",
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Doctors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "appointments": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AppointmentsForPatient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/appointments/time/free": {
+      "get": {
+        "tags": ["Appointments"],
+        "summary": "Get a free time for visit",
+        "parameters": [{
+          "name": "date",
+          "in": "query",
+          "description": "date for visit",
+          "required": true,
+          "type": "string"
+        },
+          {
+            "name": "doctorID",
+            "in": "query",
+            "description": "Doctor ID",
+            "required": true,
+            "type": "number"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Doctor data",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
@@ -632,6 +896,78 @@
         },
         "role_id": {
           "type": "string"
+        }
+      }
+    },
+    "AppointmentForDoctor": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string",
+          "description": "Hashed password"
+        },
+        "photo": {
+          "type": "string",
+          "description": "Path to photo"
+        },
+        "patient_id": {
+          "type": "string"
+        },
+        "doctor_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Appointment status name"
+        }
+      }
+    },
+    "AppointmentForPatient": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string",
+          "description": "Hashed password"
+        },
+        "photo": {
+          "type": "string",
+          "description": "Path to photo"
+        },
+        "patient_id": {
+          "type": "string"
+        },
+        "doctor_id": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "description": "Appointment status name"
+        },
+        "specialization_name": {
+          "type": "string",
+          "description": "Doctor specialization name"
         }
       }
     },
