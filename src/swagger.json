@@ -1,0 +1,701 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "React lab API",
+    "description": "API on Node.js for ITRex React.js Lab",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    },
+    "contact": {
+      "name": "Tsimafei Kinevich",
+      "url": "https://itrexgroup.com/",
+      "email": "tsimafei.kinevich@itrexgroup.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Patients",
+      "description": "API for patients"
+    },
+    {
+      "name": "Doctors",
+      "description": "API for doctors"
+    },
+    {
+      "name": "Specializations",
+      "description": "API for specializations"
+    },
+    {
+      "name": "Appointments",
+      "description": "API for appointments"
+    }
+  ],
+  "schemes": ["https"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/api/patients": {
+      "post": {
+        "tags": ["Patients"],
+        "summary": "Create new patient",
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Patient first name",
+          "required": true,
+          "schema": {
+            "example": "Tsimafei",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "lastName",
+          "in": "body",
+          "description": "Patient last name",
+          "required": true,
+          "schema": {
+            "example": "Kinevich",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "login",
+          "in": "body",
+          "description": "Patient account login",
+          "required": true,
+          "schema": {
+            "example": "tsimafei.kinevich@itrexgroup.com",
+            "maxLength": 30,
+            "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
+            "minLength": 2,
+            "uniqueItems": true,
+            "type": "string"
+          }
+        },
+        {
+          "name": "password",
+          "in": "body",
+          "description": "Patient account password",
+          "required": true,
+          "schema": {
+            "example": "TimaPassword",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z0-9]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Patients"],
+        "summary": "Get all patients",
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+        {
+          "name": "count",
+          "in": "query",
+          "description": "Count for pagination",
+          "required": true,
+          "type": "number"
+        },
+        {
+          "name": "name",
+          "in": "query",
+          "description": "Patient name filter",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "description": "Sort type",
+          "required": false,
+          "type": "string",
+          "enum": ["firstNameSort", "lastNameSort"]
+        },
+        {
+          "name": "variant",
+          "in": "query",
+          "description": "Sort variant",
+          "required": false,
+          "type": "string",
+          "enum": ["Up", "Down"]
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "Patients",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/Patient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/patients/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Patient ID",
+        "type": "string"
+      }],
+      "delete": {
+        "tags": ["Patients"],
+        "summary": "Delete a patient",
+        "responses": {
+          "202": {
+            "description": "Deleted",
+            "schema": {
+              "description": "Deleted patient ID",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Patients"],
+        "summary": "Update a patient",
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Patient new first name",
+          "required": true,
+          "schema": {
+            "example": "Gleb",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "lastName",
+          "in": "body",
+          "description": "Patient new last name",
+          "required": true,
+          "schema": {
+            "example": "Andreev",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        }],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      }
+    },
+    "/api/patients/me": {
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "tags": ["Patients"],
+        "summary": "Update patient profile",
+        "security": [{
+          "bearerAuth": []
+        }],
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Patient first name",
+          "required": true,
+          "schema": {
+            "example": "Tsimafei",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "lastName",
+          "in": "body",
+          "description": "Patient last name",
+          "required": true,
+          "schema": {
+            "example": "Kinevich",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "avatar",
+          "in": "formData",
+          "description": "Patient avatar",
+          "required": false,
+          "type": "file"
+        }
+        ],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Patients"],
+        "summary": "Get patient profile",
+        "security": [{
+          "bearerAuth": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Patient data",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors": {
+      "post": {
+        "tags": ["Doctors"],
+        "summary": "Create new doctor",
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Doctor first name",
+          "required": true,
+          "schema": {
+            "example": "Oleg",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+          {
+            "name": "lastName",
+            "in": "body",
+            "description": "Doctor last name",
+            "required": true,
+            "schema": {
+              "example": "Dublyanin",
+              "maxLength": 30,
+              "pattern": "[a-zA-Z]+",
+              "minLength": 2,
+              "type": "string"
+            }
+          },
+          {
+            "name": "login",
+            "in": "body",
+            "description": "Doctor account login",
+            "required": true,
+            "schema": {
+              "example": "tsimafei.kinevich@itrexgroup.com",
+              "maxLength": 30,
+              "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
+              "minLength": 2,
+              "uniqueItems": true,
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "Doctor account password",
+            "required": true,
+            "schema": {
+              "example": "TimaPassword",
+              "maxLength": 30,
+              "pattern": "[a-zA-Z0-9]+",
+              "minLength": 2,
+              "type": "string"
+            }
+          },
+          {
+            "name": "occupation",
+            "in": "body",
+            "description": "Doctor specialization ID",
+            "required": true,
+            "schema": {
+              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Doctors"],
+        "summary": "Get all doctors",
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "specializationSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Doctors",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/DoctorWithSpecialization"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Doctor ID",
+        "type": "string"
+      }],
+      "delete": {
+        "tags": ["Doctors"],
+        "summary": "Delete a doctor",
+        "responses": {
+          "202": {
+            "description": "Deleted",
+            "schema": {
+              "description": "Deleted doctor ID",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Doctors"],
+        "summary": "Update a doctor",
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Doctor new first name",
+          "required": true,
+          "schema": {
+            "example": "Valentin",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "lastName",
+          "in": "body",
+          "description": "Doctor new last name",
+          "required": true,
+          "schema": {
+            "example": "Doctor",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "occupationID",
+          "in": "body",
+          "description": "Doctor occupations",
+          "required": true,
+          "schema": {
+            "type": "array",
+            "items": {
+              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f, 902240b7-514a-48c3-a67f-6acfb1d35030",
+              "type": "string"
+            }
+          }
+          }],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/DoctorWithSpecialization"
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/me": {
+      "patch": {
+        "consumes": ["multipart/form-data"],
+        "tags": ["Doctors"],
+        "summary": "Update doctor profile",
+        "security": [{
+          "bearerAuth": []
+        }],
+        "parameters": [{
+          "name": "firstName",
+          "in": "body",
+          "description": "Doctor first name",
+          "required": true,
+          "schema": {
+            "example": "Tsimafei",
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+          {
+            "name": "lastName",
+            "in": "body",
+            "description": "Doctor last name",
+            "required": true,
+            "schema": {
+              "example": "Kinevich",
+              "maxLength": 30,
+              "pattern": "[a-zA-Z]+",
+              "minLength": 2,
+              "type": "string"
+            }
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "Doctor avatar",
+            "required": false,
+            "type": "file"
+          },
+          {
+            "name": "occupationID",
+            "in": "body",
+            "description": "Doctor occupations",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f, 902240b7-514a-48c3-a67f-6acfb1d35030",
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "$ref": "#/definitions/Patient"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Doctors"],
+        "summary": "Get doctor profile",
+        "security": [{
+          "bearerAuth": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Doctor data",
+            "schema": {
+              "$ref": "#/definitions/DoctorWithSpecialization"
+            }
+          }
+        }
+      }
+    },
+    "/api/doctors/specializations/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Specialization ID",
+        "type": "string"
+      }],
+      "get": {
+        "tags": ["Specializations"],
+        "summary": "Get all doctors by specialization ID",
+        "responses": {
+          "200": {
+            "description": "Doctor data",
+            "schema": {
+              "$ref": "#/definitions/Doctor"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Patient": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "description": "Hashed password"
+        },
+        "photo": {
+          "type": "string",
+          "description": "Path to photo"
+        },
+        "role_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Doctor": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "description": "Hashed password"
+        },
+        "photo": {
+          "type": "string",
+          "description": "Path to photo"
+        },
+        "role_id": {
+          "type": "string"
+        }
+      }
+    },
+    "DoctorWithSpecialization": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "description": "Hashed password"
+        },
+        "photo": {
+          "type": "string",
+          "description": "Path to photo"
+        },
+        "role_id": {
+          "type": "string"
+        },
+        "role_name": {
+          "type": "string"
+        },
+        "specialization_name": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

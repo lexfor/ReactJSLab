@@ -54,6 +54,7 @@ router.delete('/:id', (req, res, next) => {
 });
 
 router.patch('/:id', (req, res, next) => {
+  getArrayFromFormMiddleware(req);
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await doctorController.updateDoctor(req.params.id, req.body);

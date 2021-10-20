@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import swaggerUi from "swagger-ui-express";
 import patientRouter from './api/patient/patient.routes';
 import resolutionRouter from './api/resolutions/resolution.routes';
 import authenticationRouter from './api/authentication/authentication.routes';
@@ -9,6 +10,7 @@ import specializationsRouter from './api/specializations/specializations.route';
 import statusesRouter from './api/statuses/statuses.route';
 import { envConfig } from './config';
 import { ROUTES } from './constants';
+import swaggerDocument from './swagger.json';
 
 const corsOptions = {
   origin: '*',
@@ -16,13 +18,15 @@ const corsOptions = {
 
 const app = express();
 
+app.use(
+    '/api/docs',
+    swaggerUi.serve,
+    swaggerUi.setup(swaggerDocument)
+);
+
 app.use(cors(corsOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.redirect('/patient/login');
-});
 
 try {
   app.use(ROUTES.IMAGES, express.static(`.${ROUTES.IMAGES}`));
