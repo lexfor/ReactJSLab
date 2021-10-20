@@ -176,7 +176,8 @@ class UsersRepository {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT COUNT(*) OVER() as total,
-                users.*, roles.role_name 
+                users.*,
+                roles.role_name 
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE role_id = ?
@@ -203,7 +204,8 @@ class UsersRepository {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT COUNT(*) OVER() as total,
-                users.*, roles.role_name, 
+                users.*,
+                roles.role_name, 
                 (
                   SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
                   INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
