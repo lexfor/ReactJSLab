@@ -4,11 +4,9 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import { dateCondition } from '../helpers/conditions/dateCondition';
 import { sort } from '../helpers/sort';
+import {createConnection} from "../helpers/DBconnection";
 
 class ResolutionRepository {
-  constructor(connection) {
-    this.connection = connection;
-  }
 
   /**
    * Create new resolution
@@ -16,13 +14,17 @@ class ResolutionRepository {
    * @returns {Promise<object>} resolution data
    */
   async createResolution(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'INSERT INTO resolutions SET ? ';
       await queryAsync(sql, data);
       return data;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -33,14 +35,18 @@ class ResolutionRepository {
    * @returns {Promise<string>} resolution data
    */
   async updateResolution(resolutionID, resolutionValue) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `UPDATE resolutions 
                    SET value = ? WHERE resolutions.id = ?`;
       await queryAsync(sql, [resolutionValue, resolutionID]);
       return resolutionID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -50,13 +56,17 @@ class ResolutionRepository {
    * @returns {Promise<object>} resolution data
    */
   async deleteResolution(resolutionID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'DELETE FROM resolutions WHERE id = ?';
       await queryAsync(sql, [resolutionID]);
       return resolutionID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -66,8 +76,9 @@ class ResolutionRepository {
    * @returns {Promise<object>} resolution data
    */
   async getResolutionByID(resolutionID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT resolutions.*, appointments.doctor_id FROM resolutions 
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE resolutions.id = ?`;
@@ -75,6 +86,9 @@ class ResolutionRepository {
       return resolution;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -84,8 +98,9 @@ class ResolutionRepository {
    * @returns {Promise<object>} resolution data
    */
   async getResolutionByAppointmentID(appointmentID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT resolutions.*, appointments.doctor_id FROM resolutions 
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE appointments.id = ?`;
@@ -93,6 +108,9 @@ class ResolutionRepository {
       return resolution;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -102,8 +120,9 @@ class ResolutionRepository {
    * @returns {Promise<array>} resolution data
    */
   async getResolutions(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
@@ -131,6 +150,9 @@ class ResolutionRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -139,8 +161,9 @@ class ResolutionRepository {
    * @returns {Promise<array>} resolution data
    */
   async getMyResolutions(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                    resolutions.*, appointments.visit_date, users.first_name, users.last_name FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -160,6 +183,9 @@ class ResolutionRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -168,8 +194,9 @@ class ResolutionRepository {
    * @returns {Promise<array>} resolution data
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
@@ -199,6 +226,9 @@ class ResolutionRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -207,8 +237,9 @@ class ResolutionRepository {
    * @returns {Promise<array>} resolution data
    */
   async getPatientResolutionsByDate(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
@@ -239,6 +270,9 @@ class ResolutionRepository {
       return resolutions;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 }

@@ -8,7 +8,6 @@ import {
   DoctorController, DoctorService, DoctorSpecializationRepository,
 } from './api/doctor';
 import { SpecializationsRepository, SpecializationsService, SpecializationsController } from './api/specializations';
-import { connection } from './api/helpers/DBconnection';
 import { AppointmentsController, AppointmentsRepository, AppointmentsService } from './api/appointments';
 import { StatusesController } from './api/statuses';
 import { UsersRepository, UsersService } from './api/users';
@@ -18,11 +17,11 @@ class Injector {
   constructor() {
     console.log(DB_ACCESS);
     /*    initializeDB(connection).then(console.log('Database initialized')); */
-    this.resolutionRepository = new ResolutionRepository(connection);
-    this.specializationsRepository = new SpecializationsRepository(connection);
-    this.doctorSpecializationRepository = new DoctorSpecializationRepository(connection);
-    this.appointmentsRepository = new AppointmentsRepository(connection);
-    this.usersRepository = new UsersRepository(connection);
+    this.resolutionRepository = new ResolutionRepository();
+    this.specializationsRepository = new SpecializationsRepository();
+    this.doctorSpecializationRepository = new DoctorSpecializationRepository();
+    this.appointmentsRepository = new AppointmentsRepository();
+    this.usersRepository = new UsersRepository();
 
     this.jwtService = new JwtService();
     this.resolutionService = new ResolutionService(this.resolutionRepository);

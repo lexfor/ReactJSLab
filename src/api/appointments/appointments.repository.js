@@ -3,11 +3,9 @@ import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition, checkDoctorIDCondition, checkDateStatus } from '../helpers/conditions';
 import { sort } from '../helpers/sort';
+import {createConnection} from "../helpers/DBconnection";
 
 class AppointmentsRepository {
-  constructor(connection) {
-    this.connection = connection;
-  }
 
   /**
      * Create new appointment
@@ -15,13 +13,17 @@ class AppointmentsRepository {
      * @returns {Promise<object>} appointment info
      */
   async createAppointment(appointmentData) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'INSERT INTO appointments SET ?';
       await queryAsync(sql, appointmentData);
       return appointmentData;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -32,13 +34,17 @@ class AppointmentsRepository {
      * @returns {Promise<object>} deleted appointment ID
      */
   async deleteAppointment(appointmentID, userID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'DELETE FROM appointments WHERE id = ?';
       await queryAsync(sql, [appointmentID, userID]);
       return appointmentID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -50,13 +56,17 @@ class AppointmentsRepository {
      * @returns {Promise<object>} updated appointment ID
      */
   async updateAppointment(appointmentID, statusID, doctorID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'UPDATE appointments SET status = ? WHERE id = ?';
       await queryAsync(sql, [statusID, appointmentID, doctorID]);
       return appointmentID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -66,8 +76,9 @@ class AppointmentsRepository {
      * @returns {Promise<array>} updated appointment ID
      */
   async getAppointmentsForDoctor(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                          appointments.*,
                          users.first_name, 
@@ -84,6 +95,9 @@ class AppointmentsRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -92,8 +106,9 @@ class AppointmentsRepository {
      * @returns {Promise<array>} updated appointment ID
      */
   async getAppointmentsForPatient(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT COUNT(*) OVER() as total,
                          appointments.*,
                          users.first_name,
@@ -120,6 +135,9 @@ class AppointmentsRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -129,8 +147,9 @@ class AppointmentsRepository {
    * @returns {Promise<array>}appointments
    */
   async getAppointments(date, doctorID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT * FROM appointments 
                          WHERE visit_date LIKE '%${date}%'
                          ${checkDoctorIDCondition(doctorID)}`;
@@ -138,6 +157,9 @@ class AppointmentsRepository {
       return appointments;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -147,14 +169,18 @@ class AppointmentsRepository {
    * @returns {Promise<object>} appointment
    */
   async getAppointmentByID(appointmentID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT * FROM appointments 
                          WHERE id = ?`;
       const [appointment] = await queryAsync(sql, [appointmentID]);
       return appointment;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 }

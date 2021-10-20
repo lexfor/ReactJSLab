@@ -4,26 +4,27 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import { ROLES_ID } from '../../constants';
 import { sort } from '../helpers/sort';
+import {createConnection} from "../helpers/DBconnection";
 
 class UsersRepository {
-  constructor(connection) {
-    this.connection = connection;
-  }
-
   /**
      * Create a user
      * @param {object} user
      * @returns {Promise<object>} user data
      */
   async createUser(user) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 INSERT INTO users SET ?`;
       const result = await queryAsync(sql, user);
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -33,13 +34,17 @@ class UsersRepository {
      * @returns {Promise<object>} user ID
      */
   async deleteUser(userID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'DELETE FROM users WHERE id = ?';
       await queryAsync(sql, userID);
       return userID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -50,13 +55,17 @@ class UsersRepository {
      * @returns {Promise<object>} user data
      */
   async updateUser(userID, user) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'UPDATE users SET last_name = ?, first_name = ?, photo = ? WHERE id = ?';
       await queryAsync(sql, [user.lastName, user.firstName, user.photo, userID]);
       return user;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -66,13 +75,17 @@ class UsersRepository {
      * @param {string} newPassword
      */
   async changePassword(userID, newPassword) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = 'UPDATE users SET password = ? WHERE id = ?';
       const result = await queryAsync(sql, [newPassword, userID]);
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -83,8 +96,9 @@ class UsersRepository {
      * @returns {object} user
      */
   async getUserByLogin(login, role) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT users.*, roles.role_name FROM users 
                    INNER JOIN roles ON roles.id = users.role_id
                    WHERE login = ? AND role_id = ?`;
@@ -92,6 +106,9 @@ class UsersRepository {
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 
@@ -101,8 +118,9 @@ class UsersRepository {
      * @returns {Promise<object>} user data
      */
   async getUserByID(userID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT users.*, roles.role_name 
                 FROM users
@@ -113,6 +131,9 @@ class UsersRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -121,8 +142,9 @@ class UsersRepository {
    * @returns {Promise<object>} user data
    */
   async getDoctorByID(userID) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT 
                 users.*, 
@@ -138,6 +160,9 @@ class UsersRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -146,8 +171,9 @@ class UsersRepository {
      * @returns {Promise<array>} users
      */
   async getUsers(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT COUNT(*) OVER() as total,
                 users.*, roles.role_name 
@@ -161,6 +187,9 @@ class UsersRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -169,8 +198,9 @@ class UsersRepository {
    * @returns {Promise<array>} users
    */
   async getDoctors(data) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT COUNT(*) OVER() as total,
                 users.*, roles.role_name, 
@@ -190,6 +220,9 @@ class UsersRepository {
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
+    finally {
+      await connection.end();
+    }
   }
 
   /**
@@ -199,8 +232,9 @@ class UsersRepository {
    * @returns {Promise<array>} users
    */
   async getDoctorsBySpecializations(specializationID, name) {
+    const connection = await createConnection();
     try {
-      const queryAsync = promisify(this.connection.query).bind(this.connection);
+      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT users.* FROM users
                    INNER JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id
                    WHERE doctors_specializations.specialization_id = ?
@@ -209,6 +243,9 @@ class UsersRepository {
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
     }
   }
 }
