@@ -231,7 +231,7 @@
         "tags": ["Patients"],
         "summary": "Update patient profile",
         "security": [{
-          "bearerAuth": []
+          "Bearer": []
         }],
         "parameters": [{
           "name": "firstName",
@@ -280,7 +280,7 @@
         "tags": ["Patients"],
         "summary": "Get patient profile",
         "security": [{
-          "bearerAuth": []
+          "Bearer": []
         }],
         "responses": {
           "200": {
@@ -510,7 +510,7 @@
         "tags": ["Doctors"],
         "summary": "Update doctor profile",
         "security": [{
-          "bearerAuth": []
+          "Bearer": []
         }],
         "parameters": [{
           "name": "firstName",
@@ -572,7 +572,7 @@
         "tags": ["Doctors"],
         "summary": "Get doctor profile",
         "security": [{
-          "bearerAuth": []
+          "Bearer": []
         }],
         "responses": {
           "200": {
@@ -696,6 +696,13 @@
           "type": "string"
         }
       }
+    }
+  },
+  "securityDefinitions": {
+    "Bearer": {
+      "type": "apiKey",
+      "name": "Authorization",
+      "in": "header"
     }
   }
 }
