@@ -65,10 +65,7 @@ class UsersService {
      * @returns {Promise<object>} users
      */
   async getUsers(data) {
-    return {
-      users: await this.usersRepository.getUsers(data),
-      total: await this.usersRepository.getCount(),
-    };
+    return await this.usersRepository.getUsers(data);
   }
 
   /**

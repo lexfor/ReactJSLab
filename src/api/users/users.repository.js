@@ -168,7 +168,7 @@ class UsersRepository {
   /**
      * Get all users with role
      * @param {object} data
-     * @returns {Promise<array>} users
+     * @returns {Promise<object>} users
      */
   async getUsers(data) {
     const connection = await createConnection();
@@ -184,7 +184,11 @@ class UsersRepository {
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
                 LIMIT ?,?`;
-      return await queryAsync(sql, [data.role, +data.offset, +data.count]);
+      const result = {
+        users: await queryAsync(sql, [data.role, +data.offset, +data.count]),
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -255,8 +259,7 @@ class UsersRepository {
    * get an results count
    * @returns {Promise<number>} total number
    */
-  async getCount() {
-    const connection = await createConnection();
+  async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT FOUND_ROWS() as total`;
@@ -264,9 +267,6 @@ class UsersRepository {
       return total.total;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 }
