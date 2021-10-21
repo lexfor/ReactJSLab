@@ -126,7 +126,6 @@ class ResolutionRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                   BEGIN;
                    SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
@@ -139,7 +138,7 @@ class ResolutionRepository {
                    WHERE appointments.patient_id = ?
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?;`;
+                   LIMIT ?,?`;
       let resolutions = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
       resolutions = changeTimeToLocal(resolutions);
       const result = {
@@ -165,7 +164,6 @@ class ResolutionRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                   BEGIN;
                    SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*, appointments.visit_date, users.first_name, users.last_name FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -174,7 +172,7 @@ class ResolutionRepository {
                    ${dateCondition(data.date)}
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?;`;
+                   LIMIT ?,?`;
       let resolutions = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
       resolutions = changeTimeToLocal(resolutions);
       const result = {
@@ -200,7 +198,6 @@ class ResolutionRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                   BEGIN;
                    SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
@@ -216,7 +213,7 @@ class ResolutionRepository {
                    AND specializations.id = ?
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?;`;
+                   LIMIT ?,?`;
       let resolutions = await queryAsync(
         sql,
         [data.patientID, data.specializationID, +data.offset, +data.count],
@@ -245,7 +242,6 @@ class ResolutionRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                   BEGIN;
                    SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
@@ -259,7 +255,7 @@ class ResolutionRepository {
                    ${dateCondition(data.date)}
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?;`;
+                   LIMIT ?,?`;
       let resolutions = await queryAsync(
         sql,
         [data.patientID, +data.offset, +data.count],
@@ -285,14 +281,10 @@ class ResolutionRepository {
   async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total;
-                   COMMIT;`;
+      const sql = `SELECT FOUND_ROWS() as total`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `ROLLBACK;`;
-      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }

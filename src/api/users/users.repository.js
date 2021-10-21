@@ -175,7 +175,6 @@ class UsersRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                BEGIN;
                 SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name 
@@ -184,7 +183,7 @@ class UsersRepository {
                 WHERE role_id = ?
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?;`;
+                LIMIT ?,?`;
       const result = {
         users: await queryAsync(sql, [data.role, +data.offset, +data.count]),
         total: await this.getCount(connection),
@@ -208,7 +207,6 @@ class UsersRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                BEGIN;
                 SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name, 
@@ -218,7 +216,7 @@ class UsersRepository {
                 WHERE role_id = ?
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?;`;
+                LIMIT ?,?`;
       const result = {
         users: await queryAsync(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]),
         total: await this.getCount(connection),
@@ -263,14 +261,10 @@ class UsersRepository {
   async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total;
-                   COMMIT;`;
+      const sql = `SELECT FOUND_ROWS() as total`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `ROLLBACK`;
-      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }

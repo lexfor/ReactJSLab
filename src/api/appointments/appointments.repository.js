@@ -82,7 +82,6 @@ class AppointmentsRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                         BEGIN;
                          SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name, 
@@ -93,7 +92,7 @@ class AppointmentsRepository {
                          WHERE appointments.doctor_id = ?
                          ${nameCondition(data.name)}
                          ${sort(data.sort, data.variant)}
-                         LIMIT ?,?;`;
+                         LIMIT ?,?`;
       let appointments = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
       appointments = changeTimeToLocal(appointments);
       const result = {
@@ -119,7 +118,6 @@ class AppointmentsRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                         BEGIN;
                          SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name,
@@ -132,7 +130,7 @@ class AppointmentsRepository {
                          ${nameCondition(data.name)}
                          ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
-                         LIMIT ?,?;`;
+                         LIMIT ?,?`;
       let appointments = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
       appointments = changeTimeToLocal(appointments);
       const result = {
@@ -199,14 +197,10 @@ class AppointmentsRepository {
   async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total;
-                   COMMIT;`;
+      const sql = `SELECT FOUND_ROWS() as total`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `ROLLBACK;`;
-      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
