@@ -14,25 +14,8 @@
       "email": "tsimafei.kinevich@itrexgroup.com"
     }
   },
-  "tags": [
-    {
-      "name": "Patients",
-      "description": "API for patients"
-    },
-    {
-      "name": "Doctors",
-      "description": "API for doctors"
-    },
-    {
-      "name": "Specializations",
-      "description": "API for specializations"
-    },
-    {
-      "name": "Appointments",
-      "description": "API for appointments"
-    }
-  ],
   "schemes": ["https"],
+  "basePath": "https://reactlabapi.herokuapp.com/src",
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
@@ -593,7 +576,7 @@
         "type": "string"
       }],
       "get": {
-        "tags": ["Specializations"],
+        "tags": ["Doctors"],
         "summary": "Get all doctors by specialization ID",
         "responses": {
           "200": {
@@ -868,36 +851,594 @@
           }
         }
       }
+    },
+    "/api/resolutions": {
+      "post": {
+        "tags": ["Resolutions"],
+        "summary": "Create new resolution",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "resolution",
+          "in": "body",
+          "description": "Resolution value for patient",
+          "required": true,
+          "schema": {
+            "example": "poisoning",
+            "maxLength": 30,
+            "minLength": 2,
+            "type": "string"
+          }
+        },
+        {
+          "name": "appointmentID",
+          "in": "body",
+          "description": "Appointment ID for resolution",
+          "required": true,
+          "schema": {
+            "example": "b33c379e-3238-11ec-8d3d-0242ac130003",
+            "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Resolution"
+            }
+          }
+        }
+      }
+    },
+    "/api/resolutions/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Resolution ID",
+        "type": "string"
+      }],
+      "delete": {
+        "tags": ["Resolutions"],
+        "summary": "Delete a resolution",
+        "security": [{
+          "Bearer": []
+        }],
+        "responses": {
+          "202": {
+            "description": "Deleted",
+            "schema": {
+              "description": "Deleted resolution ID",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "patch": {
+        "tags": ["Resolutions"],
+        "summary": "Update a resolution",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "resolution",
+          "in": "body",
+          "description": "Doctor new first name",
+          "required": true,
+          "schema": {
+            "example": "nothing",
+            "maxLength": 30,
+            "minLength": 2,
+            "type": "string"
+          }
+        }],
+        "responses": {
+          "202": {
+            "description": "Updated",
+            "schema": {
+              "description": "Updated resolution ID",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "/api/resolutions/me": {
+      "get": {
+        "tags": ["Resolutions"],
+        "summary": "Get all resolutions for patient page",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolutions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResolutionForPatient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resolutions/doctor/specializations/{id}": {
+      "parameters": [{
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "Specialization ID",
+        "type": "string"
+      }],
+      "get": {
+        "tags": ["Resolutions"],
+        "summary": "Filter by specializations for patient page resolutions",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolutions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResolutionForPatient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resolutions/date": {
+      "get": {
+        "tags": ["Resolutions"],
+        "summary": "Filter by dates for patient page resolutions",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number",
+            "pattern": "yyyy-mm-dd"
+          },
+          {
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolutions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResolutionForPatient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/resolutions/doctor/me": {
+      "get": {
+        "tags": ["Resolutions"],
+        "summary": "Get all resolutions for doctor page",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "offset",
+          "in": "query",
+          "description": "Offset for pagination",
+          "required": true,
+          "type": "number"
+        },
+          {
+            "name": "count",
+            "in": "query",
+            "description": "Count for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "description": "Sort type",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
+          },
+          {
+            "name": "variant",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Up", "Down"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolutions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResolutionForDoctor"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "user login API",
+        "parameters": [{
+          "name": "offset",
+          "in": "body",
+          "description": "Offset for pagination",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "login": {
+                "type": "string",
+                "example": "tima@mail.ru"
+              },
+              "password": {
+                "type": "string",
+                "example": "TimaPassword"
+              }
+            }
+          }
+        },
+          {
+            "name": "role",
+            "in": "query",
+            "description": "User role",
+            "required": true,
+            "type": "string",
+            "enum": ["DOCTOR", "PATIENT", "ADMIN"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User data",
+            "schema": {
+              "type": "object",
+              "$ref": "/definitions/AuthData"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/password": {
+      "patch": {
+        "tags": ["Auth"],
+        "summary": "User change password API",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [{
+          "name": "oldPassword",
+          "in": "body",
+          "description": "User current password",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "newPassword",
+          "in": "body",
+          "description": "User new password",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "type": "object",
+              "$ref": "/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/registration": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "user registration API",
+        "parameters": [{
+          "name": "login",
+          "in": "body",
+          "description": "User login",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+        {
+          "name": "password",
+          "in": "body",
+          "description": "User password",
+          "required": true,
+          "schema": {
+            "type": "string"
+          }
+        },
+          {
+            "name": "firstName",
+            "in": "body",
+            "description": "User first name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lastName",
+            "in": "body",
+            "description": "User last name",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "User",
+            "schema": {
+              "type": "object",
+              "$ref": "/definitions/AuthData"
+            }
+          }
+        }
+      }
+    },
+    "/api/auth/check": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "check user access",
+        "security": [{
+          "Bearer": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Access status"
+          }
+        }
+      }
+    },
+    "/api/auth/token": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Refresh JWT token ",
+        "security": [{
+          "Bearer": []
+        }],
+        "responses": {
+          "200": {
+            "description": "Access status",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token" : {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/statuses": {
+      "get": {
+        "tags": ["Statuses"],
+        "summary": "all available statuses",
+        "responses": {
+          "200": {
+            "description": "Statuses",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/specializations": {
+      "get": {
+        "tags": ["Specializations"],
+        "summary": "all available doctors specializations",
+        "responses": {
+          "200": {
+            "description": "Specializations",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "specialization_name": {
+                    "type": "string"
+                  },
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "definitions": {
     "Patient": {
-      "properties": {
-        "id": {
-          "type": "string"
-        },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "login": {
-          "type": "string",
-          "uniqueItems": true
-        },
-        "password": {
-          "type": "string",
-          "description": "Hashed password"
-        },
-        "photo": {
-          "type": "string",
-          "description": "Path to photo"
-        },
-        "role_id": {
-          "type": "string"
-        }
-      }
+      "$ref": "docs/patients/patientDefinitions.json"
     },
     "AppointmentForDoctor": {
       "properties": {
@@ -1029,6 +1570,138 @@
           "type": "string"
         },
         "specialization_name": {
+          "type": "string"
+        }
+      }
+    },
+    "Resolution": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "appointment_id": {
+          "type": "string"
+        },
+        "next_appointment_date": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "ResolutionForPatient": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "appointment_id": {
+          "type": "string"
+        },
+        "next_appointment_date": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "visit_date": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "specialization_name": {
+          "type": "string"
+        }
+      }
+    },
+    "ResolutionForDoctor": {
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "appointment_id": {
+          "type": "string"
+        },
+        "next_appointment_date": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        },
+        "visit_date": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        }
+      }
+    },
+    "AuthData": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string"
+        },
+        "user": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "last_name": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            },
+            "login": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "role_id": {
+              "type": "string"
+            },
+            "role_name": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "User": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "first_name": {
+          "type": "string"
+        },
+        "last_name": {
+          "type": "string"
+        },
+        "login": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "photo": {
+          "type": "string"
+        },
+        "role_id": {
           "type": "string"
         }
       }

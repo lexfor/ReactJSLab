@@ -7,7 +7,6 @@ import {
   checkUserMiddleware,
   refreshTokenMiddleware,
 } from '../helpers/middleware';
-import { NOT_AVAILABLE } from '../../constants';
 
 const router = express();
 const authenticationController = injector.getAuthenticationController;
@@ -33,16 +32,17 @@ router.post('/token', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/token', async (req, res, next) => {
-  await authenticationMiddleware(req, res, next);
+router.patch('/password', async (req, res, next) => {
+  await authenticationMiddleware(req, res);
+  next();
 }, async (req, res) => {
-  const result = await authenticationController.refreshToken(req.token);
+  const result = await authenticationController.changePassword(req.userID, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.post('/check', async (req, res) => {
   await authenticationMiddleware(req, res);
-  res.status(StatusCodes.OK).json(NOT_AVAILABLE);
+  res.status(StatusCodes.OK).json('');
 });
 
 export default router;
