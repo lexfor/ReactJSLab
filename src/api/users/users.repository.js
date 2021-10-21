@@ -149,11 +149,9 @@ class UsersRepository {
                 SELECT 
                 users.*, 
                 roles.role_name,
-                GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') as specialization_name
+                ${SPECIALIZATION_NAME_JOIN}
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
-                INNER JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id 
-                INNER JOIN specializations ON specializations.id = doctors_specializations.specialization_id
                 WHERE users.id = ?`;
       const [result] = await queryAsync(sql, userID);
       return result;

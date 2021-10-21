@@ -310,7 +310,7 @@
             "description": "Doctor account login",
             "required": true,
             "schema": {
-              "example": "tsimafei.kinevich@itrexgroup.com",
+              "example": "oleg@itrexgroup.com",
               "maxLength": 30,
               "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
               "minLength": 2,
@@ -324,7 +324,7 @@
             "description": "Doctor account password",
             "required": true,
             "schema": {
-              "example": "TimaPassword",
+              "example": "OlegPassword",
               "maxLength": 30,
               "pattern": "[a-zA-Z0-9]+",
               "minLength": 2,
@@ -361,36 +361,36 @@
           "required": true,
           "type": "number"
         },
-          {
-            "name": "count",
-            "in": "query",
-            "description": "Count for pagination",
-            "required": true,
-            "type": "number"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Doctor name filter",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "Sort type",
-            "required": false,
-            "type": "string",
-            "enum": ["firstNameSort", "lastNameSort", "specializationSort"]
-          },
-          {
-            "name": "variant",
-            "in": "query",
-            "description": "Sort variant",
-            "required": false,
-            "type": "string",
-            "enum": ["Up", "Down"]
-          }
+        {
+          "name": "count",
+          "in": "query",
+          "description": "Count for pagination",
+          "required": true,
+          "type": "number"
+        },
+        {
+          "name": "name",
+          "in": "query",
+          "description": "Doctor name filter",
+          "required": false,
+          "type": "string"
+        },
+        {
+          "name": "sort",
+          "in": "query",
+          "description": "Sort type",
+          "required": false,
+          "type": "string",
+          "enum": ["firstNameSort", "lastNameSort", "specializationSort"]
+        },
+        {
+          "name": "variant",
+          "in": "query",
+          "description": "Sort variant",
+          "required": false,
+          "type": "string",
+          "enum": ["Up", "Down"]
+        }
         ],
         "responses": {
           "200": {
@@ -471,7 +471,7 @@
           "schema": {
             "type": "array",
             "items": {
-              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f, 902240b7-514a-48c3-a67f-6acfb1d35030",
+              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
               "type": "string"
             }
           }

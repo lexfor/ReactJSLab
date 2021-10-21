@@ -31,12 +31,12 @@ class DoctorService {
    */
   async updateDoctor(doctorID, doctor) {
     await this.doctorSpecializationRepository.deleteDoctorSpecialization(doctorID);
-    doctor.occupationID.forEach((specializationID) => {
-      this.doctorSpecializationRepository.addDoctorSpecialization({
+    for (let occupation of doctor.occupationID) {
+      await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: doctorID,
-        specialization_id: specializationID,
+        specialization_id: occupation,
       });
-    });
+    }
   }
 }
 export { DoctorService };
