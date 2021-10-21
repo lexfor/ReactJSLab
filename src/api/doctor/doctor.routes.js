@@ -15,6 +15,7 @@ const router = express();
 const doctorController = injector.getDoctorController;
 
 router.patch('/me', upload.single('avatar'), async (req, res, next) => {
+  getArrayFromFormMiddleware(req);
   await authenticationMiddleware(req, res);
   photoMiddleware(req, res);
   checkDoctorDataMiddleware(req, res, next);
