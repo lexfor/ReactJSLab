@@ -36,8 +36,8 @@ export const SORT_TYPE = {
 };
 
 export const DATE_STATUS_TYPE = {
-  UPCOMING: 'upcoming',
-  OUTDATE: 'done',
+  Upcoming: 'upcoming',
+  Outdate: 'done',
 };
 
 export const APPOINTMENTS_STATUSES = [

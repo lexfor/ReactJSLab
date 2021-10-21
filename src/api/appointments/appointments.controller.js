@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import { SORT_TYPE, SORTS } from '../../constants';
+import {DATE_STATUS_TYPE, SORT_TYPE, SORTS} from '../../constants';
 
 class AppointmentsController {
   constructor(appointmentService, usersService) {
@@ -89,6 +89,7 @@ class AppointmentsController {
         ...data,
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
+        dateStatus: DATE_STATUS_TYPE[data.dateStatus],
       };
       res.setValue = await this.appointmentService.getAppointmentsForDoctor(searchData);
       res.setStatus = StatusCodes.OK;
@@ -110,6 +111,7 @@ class AppointmentsController {
       ...data,
       sort: SORTS[data.sort],
       variant: SORT_TYPE[data.variant],
+      dateStatus: DATE_STATUS_TYPE[data.dateStatus],
     };
     const res = new RequestResult();
     try {

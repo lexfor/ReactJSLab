@@ -541,7 +541,7 @@
           "202": {
             "description": "Updated",
             "schema": {
-              "$ref": "#/definitions/Patient"
+              "$ref": "#/definitions/DoctorWithSpecialization "
             }
           }
         }
@@ -635,7 +635,7 @@
           "201": {
             "description": "Created",
             "schema": {
-              "$ref": "#/definitions/Doctor"
+              "$ref": "#/definitions/Appointment"
             }
           }
         }
@@ -681,6 +681,14 @@
             "required": false,
             "type": "string",
             "enum": ["Up", "Down"]
+          },
+          {
+            "name": "dateStatus",
+            "in": "query",
+            "description": "appointment date status",
+            "required": false,
+            "type": "string",
+            "enum": ["Upcoming", "Outdate"]
           }
         ],
         "responses": {
@@ -714,7 +722,7 @@
       }],
       "delete": {
         "tags": ["Appointments"],
-        "summary": "Delete a appointment",
+        "summary": "Delete an appointment",
         "responses": {
           "202": {
             "description": "Deleted",
@@ -740,7 +748,7 @@
         }],
         "responses": {
           "202": {
-            "description": "Updated",
+            "description": "Updated appointment ID",
             "schema": {
               "properties": {
                 "id": {
@@ -792,6 +800,14 @@
             "required": false,
             "type": "string",
             "enum": ["Up", "Down"]
+          },
+          {
+            "name": "dateStatus",
+            "in": "query",
+            "description": "appointment date status",
+            "required": false,
+            "type": "string",
+            "enum": ["Upcoming", "Outdate"]
           }
         ],
         "responses": {
@@ -1723,6 +1739,32 @@
           "type": "string"
         },
         "role_id": {
+          "type": "string"
+        }
+      }
+    },
+    "Appointment": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "patient_id": {
+          "type": "string"
+        },
+        "doctor_id": {
+          "type": "string"
+        },
+        "visit_date": {
+          "type": "string"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "note": {
+          "type": "string"
+        },
+        "status": {
           "type": "string"
         }
       }

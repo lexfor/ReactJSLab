@@ -91,6 +91,7 @@ class AppointmentsRepository {
                          JOIN users ON users.id = appointments.patient_id
                          WHERE appointments.doctor_id = ?
                          ${nameCondition(data.name)}
+                         ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
                          LIMIT ?,?`;
       let appointments = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);

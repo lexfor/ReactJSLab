@@ -47,6 +47,7 @@ router.get('/me', async (req, res, next) => {
     offset: req.query.offset,
     count: req.query.count,
     name: req.query.name,
+    dateStatus: req.query.dateStatus,
     sort: req.query.sort,
     variant: req.query.variant,
   });
