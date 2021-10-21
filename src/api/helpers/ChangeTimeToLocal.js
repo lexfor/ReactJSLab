@@ -5,7 +5,7 @@ import {StatusCodes} from "http-status-codes";
  * change time format to local
  * @returns {Promise<array>} total number
  */
-export async function changeTimeToLocal(data) {
+export function changeTimeToLocal(data) {
     try {
         return data.map((item) => {
             item.visit_date = item.visit_date.toLocaleString('ru', { hour12: false });
