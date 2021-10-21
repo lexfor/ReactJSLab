@@ -8,11 +8,11 @@ import { DATE_STATUS_TYPE } from '../../../constants';
 export function checkDateStatus(dateStatus) {
   let dateStatusCondition = '';
   switch (dateStatus) {
-    case DATE_STATUS_TYPE.UPCOMING:
-      dateStatusCondition = ` AND appointments.visit_date > ${new Date().toUTCString()}`;
+    case DATE_STATUS_TYPE.Upcoming:
+      dateStatusCondition = ` AND appointments.visit_date > ${new Date().toLocaleString()}`;
       break;
-    case DATE_STATUS_TYPE.OUTDATE:
-      dateStatusCondition = ` AND appointments.visit_date < ${new Date().toUTCString()}`;
+    case DATE_STATUS_TYPE.Outdate:
+      dateStatusCondition = ` AND appointments.visit_date < ${new Date().toLocaleString()}`;
       break;
     default:
       break;
