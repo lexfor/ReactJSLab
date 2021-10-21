@@ -261,7 +261,7 @@ class UsersRepository {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT FOUND_ROWS() as total`;
       const [total] = await queryAsync(sql);
-      return total;
+      return total.total;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
