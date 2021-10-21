@@ -4,6 +4,8 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition, checkDoctorIDCondition, checkDateStatus } from '../helpers/conditions';
 import { sort } from '../helpers/sort';
 import {createConnection} from "../helpers/DBconnection";
+import {SPECIALIZATION_NAME_JOIN} from "../../constants";
+import {changeTimeToLocal} from "../helpers/ChangeTimeToLocal";
 
 class AppointmentsRepository {
 
@@ -73,13 +75,15 @@ class AppointmentsRepository {
   /**
      * get an appointments
      * @param {object} data
-     * @returns {Promise<array>} updated appointment ID
+     * @returns {Promise<object>} appointments for doctor
      */
   async getAppointmentsForDoctor(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(appointments.id),
+      const sql = `
+                         BEGIN;
+                         SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name, 
                          users.last_name, 
@@ -89,9 +93,14 @@ class AppointmentsRepository {
                          WHERE appointments.doctor_id = ?
                          ${nameCondition(data.name)}
                          ${sort(data.sort, data.variant)}
-                         LIMIT ?,?`;
-      const appointments = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
-      return appointments;
+                         LIMIT ?,?;`;
+      let appointments = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
+      appointments = changeTimeToLocal(appointments);
+      const result = {
+        appointments,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -103,35 +112,34 @@ class AppointmentsRepository {
   /**
      * get an my appointments
      * @param {object} data
-     * @returns {Promise<array>} updated appointment ID
+     * @returns {Promise<object>} appointments for patient
      */
   async getAppointmentsForPatient(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(appointments.id),
+      const sql = `
+                         BEGIN;
+                         SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name,
                          users.last_name,
                          users.photo,
-                         (
-                           SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
-                           INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
-                           WHERE users.id = doctors_specializations.doctor_id
-                         ) as specialization_name
+                         ${SPECIALIZATION_NAME_JOIN}
                          FROM appointments 
                          JOIN users ON users.id = appointments.doctor_id
                          WHERE appointments.patient_id = ?
                          ${nameCondition(data.name)}
                          ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
-                         LIMIT ?,?`;
+                         LIMIT ?,?;`;
       let appointments = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
-      appointments = appointments.map((appointment) => {
-        appointment.visit_date = appointment.visit_date.toLocaleString('ru', { hour12: false });
-        return appointment;
-      });
-      return appointments;
+      appointments = changeTimeToLocal(appointments);
+      const result = {
+        appointments,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -144,7 +152,7 @@ class AppointmentsRepository {
    * get an appointments
    * @param {string} date
    * @param {string} doctorID
-   * @returns {Promise<array>}appointments
+   * @returns {Promise<array>} appointments
    */
   async getAppointments(date, doctorID) {
     const connection = await createConnection();
@@ -188,18 +196,18 @@ class AppointmentsRepository {
    * get an results count
    * @returns {Promise<number>} total number
    */
-  async getCount() {
-    const connection = await createConnection();
+  async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total`;
+      const sql = `SELECT FOUND_ROWS() as total;
+                   COMMIT;`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `ROLLBACK;`;
+      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 }

@@ -70,3 +70,9 @@ export const FILES_EXTENSIONS = [
   'image/jpg',
   'image/jpeg',
 ];
+
+export const SPECIALIZATION_NAME_JOIN = `(
+                           SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
+                           INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
+                           WHERE users.id = doctors_specializations.doctor_id
+                         ) as specialization_name`;

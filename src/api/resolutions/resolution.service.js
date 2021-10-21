@@ -88,10 +88,7 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getResolutions(data) {
-    return {
-      resolutions: await this.resolutionRepository.getResolutions(data),
-      total: await this.resolutionRepository.getCount(),
-    };
+    return await this.resolutionRepository.getResolutions(data);
   }
 
   /**
@@ -100,10 +97,7 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
-    return {
-      resolutions: await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data),
-      total: await this.resolutionRepository.getCount(),
-    };
+    return await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data);
   }
 
   /**
@@ -112,10 +106,7 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDate(data) {
-    return {
-      resolutions: await this.resolutionRepository.getPatientResolutionsByDate(data),
-      total: await this.resolutionRepository.getCount(),
-    };
+    return await this.resolutionRepository.getPatientResolutionsByDate(data);
   }
 
   /**
@@ -124,10 +115,7 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getMyResolutions(data) {
-    return {
-      resolutions: await this.resolutionRepository.getMyResolutions(data),
-      total: await this.resolutionRepository.getCount(),
-    };
+    return await this.resolutionRepository.getMyResolutions(data);
   }
 }
 

@@ -5,6 +5,8 @@ import { nameCondition } from '../helpers/conditions';
 import { dateCondition } from '../helpers/conditions/dateCondition';
 import { sort } from '../helpers/sort';
 import {createConnection} from "../helpers/DBconnection";
+import {SPECIALIZATION_NAME_JOIN} from "../../constants";
+import {changeTimeToLocal} from "../helpers/ChangeTimeToLocal";
 
 class ResolutionRepository {
 
@@ -117,36 +119,34 @@ class ResolutionRepository {
   /**
    * Get resolutions
    * @param {object} data
-   * @returns {Promise<array>} resolution data
+   * @returns {Promise<object>} resolution data
    */
   async getResolutions(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
+      const sql = `
+                   BEGIN;
+                   SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
                    users.last_name,
-                   (
-                     SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
-                     INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
-                     WHERE users.id = doctors_specializations.doctor_id
-                   ) as specialization_name
+                   ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.doctor_id = users.id
                    WHERE appointments.patient_id = ?
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?`;
+                   LIMIT ?,?;`;
       let resolutions = await queryAsync(sql, [data.patientID, +data.offset, +data.count]);
-      resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
-        return resolution;
-      });
-      return resolutions;
+      resolutions = changeTimeToLocal(resolutions);
+      const result = {
+        resolutions,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -158,13 +158,15 @@ class ResolutionRepository {
   /**
    * Get resolutions
    * @param {object} data
-   * @returns {Promise<array>} resolution data
+   * @returns {Promise<object>} resolution data
    */
   async getMyResolutions(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
+      const sql = `
+                   BEGIN;
+                   SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*, appointments.visit_date, users.first_name, users.last_name FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.patient_id = users.id
@@ -172,14 +174,14 @@ class ResolutionRepository {
                    ${dateCondition(data.date)}
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?`;
+                   LIMIT ?,?;`;
       let resolutions = await queryAsync(sql, [data.doctorID, +data.offset, +data.count]);
-      resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
-        return resolution;
-      });
-      return resolutions;
+      resolutions = changeTimeToLocal(resolutions);
+      const result = {
+        resolutions,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -191,13 +193,15 @@ class ResolutionRepository {
   /**
    * Get resolutions
    * @param {object} data
-   * @returns {Promise<array>} resolution data
+   * @returns {Promise<object>} resolution data
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
+      const sql = `
+                   BEGIN;
+                   SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
@@ -212,17 +216,17 @@ class ResolutionRepository {
                    AND specializations.id = ?
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?`;
+                   LIMIT ?,?;`;
       let resolutions = await queryAsync(
         sql,
         [data.patientID, data.specializationID, +data.offset, +data.count],
       );
-      resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
-        return resolution;
-      });
-      return resolutions;
+      resolutions = changeTimeToLocal(resolutions);
+      const result = {
+        resolutions,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -234,22 +238,20 @@ class ResolutionRepository {
   /**
    * Get resolutions
    * @param {object} data
-   * @returns {Promise<array>} resolution data
+   * @returns {Promise<object>} resolution data
    */
   async getPatientResolutionsByDate(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
+      const sql = `
+                   BEGIN;
+                   SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
                    users.last_name,
-                   (
-                     SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
-                     INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
-                     WHERE users.id = doctors_specializations.doctor_id
-                   ) as specialization_name
+                   ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.doctor_id = users.id
@@ -257,17 +259,17 @@ class ResolutionRepository {
                    ${dateCondition(data.date)}
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
-                   LIMIT ?,?`;
+                   LIMIT ?,?;`;
       let resolutions = await queryAsync(
         sql,
         [data.patientID, +data.offset, +data.count],
       );
-      resolutions = resolutions.map((resolution) => {
-        resolution.visit_date = resolution.visit_date.toLocaleString('ru', { hour12: false });
-        resolution.next_appointment_date = resolution.next_appointment_date.toLocaleString('ru', { hour12: false });
-        return resolution;
-      });
-      return resolutions;
+      resolutions = changeTimeToLocal(resolutions);
+      const result = {
+        resolutions,
+        total: await this.getCount(connection),
+      }
+      return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -280,18 +282,18 @@ class ResolutionRepository {
    * get an results count
    * @returns {Promise<number>} total number
    */
-  async getCount() {
-    const connection = await createConnection();
+  async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total`;
+      const sql = `SELECT FOUND_ROWS() as total;
+                   COMMIT;`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `ROLLBACK;`;
+      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 }

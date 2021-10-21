@@ -2,7 +2,7 @@ import { promisify } from 'util';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
-import { ROLES_ID } from '../../constants';
+import {ROLES_ID, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { sort } from '../helpers/sort';
 import {createConnection} from "../helpers/DBconnection";
 
@@ -175,6 +175,7 @@ class UsersRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
+                BEGIN;
                 SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name 
@@ -183,7 +184,7 @@ class UsersRepository {
                 WHERE role_id = ?
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?`;
+                LIMIT ?,?;`;
       const result = {
         users: await queryAsync(sql, [data.role, +data.offset, +data.count]),
         total: await this.getCount(connection),
@@ -200,28 +201,28 @@ class UsersRepository {
   /**
    * Get all doctors
    * @param {object} data
-   * @returns {Promise<array>} users
+   * @returns {Promise<object>} users
    */
   async getDoctors(data) {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
+                BEGIN;
                 SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name, 
-                (
-                  SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
-                  INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
-                  WHERE users.id = doctors_specializations.doctor_id
-                ) as specialization_name
+                ${SPECIALIZATION_NAME_JOIN}
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE role_id = ?
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?`;
-      const result = await queryAsync(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]);
+                LIMIT ?,?;`;
+      const result = {
+        users: await queryAsync(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]),
+        total: await this.getCount(connection),
+      }
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
@@ -262,10 +263,14 @@ class UsersRepository {
   async getCount(connection) {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total`;
+      const sql = `SELECT FOUND_ROWS() as total;
+                   COMMIT;`;
       const [total] = await queryAsync(sql);
       return total.total;
     } catch (e) {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `ROLLBACK`;
+      await queryAsync(sql);
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }

@@ -110,10 +110,7 @@ class AppointmentsService {
      * @returns {Promise<object>} appointments
      */
   async getAppointmentsForDoctor(data) {
-    return {
-      appointments: await this.appointmentsRepository.getAppointmentsForDoctor(data),
-      total: await this.appointmentsRepository.getCount(),
-    };
+    return await this.appointmentsRepository.getAppointmentsForDoctor(data);
   }
 
   /**
@@ -122,10 +119,7 @@ class AppointmentsService {
    * @returns {Promise<object>} appointments
    */
   async getAppointmentsForPatient(data) {
-    return {
-      appointments: await this.appointmentsRepository.getAppointmentsForPatient(data),
-      total: await this.appointmentsRepository.getCount(),
-    };
+    return await this.appointmentsRepository.getAppointmentsForPatient(data);
   }
 
   /**

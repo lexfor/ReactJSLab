@@ -74,10 +74,7 @@ class UsersService {
    * @returns {Promise<object>} doctors
    */
   async getDoctors(data) {
-    return {
-      users: await this.usersRepository.getDoctors(data),
-      total: await this.usersRepository.getCount(),
-    };
+    return await this.usersRepository.getDoctors(data);
   }
 
   /**
