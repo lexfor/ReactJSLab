@@ -110,15 +110,9 @@ class AppointmentsService {
      * @returns {Promise<object>} appointments
      */
   async getAppointmentsForDoctor(data) {
-    const result = await this.appointmentsRepository.getAppointmentsForDoctor(data);
-    const { total } = result[0];
-    const appointments = result.map((appointment) => {
-      delete appointment.total;
-      return appointment;
-    });
     return {
-      appointments,
-      total,
+      appointments: await this.appointmentsRepository.getAppointmentsForDoctor(data),
+      total: await this.appointmentsRepository.getCount(),
     };
   }
 
@@ -128,15 +122,9 @@ class AppointmentsService {
    * @returns {Promise<object>} appointments
    */
   async getAppointmentsForPatient(data) {
-    const result = await this.appointmentsRepository.getAppointmentsForPatient(data);
-    const { total } = result[0];
-    const appointments = result.map((appointment) => {
-      delete appointment.total;
-      return appointment;
-    });
     return {
-      appointments,
-      total,
+      appointments: await this.appointmentsRepository.getAppointmentsForPatient(data),
+      total: await this.appointmentsRepository.getCount(),
     };
   }
 

@@ -175,7 +175,7 @@ class UsersRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                SELECT COUNT(*) OVER() as total,
+                SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name 
                 FROM users
@@ -203,7 +203,7 @@ class UsersRepository {
     try {
       const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                SELECT COUNT(*) OVER() as total,
+                SELECT SQL_CALC_FOUND_ROWS(users.id),
                 users.*,
                 roles.role_name, 
                 (
@@ -243,6 +243,25 @@ class UsersRepository {
                    ${nameCondition(name)}`;
       const result = await queryAsync(sql, [specializationID]);
       return result;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
+    }
+  }
+
+  /**
+   * get an results count
+   * @returns {Promise<number>} total number
+   */
+  async getCount() {
+    const connection = await createConnection();
+    try {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `SELECT FOUND_ROWS() as total`;
+      const [total] = await queryAsync(sql);
+      return total;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }

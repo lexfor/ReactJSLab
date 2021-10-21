@@ -1,29 +1,31 @@
 {
-  "type": "object",
-  "properties": {
-    "id": {
-      "type": "string"
-    },
-    "first_name": {
-      "type": "string"
-    },
-    "last_name": {
-      "type": "string"
-    },
-    "login": {
-      "type": "string",
-      "uniqueItems": true
-    },
-    "password": {
-      "type": "string",
-      "description": "Hashed password"
-    },
-    "photo": {
-      "type": "string",
-      "description": "Path to photo"
-    },
-    "role_id": {
-      "type": "string"
+  "Patient": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string"
+      },
+      "first_name": {
+        "type": "string"
+      },
+      "last_name": {
+        "type": "string"
+      },
+      "login": {
+        "type": "string",
+        "uniqueItems": true
+      },
+      "password": {
+        "type": "string",
+        "description": "Hashed password"
+      },
+      "photo": {
+        "type": "string",
+        "description": "Path to photo"
+      },
+      "role_id": {
+        "type": "string"
+      }
     }
   }
 }

@@ -79,7 +79,7 @@ class AppointmentsRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name, 
                          users.last_name, 
@@ -109,7 +109,7 @@ class AppointmentsRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(appointments.id),
                          appointments.*,
                          users.first_name,
                          users.last_name,
@@ -176,6 +176,25 @@ class AppointmentsRepository {
                          WHERE id = ?`;
       const [appointment] = await queryAsync(sql, [appointmentID]);
       return appointment;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
+    }
+  }
+
+  /**
+   * get an results count
+   * @returns {Promise<number>} total number
+   */
+  async getCount() {
+    const connection = await createConnection();
+    try {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `SELECT FOUND_ROWS() as total`;
+      const [total] = await queryAsync(sql);
+      return total;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }

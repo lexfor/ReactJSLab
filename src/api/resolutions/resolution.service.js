@@ -88,15 +88,9 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getResolutions(data) {
-    const result = await this.resolutionRepository.getResolutions(data);
-    const { total } = result[0];
-    const resolutions = result.map((resolution) => {
-      delete resolution.total;
-      return resolution;
-    });
     return {
-      resolutions,
-      total,
+      resolutions: await this.resolutionRepository.getResolutions(data),
+      total: await this.resolutionRepository.getCount(),
     };
   }
 
@@ -106,17 +100,9 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
-    const result = await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(
-      data,
-    );
-    const { total } = result[0];
-    const resolutions = result.map((resolution) => {
-      delete resolution.total;
-      return resolution;
-    });
     return {
-      resolutions,
-      total,
+      resolutions: await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data),
+      total: await this.resolutionRepository.getCount(),
     };
   }
 
@@ -126,15 +112,9 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDate(data) {
-    const result = await this.resolutionRepository.getPatientResolutionsByDate(data);
-    const { total } = result[0];
-    const resolutions = result.map((resolution) => {
-      delete resolution.total;
-      return resolution;
-    });
     return {
-      resolutions,
-      total,
+      resolutions: await this.resolutionRepository.getPatientResolutionsByDate(data),
+      total: await this.resolutionRepository.getCount(),
     };
   }
 
@@ -144,15 +124,9 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getMyResolutions(data) {
-    const result = await this.resolutionRepository.getMyResolutions(data);
-    const { total } = result[0];
-    const resolutions = result.map((resolution) => {
-      delete resolution.total;
-      return resolution;
-    });
     return {
-      resolutions,
-      total,
+      resolutions: await this.resolutionRepository.getMyResolutions(data),
+      total: await this.resolutionRepository.getCount(),
     };
   }
 }

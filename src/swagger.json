@@ -15,7 +15,6 @@
     }
   },
   "schemes": ["https"],
-  "basePath": "https://reactlabapi.herokuapp.com/src",
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
@@ -1438,7 +1437,7 @@
   },
   "definitions": {
     "Patient": {
-      "$ref": "docs/patients/patientDefinitions.json"
+      "$ref": "docs/patients/patientDefinitions.json#/Patient"
     },
     "AppointmentForDoctor": {
       "properties": {

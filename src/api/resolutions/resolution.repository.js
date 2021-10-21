@@ -123,7 +123,7 @@ class ResolutionRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
@@ -164,7 +164,7 @@ class ResolutionRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*, appointments.visit_date, users.first_name, users.last_name FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.patient_id = users.id
@@ -197,7 +197,7 @@ class ResolutionRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
@@ -240,7 +240,7 @@ class ResolutionRepository {
     const connection = await createConnection();
     try {
       const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT COUNT(*) OVER() as total,
+      const sql = `SELECT SQL_CALC_FOUND_ROWS(resolutions.id),
                    resolutions.*,
                    appointments.visit_date, 
                    users.first_name, 
@@ -268,6 +268,25 @@ class ResolutionRepository {
         return resolution;
       });
       return resolutions;
+    } catch (e) {
+      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+    finally {
+      await connection.end();
+    }
+  }
+
+  /**
+   * get an results count
+   * @returns {Promise<number>} total number
+   */
+  async getCount() {
+    const connection = await createConnection();
+    try {
+      const queryAsync = promisify(connection.query).bind(connection);
+      const sql = `SELECT FOUND_ROWS() as total`;
+      const [total] = await queryAsync(sql);
+      return total;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }
