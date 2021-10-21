@@ -64,7 +64,8 @@ class AuthenticationController {
   async checkToken(token) {
     const res = new RequestResult();
     try {
-      res.setValue = this.jwtService.verifySign(token);
+      const userID = this.jwtService.verifySign(token);
+      res.setValue = this.usersService.getUserByID(userID);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

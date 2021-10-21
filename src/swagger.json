@@ -1683,7 +1683,7 @@
     "AuthData": {
       "type": "object",
       "properties": {
-        "token": {
+        "access_token": {
           "type": "string"
         },
         "user": {
