@@ -43,8 +43,8 @@ class JwtService {
    */
   verifySign(token) {
     try {
-      const userID = verify(token, process.env.TOKEN_KEY);
-      return userID;
+      const payload = verify(token, process.env.TOKEN_KEY);
+      return payload.userID;
     } catch (e) {
       throw new ApiError('wrong token', StatusCodes.FORBIDDEN);
     }
