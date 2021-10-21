@@ -40,9 +40,11 @@ router.patch('/password', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/check', async (req, res) => {
-  await authenticationMiddleware(req, res);
-  res.status(StatusCodes.OK).json('');
+router.post('/check', async (req, res, next) => {
+  await refreshTokenMiddleware(req, res, next);
+}, async (req, res) => {
+  const result = await authenticationController.checkToken(req.token);
+  res.status(result.getStatus).json(result.getValue);
 });
 
 export default router;
