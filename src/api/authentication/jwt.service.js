@@ -30,7 +30,8 @@ class JwtService {
   refreshToken(token) {
     try {
       const data = decode(token);
-      return this.createSign(data.payload.userID);
+      console.log(data);
+      return this.createSign(data.userID);
     } catch (e) {
       throw new ApiError('wrong sign', StatusCodes.INTERNAL_SERVER_ERROR);
     }
