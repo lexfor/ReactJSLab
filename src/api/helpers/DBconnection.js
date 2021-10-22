@@ -1,11 +1,10 @@
-import * as mysql from 'mysql2';
+import { Client } from 'pg';
 import { DB_ACCESS } from '../../config';
 
-export function createConnection(){
-  return mysql.createConnection({
-    host: DB_ACCESS.host,
-    user: DB_ACCESS.user,
-    password: DB_ACCESS.password,
-    database: DB_ACCESS.database,
-  });
-}
+export const client = new Client({
+  user: DB_ACCESS.user,
+  host: DB_ACCESS.host,
+  database: DB_ACCESS.database,
+  password: DB_ACCESS.password,
+  port: DB_ACCESS.port
+})
