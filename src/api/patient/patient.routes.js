@@ -9,11 +9,12 @@ import {
   paginationMiddleware,
   checkPatientDataMiddleware,
 } from '../helpers/middleware';
+import {ROUTES} from "../../constants";
 
 const router = express();
 const patientController = injector.getPatientController;
 
-router.patch('/me', upload.single('avatar'), async (req, res, next) => {
+router.patch(`${ROUTES.PATIENTS}/me`, upload.single('avatar'), async (req, res, next) => {
   await authenticationMiddleware(req, res);
   photoMiddleware(req, res);
   checkPatientDataMiddleware(req, res, next);
@@ -22,7 +23,7 @@ router.patch('/me', upload.single('avatar'), async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/me', async (req, res, next) => {
+router.get(`${ROUTES.PATIENTS}/me`, async (req, res, next) => {
   await authenticationMiddleware(req, res);
   next();
 }, async (req, res) => {
@@ -30,28 +31,28 @@ router.get('/me', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/', async (req, res, next) => {
+router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
   checkUserMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await patientController.createPatient(req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.delete('/:id', async (req, res, next) => {
+router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await patientController.deletePatient(req.params.id);
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.patch('/:id', async (req, res, next) => {
+router.patch(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
   checkIDMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await patientController.updatePatient(req.params.id, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/', async (req, res, next) => {
+router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
   paginationMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await patientController.getPatients({

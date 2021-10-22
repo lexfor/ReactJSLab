@@ -62,6 +62,7 @@ export const ROUTES = {
   RESOLUTIONS: '/api/resolutions',
   STATUSES: '/api/statuses',
   AUTH: '/api/auth',
+  ADMIN: '/api/admin',
   IMAGES: '/src/public/users/images',
 };
 

@@ -18,7 +18,7 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/api/patients": {
+    "/api/admin/patients": {
       "post": {
         "tags": ["Patients"],
         "summary": "Create new patient",
@@ -147,7 +147,7 @@
         }
       }
     },
-    "/api/patients/{id}": {
+    "/api/admin/patients/{id}": {
       "parameters": [{
         "name": "id",
         "in": "path",
@@ -274,7 +274,7 @@
         }
       }
     },
-    "/api/doctors": {
+    "/api/admin/doctors": {
       "post": {
         "tags": ["Doctors"],
         "summary": "Create new doctor",
@@ -413,7 +413,7 @@
         }
       }
     },
-    "/api/doctors/{id}": {
+    "/api/admin/doctors/{id}": {
       "parameters": [{
         "name": "id",
         "in": "path",

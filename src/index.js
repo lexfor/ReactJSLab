@@ -31,10 +31,10 @@ app.use(express.json());
 try {
   app.use(ROUTES.IMAGES, express.static(`.${ROUTES.IMAGES}`));
 
-  app.use(ROUTES.PATIENTS, patientRouter);
+  app.use('/', patientRouter);
   app.use(ROUTES.RESOLUTIONS, resolutionRouter);
   app.use(ROUTES.AUTH, authenticationRouter);
-  app.use(ROUTES.DOCTORS, doctorRouter);
+  app.use('/', doctorRouter);
   app.use(ROUTES.APPOINTMENTS, appointmentRouter);
   app.use(ROUTES.SPECIALIZATIONS, specializationsRouter);
   app.use(ROUTES.STATUSES, statusesRouter);
