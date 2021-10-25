@@ -43,5 +43,6 @@ try {
 }
 
 app.listen(envConfig.app.port, () => {
+  console.log(process.env.DATABASE_URL);
   console.log(`Express web app available at http://localhost:${envConfig.app.port}`);
 });
