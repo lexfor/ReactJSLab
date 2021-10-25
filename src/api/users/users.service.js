@@ -144,7 +144,7 @@ class UsersService {
    */
   async checkIsPatientExist(userID) {
     const user = await this.usersRepository.getUserByID(userID);
-    if (!user.id) {
+    if (!user) {
       throw new ApiError('User not exist', StatusCodes.NOT_FOUND);
     }
   }
