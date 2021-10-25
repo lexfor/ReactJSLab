@@ -1,7 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { NOT_AVAILABLE } from '../../../constants';
 
-function refreshTokenMiddleware(req, res, next) {
+function tokenMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader) {
@@ -12,4 +12,4 @@ function refreshTokenMiddleware(req, res, next) {
   }
 }
 
-export { refreshTokenMiddleware };
+export { tokenMiddleware };

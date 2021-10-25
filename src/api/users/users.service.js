@@ -125,6 +125,9 @@ class UsersService {
      */
   async getUserByID(userID) {
     const user = await this.usersRepository.getUserByID(userID);
+    if (!user) {
+      throw new ApiError('user not exist', StatusCodes.NOT_FOUND)
+    }
     return user;
   }
 

@@ -1,11 +1,10 @@
 import express from 'express';
-import { StatusCodes } from 'http-status-codes';
 import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
   checkLoginDataMiddleware,
   checkUserMiddleware,
-  refreshTokenMiddleware,
+  tokenMiddleware,
 } from '../helpers/middleware';
 
 const router = express();
@@ -26,7 +25,7 @@ router.post('/registration', async (req, res, next) => {
 });
 
 router.post('/token', async (req, res, next) => {
-  refreshTokenMiddleware(req, res, next);
+  tokenMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await authenticationController.refreshToken(req.token);
   res.status(result.getStatus).json(result.getValue);
@@ -41,7 +40,7 @@ router.patch('/password', async (req, res, next) => {
 });
 
 router.post('/check', async (req, res, next) => {
-  await refreshTokenMiddleware(req, res, next);
+  await tokenMiddleware(req, res, next);
 }, async (req, res) => {
   const result = await authenticationController.checkToken(req.token);
   res.status(result.getStatus).json(result.getValue);
