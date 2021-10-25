@@ -46,7 +46,11 @@ class ResolutionController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -73,7 +77,11 @@ class ResolutionController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -95,7 +103,11 @@ class ResolutionController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -120,7 +132,11 @@ class ResolutionController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -143,7 +159,11 @@ class ResolutionController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -153,7 +173,7 @@ class ResolutionController {
    * @param {object} data
    * @returns {Promise<object>} resolution array and status
    */
-  async getResolutions(data) {
+  async getResolutionsForPatient(data) {
     const res = new RequestResult();
     try {
       const searchData = {
@@ -161,12 +181,16 @@ class ResolutionController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
-      res.setValue = await this.resolutionService.getResolutions(searchData);
+      res.setValue = await this.resolutionService.getResolutionsForPatient(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -176,7 +200,7 @@ class ResolutionController {
    * @param {object} data
    * @returns {Promise<object>} resolution array and status
    */
-  async getMyResolutions(data) {
+  async getResolutionsForDoctor(data) {
     const res = new RequestResult();
     try {
       const searchData = {
@@ -184,12 +208,16 @@ class ResolutionController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
-      res.setValue = await this.resolutionService.getMyResolutions(searchData);
+      res.setValue = await this.resolutionService.getResolutionsForDoctor(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }

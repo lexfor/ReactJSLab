@@ -25,7 +25,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -34,7 +38,7 @@ class AppointmentsController {
      * delete appointment
      * @param {string} appointmentID
      * @param {string} doctorID
-     * @returns {Promise<object>} delete appointment ID and status
+     * @returns {Promise<object>} deleted appointment ID and status
      */
   async deleteAppointment(appointmentID, doctorID) {
     const res = new RequestResult();
@@ -47,7 +51,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -72,7 +80,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -96,7 +108,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -120,7 +136,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -139,7 +159,11 @@ class AppointmentsController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }

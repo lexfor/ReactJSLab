@@ -1,5 +1,3 @@
-USE lab;
-
 CREATE TABLE IF NOT EXISTS roles (
 id VARCHAR(255),
 role_name VARCHAR(255),

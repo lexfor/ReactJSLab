@@ -1,5 +1,3 @@
-USE lab;
-
  INSERT INTO specializations (id, specialization_name ) VALUES
     ('c43fca01-3ea9-48f5-b5d8-4d7a4705e30f', 'surgeon'),
     ('902240b7-514a-48c3-a67f-6acfb1d35030', 'therapist'),

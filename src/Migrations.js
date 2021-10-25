@@ -1,13 +1,16 @@
 import { migrate } from "postgres-migrations"
-import { client } from "./DBconnection";
 
 async function migrations() {
-    await client.connect()
-    try {
-        await migrate({client}, "./migrations")
-    } finally {
-        await client.end()
+    const dbConfig = {
+        database: "lab",
+        user: "Tim",
+        password: "TimaPassword",
+        host: "localhost",
+        port: 5432,
+        ensureDatabaseExists: true,
+        defaultDatabase: "lab",
     }
+    await migrate(dbConfig, "./src/api/helpers/migrations/")
 }
 
 migrations();

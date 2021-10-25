@@ -1,8 +1,6 @@
-use lab;
-
 CREATE TABLE IF NOT EXISTS appointments (
     id VARCHAR(255),
-    visit_date DATETIME,
+    visit_date TIMESTAMP,
     reason VARCHAR(255),
     note VARCHAR(255),
     patient_id VARCHAR(255),

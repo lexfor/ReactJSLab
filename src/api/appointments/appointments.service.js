@@ -80,6 +80,7 @@ class AppointmentsService {
   /**
    * check is it yours appointment
    * @param {string} appointmentID
+   * @param {string} doctorID
    */
   async checkIsItYoursAppointment(appointmentID, doctorID) {
     const appointment = await this.appointmentsRepository.getAppointmentByID(
@@ -110,7 +111,22 @@ class AppointmentsService {
      * @returns {Promise<object>} appointments
      */
   async getAppointmentsForDoctor(data) {
-    return await this.appointmentsRepository.getAppointmentsForDoctor(data);
+    const appointments = await this.appointmentsRepository.getAppointmentsForDoctor(data);
+    if (appointments.length === 0) {
+      return {
+        appointments,
+        total: 0
+      };
+    }
+    let [{total}] = appointments;
+
+    return {
+      appointments: appointments.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**
@@ -119,7 +135,21 @@ class AppointmentsService {
    * @returns {Promise<object>} appointments
    */
   async getAppointmentsForPatient(data) {
-    return await this.appointmentsRepository.getAppointmentsForPatient(data);
+    const appointments = await this.appointmentsRepository.getAppointmentsForPatient(data);
+    if (appointments.length === 0) {
+      return {
+        appointments,
+        total: 0
+      };
+    }
+    let [{ total }] = appointments;
+    return {
+      appointments: appointments.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**

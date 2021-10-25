@@ -25,7 +25,11 @@ class PatientController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -44,7 +48,11 @@ class PatientController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -65,7 +73,11 @@ class PatientController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -84,7 +96,11 @@ class PatientController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -108,7 +124,11 @@ class PatientController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }

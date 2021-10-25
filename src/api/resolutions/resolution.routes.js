@@ -39,7 +39,7 @@ router.get('/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   paginationMiddleware(req, res, next);
 }, async (req, res) => {
-  const result = await resolutionController.getResolutions({
+  const result = await resolutionController.getResolutionsForPatient({
     patientID: req.userID,
     offset: req.query.offset,
     count: req.query.count,
@@ -54,7 +54,7 @@ router.get('/doctor/me', async (req, res, next) => {
   await authenticationMiddleware(req, res);
   paginationMiddleware(req, res, next);
 }, async (req, res) => {
-  const result = await resolutionController.getMyResolutions({
+  const result = await resolutionController.getResolutionsForDoctor({
     doctorID: req.userID,
     date: req.query.date,
     offset: req.query.offset,

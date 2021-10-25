@@ -6,7 +6,7 @@
 export function checkDoctorIDCondition(doctorID) {
   let doctorCondition = '';
   if (doctorID) {
-    doctorCondition = ' AND doctor_id = ?';
+    doctorCondition = ` AND appointments.doctor_id = ${doctorID}`;
   }
   return doctorCondition;
 }

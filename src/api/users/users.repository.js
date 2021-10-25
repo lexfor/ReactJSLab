@@ -1,30 +1,28 @@
-import { promisify } from 'util';
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import {ROLES_ID, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { sort } from '../helpers/sort';
-import {createConnection} from "../helpers/DBconnection";
 
 class UsersRepository {
+  constructor(pool) {
+    this.pool = pool;
+  }
+
   /**
      * Create a user
      * @param {object} user
      * @returns {Promise<object>} user data
      */
   async createUser(user) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `
-                INSERT INTO users SET ?`;
-      const result = await queryAsync(sql, user);
-      return result;
+      const sql = `INSERT INTO users (id, first_name, last_name, photo, login, password, role_id) VALUES (
+        $1, $2, $3, $4, $5, $6, $7
+        );`;
+      await this.pool.query(sql, [user.id, user.first_name, user.last_name, user.photo, user.login, user.password, user.role_id]);
+      return user;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -34,17 +32,12 @@ class UsersRepository {
      * @returns {Promise<object>} user ID
      */
   async deleteUser(userID) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = 'DELETE FROM users WHERE id = ?';
-      await queryAsync(sql, userID);
+      const sql = 'DELETE FROM users WHERE id = $1';
+      await this.pool.query(sql, [userID]);
       return userID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -55,17 +48,12 @@ class UsersRepository {
      * @returns {Promise<object>} user data
      */
   async updateUser(userID, user) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = 'UPDATE users SET last_name = ?, first_name = ?, photo = ? WHERE id = ?';
-      await queryAsync(sql, [user.lastName, user.firstName, user.photo, userID]);
+      const sql = 'UPDATE users SET last_name = $1, first_name = $2, photo = $3 WHERE id = $4';
+      await this.pool.query(sql, [user.lastName, user.firstName, user.photo, userID]);
       return user;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -75,17 +63,12 @@ class UsersRepository {
      * @param {string} newPassword
      */
   async changePassword(userID, newPassword) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = 'UPDATE users SET password = ? WHERE id = ?';
-      const result = await queryAsync(sql, [newPassword, userID]);
-      return result;
+      const sql = 'UPDATE users SET password = $1 WHERE id = $2';
+      await this.pool.query(sql, [newPassword, userID]);
+      return userID;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -96,19 +79,15 @@ class UsersRepository {
      * @returns {object} user
      */
   async getUserByLogin(login, role) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT users.*, roles.role_name FROM users 
                    INNER JOIN roles ON roles.id = users.role_id
-                   WHERE login = ? AND role_id = ?`;
-      const [result] = await queryAsync(sql, [login, role]);
+                   WHERE login = $1 AND role_id = $2`;
+      const { rows } = await this.pool.query(sql, [login, role]);
+      const [result] = rows;
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -118,21 +97,17 @@ class UsersRepository {
      * @returns {Promise<object>} user data
      */
   async getUserByID(userID) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT users.*, roles.role_name 
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
-                WHERE users.id = ?`;
-      const [result] = await queryAsync(sql, userID);
+                WHERE users.id = $1`;
+      const { rows } = await this.pool.query(sql, [userID]);
+      const [result] = rows;
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -142,9 +117,7 @@ class UsersRepository {
    * @returns {Promise<object>} user data
    */
   async getDoctorByID(userID) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
                 SELECT 
                 users.*, 
@@ -152,14 +125,12 @@ class UsersRepository {
                 ${SPECIALIZATION_NAME_JOIN}
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
-                WHERE users.id = ?`;
-      const [result] = await queryAsync(sql, userID);
+                WHERE users.id = $1`;
+      const { rows } = await this.pool.query(sql, [userID]);
+      const [result] = rows;
       return result;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -169,29 +140,21 @@ class UsersRepository {
      * @returns {Promise<object>} users
      */
   async getUsers(data) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                SELECT SQL_CALC_FOUND_ROWS(users.id),
+                SELECT COUNT(*) OVER() as total,
                 users.*,
                 roles.role_name 
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
-                WHERE role_id = ?
+                WHERE role_id = $1
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?`;
-      const result = {
-        users: await queryAsync(sql, [data.role, +data.offset, +data.count]),
-        total: await this.getCount(connection),
-      }
-      return result;
+                LIMIT $3 OFFSET $2`;
+      const { rows } = await this.pool.query(sql, [data.role, +data.offset, +data.count]);
+      return rows;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -201,30 +164,22 @@ class UsersRepository {
    * @returns {Promise<object>} users
    */
   async getDoctors(data) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `
-                SELECT SQL_CALC_FOUND_ROWS(users.id),
+                SELECT COUNT(*) OVER() as total,
                 users.*,
                 roles.role_name, 
                 ${SPECIALIZATION_NAME_JOIN}
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
-                WHERE role_id = ?
+                WHERE role_id = $1
                 ${nameCondition(data.name)}
                 ${sort(data.sort, data.variant)}
-                LIMIT ?,?`;
-      const result = {
-        users: await queryAsync(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]),
-        total: await this.getCount(connection),
-      }
-      return result;
+                LIMIT $3 OFFSET $2`;
+      const { rows } = await this.pool.query(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]);
+      return rows;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
     }
   }
 
@@ -235,33 +190,13 @@ class UsersRepository {
    * @returns {Promise<array>} users
    */
   async getDoctorsBySpecializations(specializationID, name) {
-    const connection = await createConnection();
     try {
-      const queryAsync = promisify(connection.query).bind(connection);
       const sql = `SELECT users.* FROM users
                    INNER JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id
-                   WHERE doctors_specializations.specialization_id = ?
+                   WHERE doctors_specializations.specialization_id = $1
                    ${nameCondition(name)}`;
-      const result = await queryAsync(sql, [specializationID]);
-      return result;
-    } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
-    }
-    finally {
-      await connection.end();
-    }
-  }
-
-  /**
-   * get an results count
-   * @returns {Promise<number>} total number
-   */
-  async getCount(connection) {
-    try {
-      const queryAsync = promisify(connection.query).bind(connection);
-      const sql = `SELECT FOUND_ROWS() as total`;
-      const [total] = await queryAsync(sql);
-      return total.total;
+      const { rows } = await this.pool.query(sql, [specializationID]);
+      return rows;
     } catch (e) {
       throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
     }

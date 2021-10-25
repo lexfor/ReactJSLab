@@ -11,15 +11,16 @@ import { SpecializationsRepository, SpecializationsService, SpecializationsContr
 import { AppointmentsController, AppointmentsRepository, AppointmentsService } from './api/appointments';
 import { StatusesController } from './api/statuses';
 import { UsersRepository, UsersService } from './api/users';
+import { pool } from "./api/helpers/DBconnection";
 
 class Injector {
   constructor() {
     /*    initializeDB(connection).then(console.log('Database initialized')); */
-    this.resolutionRepository = new ResolutionRepository();
-    this.specializationsRepository = new SpecializationsRepository();
-    this.doctorSpecializationRepository = new DoctorSpecializationRepository();
-    this.appointmentsRepository = new AppointmentsRepository();
-    this.usersRepository = new UsersRepository();
+    this.resolutionRepository = new ResolutionRepository(pool);
+    this.specializationsRepository = new SpecializationsRepository(pool);
+    this.doctorSpecializationRepository = new DoctorSpecializationRepository(pool);
+    this.appointmentsRepository = new AppointmentsRepository(pool);
+    this.usersRepository = new UsersRepository(pool);
 
     this.jwtService = new JwtService();
     this.resolutionService = new ResolutionService(this.resolutionRepository);

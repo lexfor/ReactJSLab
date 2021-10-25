@@ -65,7 +65,22 @@ class UsersService {
      * @returns {Promise<object>} users
      */
   async getUsers(data) {
-    return await this.usersRepository.getUsers(data);
+    const users = await this.usersRepository.getUsers(data);
+    if (users.length === 0) {
+      return {
+        users,
+        total: 0
+      };
+    }
+    let [{total}] = users;
+
+    return {
+      users: users.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**
@@ -74,7 +89,22 @@ class UsersService {
    * @returns {Promise<object>} doctors
    */
   async getDoctors(data) {
-    return await this.usersRepository.getDoctors(data);
+    const users = await this.usersRepository.getDoctors(data);
+    if (users.length === 0) {
+      return {
+        users,
+        total: 0
+      };
+    }
+    let [{total}] = users;
+
+    return {
+      users: users.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**

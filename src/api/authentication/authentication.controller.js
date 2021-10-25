@@ -20,7 +20,7 @@ class AuthenticationController {
         ...user,
         role_id: ROLES_ID.PATIENT,
       };
-      await this.usersService.checkIsUserExist(userData.login);
+      await this.usersService.checkIsUserExist(userData.login, userData.role_id);
       const createdUser = await this.usersService.createUser(userData);
       const result = this.jwtService.createSign(createdUser.id);
       result.user = createdUser;
@@ -29,7 +29,11 @@ class AuthenticationController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -51,7 +55,11 @@ class AuthenticationController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -70,7 +78,11 @@ class AuthenticationController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -88,7 +100,11 @@ class AuthenticationController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }
@@ -108,7 +124,11 @@ class AuthenticationController {
       return res;
     } catch (e) {
       res.setValue = e.message;
-      res.setStatus = e.status;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
       return res;
     }
   }

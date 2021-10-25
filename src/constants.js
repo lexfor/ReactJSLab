@@ -4,7 +4,7 @@ export const MIN_LENGTH = 2;
 
 export const SERVER_PORT = {
   REDIS_PORT: 6379,
-  SQL_PORT: 3306,
+  SQL_PORT: 5432,
   APP_PORT: 3000,
 };
 
@@ -42,8 +42,8 @@ export const DATE_STATUS_TYPE = {
 
 export const APPOINTMENTS_STATUSES = [
   'waiting for confirmation',
-  'appointments canceled',
-  'appointments confirmed',
+  'appointments is canceled',
+  'appointments is confirmed',
 ];
 
 export const SORTS = {
@@ -73,7 +73,7 @@ export const FILES_EXTENSIONS = [
 ];
 
 export const SPECIALIZATION_NAME_JOIN = `(
-                           SELECT GROUP_CONCAT(specializations.specialization_name SEPARATOR ', ') FROM specializations
+                           SELECT STRING_AGG(specializations.specialization_name, ', ') FROM specializations
                            INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
                            WHERE users.id = doctors_specializations.doctor_id
                          ) as specialization_name`;

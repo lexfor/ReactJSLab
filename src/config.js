@@ -29,7 +29,6 @@ const DB_ACCESS = {
   password: process.env.DB_PASSWORD,
   port: SERVER_PORT.SQL_PORT,
   database: process.env.DB_DATABASE,
-  dialect: 'mysql',
 };
 
 export { DB_ACCESS };

@@ -1,5 +1,3 @@
-USE lab;
-
 CREATE TABLE IF NOT EXISTS users (
     id VARCHAR(255),
     first_name VARCHAR(255),

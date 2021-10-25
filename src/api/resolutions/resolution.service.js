@@ -87,8 +87,23 @@ class ResolutionService {
    * @param {object} data
    * @returns {Promise<object>} resolution ID
    */
-  async getResolutions(data) {
-    return await this.resolutionRepository.getResolutions(data);
+  async getResolutionsForPatient(data) {
+    const resolutions = await this.resolutionRepository.getResolutionsForPatient(data);
+    if (resolutions.length === 0) {
+      return {
+        resolutions,
+        total: 0
+      };
+    }
+    let [{total}] = resolutions;
+
+    return {
+      resolutions: resolutions.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**
@@ -97,7 +112,22 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
-    return await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data);
+    const resolutions = await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data);
+    if (resolutions.length === 0) {
+      return {
+        resolutions,
+        total: 0
+      };
+    }
+    let [{total}] = resolutions;
+
+    return {
+      resolutions: resolutions.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**
@@ -106,7 +136,22 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDate(data) {
-    return await this.resolutionRepository.getPatientResolutionsByDate(data);
+    const resolutions = await this.resolutionRepository.getPatientResolutionsByDate(data);
+    if (resolutions.length === 0) {
+      return {
+        resolutions,
+        total: 0
+      };
+    }
+    let [{total}] = resolutions;
+
+    return {
+      resolutions: resolutions.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 
   /**
@@ -114,8 +159,23 @@ class ResolutionService {
    * @param {object} data
    * @returns {Promise<object>} resolution ID
    */
-  async getMyResolutions(data) {
-    return await this.resolutionRepository.getMyResolutions(data);
+  async getResolutionsForDoctor(data) {
+    const resolutions = await this.resolutionRepository.getResolutionsForDoctor(data);
+    if (resolutions.length === 0) {
+      return {
+        resolutions,
+        total: 0
+      };
+    }
+    let [{total}] = resolutions;
+
+    return {
+      resolutions: resolutions.map((item) => {
+        delete item.total;
+        return item;
+      }),
+      total: total,
+    };
   }
 }
 
