@@ -12,3 +12,5 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE INDEX first_name_index ON users(first_name);
 
 CREATE INDEX last_name_index ON users(last_name);
+
+CREATE INDEX login_index ON users(login);
