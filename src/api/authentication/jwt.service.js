@@ -16,7 +16,14 @@ class JwtService {
       const token = sign({
         userID,
       }, tokenKey, { expiresIn: +process.env.TOKEN_EXPIRATION });
-      return { access_token: token };
+      const refreshToken = sign({
+        userID,
+        refresh: true,
+      }, tokenKey);
+      return {
+        access_token: token,
+        refresh_token: refreshToken,
+      };
     } catch (e) {
       throw new ApiError('wrong sign', StatusCodes.INTERNAL_SERVER_ERROR);
     }
@@ -30,9 +37,12 @@ class JwtService {
   refreshToken(token) {
     try {
       const data = decode(token);
-      return this.createSign(data.userID);
+      if (data.refresh) {
+        return this.createSign(data.userID);
+      }
+      throw new Error('wrong refresh token');
     } catch (e) {
-      throw new ApiError('wrong sign', StatusCodes.INTERNAL_SERVER_ERROR);
+      throw new ApiError('wrong refresh token', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
