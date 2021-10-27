@@ -31,7 +31,7 @@ class DoctorService {
    */
   async updateDoctor(doctorID, doctor) {
     await this.doctorSpecializationRepository.deleteDoctorSpecialization(doctorID);
-    for (let occupation of doctor.occupationID) {
+    for (let occupation of doctor.occupations) {
       await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: doctorID,
         specialization_id: occupation,

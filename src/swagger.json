@@ -464,7 +464,7 @@
           }
         },
         {
-          "name": "occupationID",
+          "name": "occupations",
           "in": "body",
           "description": "Doctor occupations",
           "required": true,
@@ -528,7 +528,7 @@
             "type": "file"
           },
           {
-            "name": "occupationID",
+            "name": "occupations",
             "in": "body",
             "description": "Doctor occupations",
             "required": true,
