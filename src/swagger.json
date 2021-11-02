@@ -1241,24 +1241,23 @@
         "tags": ["Auth"],
         "summary": "user login API",
         "parameters": [{
-          "name": "offset",
+          "name": "login",
           "in": "body",
-          "description": "Offset for pagination",
+          "description": "Patient login",
           "required": true,
           "schema": {
-            "type": "object",
-            "properties": {
-              "login": {
-                "type": "string",
-                "example": "tima@mail.ru"
-              },
-              "password": {
-                "type": "string",
-                "example": "TimaPassword"
-              }
-            }
+            "type": "string"
           }
         },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "Patient password",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "role",
             "in": "query",
