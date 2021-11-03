@@ -20,7 +20,7 @@ class DoctorController {
         ...doctor,
         role_id: ROLES_ID.DOCTOR,
       };
-      await this.usersService.checkIsUserExist(userData.login, ROLES_ID.DOCTOR);
+      await this.usersService.checkIsUserExist(userData.login);
       const user = await this.usersService.createUser(userData);
       await this.doctorServices.createDoctor(doctor, user);
       res.setValue = user;

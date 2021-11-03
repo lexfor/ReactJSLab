@@ -19,7 +19,7 @@ class PatientController {
         ...patient,
         role_id: ROLES_ID.PATIENT,
       };
-      await this.usersService.checkIsUserExist(userData.login, ROLES_ID.PATIENT);
+      await this.usersService.checkIsUserExist(userData.login);
       res.setValue = await this.usersService.createUser(userData);
       res.setStatus = StatusCodes.CREATED;
       return res;

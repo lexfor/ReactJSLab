@@ -75,15 +75,14 @@ class UsersRepository {
   /**
      * get user by login
      * @param {string} login
-     * @param {string} role
      * @returns {object} user
      */
-  async getUserByLogin(login, role) {
+  async getUserByLogin(login) {
     try {
       const sql = `SELECT users.*, roles.role_name FROM users 
                    INNER JOIN roles ON roles.id = users.role_id
-                   WHERE login = $1 AND role_id = $2`;
-      const { rows } = await this.pool.query(sql, [login, role]);
+                   WHERE login = $1`;
+      const { rows } = await this.pool.query(sql, [login]);
       const [result] = rows;
       return result;
     } catch (e) {

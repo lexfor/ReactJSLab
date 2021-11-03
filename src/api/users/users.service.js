@@ -2,7 +2,7 @@ import { v1 as uuidv1 } from 'uuid';
 import * as bcrypt from 'bcrypt';
 import { StatusCodes } from 'http-status-codes';
 import * as fs from 'fs';
-import { DEFAULT_PHOTO_PATH, ROLES_ID } from '../../constants';
+import { DEFAULT_PHOTO_PATH } from '../../constants';
 import ApiError from '../helpers/ApiError';
 
 class UsersService {
@@ -155,10 +155,9 @@ class UsersService {
   /**
    * check is user already exist
    * @param {string} login
-   * @param {string} role
    */
-  async checkIsUserExist(login, role) {
-    const user = await this.usersRepository.getUserByLogin(login, role);
+  async checkIsUserExist(login) {
+    const user = await this.usersRepository.getUserByLogin(login);
     if (user) {
       throw new ApiError('User already exist', StatusCodes.BAD_REQUEST);
     }
@@ -178,11 +177,10 @@ class UsersService {
   /**
      * login
      * @param {object} credentials
-     * @param {string} role
      * @returns {Promise<object>} user data
      */
-  async login(credentials, role) {
-    const user = await this.usersRepository.getUserByLogin(credentials.login, ROLES_ID[role]);
+  async login(credentials) {
+    const user = await this.usersRepository.getUserByLogin(credentials.login);
     if (!user) {
       throw new ApiError('no such user', StatusCodes.UNAUTHORIZED);
     }

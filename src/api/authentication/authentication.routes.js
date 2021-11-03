@@ -13,7 +13,7 @@ const authenticationController = injector.getAuthenticationController;
 router.post('/login', async (req, res, next) => {
   checkLoginDataMiddleware(req, res, next);
 }, async (req, res) => {
-  const result = await authenticationController.login(req.body, req.query.role);
+  const result = await authenticationController.login(req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 

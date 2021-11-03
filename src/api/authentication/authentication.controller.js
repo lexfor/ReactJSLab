@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import { ROLES_ID } from '../../constants';
+import {ROLES_ID} from "../../constants";
 
 class AuthenticationController {
   constructor(usersService, jwtService) {
@@ -20,7 +20,7 @@ class AuthenticationController {
         ...user,
         role_id: ROLES_ID.PATIENT,
       };
-      await this.usersService.checkIsUserExist(userData.login, userData.role_id);
+      await this.usersService.checkIsUserExist(userData.login);
       const createdUser = await this.usersService.createUser(userData);
       const result = this.jwtService.createSign(createdUser.id);
       result.user = createdUser;
@@ -41,13 +41,12 @@ class AuthenticationController {
   /**
    * Check user login
    * @param {object} user
-   * @param {string} role
    * @returns {Promise<object>} jwt token, user and status
    */
-  async login(user, role) {
+  async login(user) {
     const res = new RequestResult();
     try {
-      const foundedUser = await this.usersService.login(user, role);
+      const foundedUser = await this.usersService.login(user);
       const result = this.jwtService.createSign(foundedUser.id);
       result.user = foundedUser;
       res.setValue = result;

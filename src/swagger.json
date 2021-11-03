@@ -1257,14 +1257,6 @@
             "schema": {
               "type": "string"
             }
-          },
-          {
-            "name": "role",
-            "in": "query",
-            "description": "User role",
-            "required": true,
-            "type": "string",
-            "enum": ["DOCTOR", "PATIENT", "ADMIN"]
           }
         ],
         "responses": {
