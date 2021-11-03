@@ -1249,22 +1249,22 @@
             "type": "string"
           }
         },
-          {
-            "name": "password",
-            "in": "body",
-            "description": "Patient password",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
+        {
+          "name": "password",
+          "in": "body",
+          "description": "Patient password",
+          "required": true,
+          "schema": {
+            "type": "string"
           }
+        }
         ],
         "responses": {
           "200": {
             "description": "User data",
             "schema": {
               "type": "object",
-              "$ref": "/definitions/AuthData"
+              "$ref": "#/definitions/AuthData"
             }
           }
         }
@@ -1301,7 +1301,7 @@
             "description": "User",
             "schema": {
               "type": "object",
-              "$ref": "/definitions/User"
+              "$ref": "#/definitions/User"
             }
           }
         }
@@ -1353,7 +1353,7 @@
             "description": "User",
             "schema": {
               "type": "object",
-              "$ref": "/definitions/AuthData"
+              "$ref": "#/definitions/AuthData"
             }
           }
         }
