@@ -21,7 +21,7 @@ class AuthenticationController {
         role_id: ROLES_ID.PATIENT,
       };
       await this.usersService.checkIsUserExist(userData.login);
-      const createdUser = await this.usersService.createUser(userData);z
+      const createdUser = await this.usersService.createUser(userData);
       console.log(createdUser);
       const foundedUser = this.usersService.getUserByID(createdUser.id);
       console.log(foundedUser);
