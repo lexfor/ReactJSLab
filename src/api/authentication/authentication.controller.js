@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
 import { ROLES_ID } from '../../constants';
+import {dataFilter} from "../helpers/dataFilter";
 
 class AuthenticationController {
   constructor(usersService, jwtService) {
@@ -48,8 +49,9 @@ class AuthenticationController {
     const res = new RequestResult();
     try {
       const foundedUser = await this.usersService.login(user);
+      const filteredUser = dataFilter([foundedUser]);
       const result = this.jwtService.createSign(foundedUser.id);
-      result.user = foundedUser;
+      result.user = filteredUser;
       res.setValue = result;
       res.setStatus = StatusCodes.OK;
       return res;
