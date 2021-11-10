@@ -183,6 +183,7 @@ class UsersService {
     if (!user) {
       throw new ApiError('no such user', StatusCodes.UNAUTHORIZED);
     }
+    console.log(credentials.password, user.password);
     if (await bcrypt.compareSync(credentials.password, user.password)) {
       return user;
     }
