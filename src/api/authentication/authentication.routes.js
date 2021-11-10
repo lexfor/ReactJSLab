@@ -4,9 +4,9 @@ import {
   authenticationMiddleware,
   tokenMiddleware,
 } from '../helpers/middleware';
-import ajvValidator from "../helpers/middleware/ajvValidator";
-import {LogingSchema} from "../helpers/schemas/LogingSchema";
-import {UserSchema} from "../helpers/schemas/UserSchema";
+import {ajvValidator} from '../helpers/middleware/index';
+import { LogingSchema } from '../helpers/schemas/LogingSchema';
+import { UserSchema } from '../helpers/schemas/UserSchema';
 
 const router = express();
 const authenticationController = injector.getAuthenticationController;

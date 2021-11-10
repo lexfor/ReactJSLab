@@ -25,8 +25,7 @@ class UsersService {
       password: await bcrypt.hashSync(userData.password, +process.env.SALT),
       role_id: userData.role_id,
     };
-    await this.usersRepository.createUser(user);
-    return user;
+    return await this.usersRepository.createUser(user);
   }
 
   /**
@@ -69,17 +68,17 @@ class UsersService {
     if (users.length === 0) {
       return {
         users,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = users;
+    const [{ total }] = users;
 
     return {
       users: users.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -93,17 +92,17 @@ class UsersService {
     if (users.length === 0) {
       return {
         users,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = users;
+    const [{ total }] = users;
 
     return {
       users: users.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -126,7 +125,7 @@ class UsersService {
   async getUserByID(userID) {
     const user = await this.usersRepository.getUserByID(userID);
     if (!user.id) {
-      throw new ApiError('user not exist', StatusCodes.NOT_FOUND)
+      throw new ApiError('user not exist', StatusCodes.NOT_FOUND);
     }
     return user;
   }

@@ -1,9 +1,9 @@
 import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
-import {ROLES_ID, SPECIALIZATION_NAME_JOIN} from '../../constants';
+import { ROLES_ID, SPECIALIZATION_NAME_JOIN } from '../../constants';
 import { sort } from '../helpers/sort';
-import {dataFilter} from "../helpers/dataFilter";
+import { dataFilter } from '../helpers/dataFilter';
 
 class UsersRepository {
   constructor(pool) {
@@ -20,8 +20,17 @@ class UsersRepository {
       const sql = `INSERT INTO users (id, first_name, last_name, photo, login, password, role_id) VALUES (
         $1, $2, $3, $4, $5, $6, $7
         );`;
-      await this.pool.query(sql, [user.id, user.first_name, user.last_name, user.photo, user.login, user.password, user.role_id]);
+      await this.pool.query(sql, [
+          user.id,
+          user.first_name,
+          user.last_name,
+          user.photo,
+          user.login,
+          user.password,
+          user.role_id,
+      ]);
       const [result] = dataFilter([user]);
+      console.log(result);
       return result;
     } catch (e) {
       console.log(e.message);

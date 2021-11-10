@@ -3,10 +3,10 @@ import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
 } from '../helpers/middleware';
-import ajvValidator from "../helpers/middleware/ajvValidator";
-import {CreateAppointmentSchema} from "../helpers/schemas/CreateAppointmentSchema";
-import {IDSchema} from "../helpers/schemas/IDSchema";
-import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
+import {ajvValidator} from '../helpers/middleware/index';
+import { CreateAppointmentSchema } from '../helpers/schemas/CreateAppointmentSchema';
+import { IDSchema } from '../helpers/schemas/IDSchema';
+import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
 
 const router = express();
 const appointmentsController = injector.getAppointmentsController;

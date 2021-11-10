@@ -11,7 +11,7 @@ import { SpecializationsRepository, SpecializationsService, SpecializationsContr
 import { AppointmentsController, AppointmentsRepository, AppointmentsService } from './api/appointments';
 import { StatusesController } from './api/statuses';
 import { UsersRepository, UsersService } from './api/users';
-import { pool } from "./api/helpers/DBconnection";
+import { pool } from './api/helpers/DBconnection';
 
 class Injector {
   constructor() {

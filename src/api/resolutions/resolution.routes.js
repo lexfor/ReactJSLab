@@ -4,10 +4,10 @@ import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
 } from '../helpers/middleware';
-import ajvValidator from "../helpers/middleware/ajvValidator";
-import {CreateResolutionSchema} from "../helpers/schemas/CreateResolutionSchema";
-import {IDSchema} from "../helpers/schemas/IDSchema";
-import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
+import {ajvValidator} from '../helpers/middleware/index';
+import { CreateResolutionSchema } from '../helpers/schemas/CreateResolutionSchema';
+import { IDSchema } from '../helpers/schemas/IDSchema';
+import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
 
 const router = express();
 const resolutionController = injector.getResolutionController;

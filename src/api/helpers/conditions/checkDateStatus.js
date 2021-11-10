@@ -9,10 +9,10 @@ export function checkDateStatus(dateStatus) {
   let dateStatusCondition = '';
   switch (dateStatus) {
     case DATE_STATUS_TYPE.Upcoming:
-      dateStatusCondition = ` AND appointments.visit_date > '${new Date().toISOString().replace(/[A-Z]/g,' ')}'`;
+      dateStatusCondition = ` AND appointments.visit_date > '${new Date().toISOString().replace(/[A-Z]/g, ' ')}'`;
       break;
     case DATE_STATUS_TYPE.Outdate:
-      dateStatusCondition = ` AND appointments.visit_date < '${new Date().toISOString().replace(/[A-Z]/g,' ')}'`;
+      dateStatusCondition = ` AND appointments.visit_date < '${new Date().toISOString().replace(/[A-Z]/g, ' ')}'`;
       break;
     default:
       break;

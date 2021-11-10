@@ -2,8 +2,8 @@ import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition, checkDoctorIDCondition, checkDateStatus } from '../helpers/conditions';
 import { sort } from '../helpers/sort';
-import {SPECIALIZATION_NAME_JOIN} from "../../constants";
-import {changeTimeToLocal} from "../helpers/ChangeTimeToLocal";
+import { SPECIALIZATION_NAME_JOIN } from '../../constants';
+import { changeTimeToLocal } from '../helpers/ChangeTimeToLocal';
 
 class AppointmentsRepository {
   constructor(pool) {
@@ -89,7 +89,7 @@ class AppointmentsRepository {
                          ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
                          LIMIT $3 OFFSET $2`;
-      let { rows } =  await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
+      let { rows } = await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
@@ -156,7 +156,7 @@ class AppointmentsRepository {
     try {
       const sql = `SELECT * FROM appointments 
                          WHERE id = $1`;
-      const { rows }= await this.pool.query(sql, [appointmentID]);
+      const { rows } = await this.pool.query(sql, [appointmentID]);
       const [result] = rows;
       return result;
     } catch (e) {

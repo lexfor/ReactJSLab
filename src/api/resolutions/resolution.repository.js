@@ -3,8 +3,8 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import { dateCondition } from '../helpers/conditions/dateCondition';
 import { sort } from '../helpers/sort';
-import {SPECIALIZATION_NAME_JOIN} from "../../constants";
-import {changeTimeToLocal} from "../helpers/ChangeTimeToLocal";
+import { SPECIALIZATION_NAME_JOIN } from '../../constants';
+import { changeTimeToLocal } from '../helpers/ChangeTimeToLocal';
 
 class ResolutionRepository {
   constructor(pool) {
@@ -20,7 +20,12 @@ class ResolutionRepository {
     try {
       const sql = `INSERT INTO resolutions (id, value, appointment_id, next_appointment_date) VALUES (
                    $1, $2, $3, $4) `;
-      await this.pool.query(sql, [data.id, data.value, data.appointment_id, data.next_appointment_date]);
+      await this.pool.query(sql, [
+          data.id,
+          data.value,
+          data.appointment_id,
+          data.next_appointment_date,
+      ]);
       return data;
     } catch (e) {
       console.log(e.message);

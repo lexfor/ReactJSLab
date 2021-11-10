@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import {DATE_STATUS_TYPE, SORT_TYPE, SORTS} from '../../constants';
+import { DATE_STATUS_TYPE, SORT_TYPE, SORTS } from '../../constants';
 
 class AppointmentsController {
   constructor(appointmentService, usersService) {

@@ -115,17 +115,17 @@ class AppointmentsService {
     if (appointments.length === 0) {
       return {
         appointments,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = appointments;
+    const [{ total }] = appointments;
 
     return {
       appointments: appointments.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -139,16 +139,16 @@ class AppointmentsService {
     if (appointments.length === 0) {
       return {
         appointments,
-        total: 0
+        total: 0,
       };
     }
-    let [{ total }] = appointments;
+    const [{ total }] = appointments;
     return {
       appointments: appointments.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 

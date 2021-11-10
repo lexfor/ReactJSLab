@@ -92,17 +92,17 @@ class ResolutionService {
     if (resolutions.length === 0) {
       return {
         resolutions,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = resolutions;
+    const [{ total }] = resolutions;
 
     return {
       resolutions: resolutions.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -112,21 +112,23 @@ class ResolutionService {
    * @returns {Promise<object>} resolution ID
    */
   async getPatientResolutionsByDoctorSpecializationID(data) {
-    const resolutions = await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(data);
+    const resolutions = await this.resolutionRepository.getPatientResolutionsByDoctorSpecializationID(
+          data,
+        );
     if (resolutions.length === 0) {
       return {
         resolutions,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = resolutions;
+    const [{ total }] = resolutions;
 
     return {
       resolutions: resolutions.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -140,17 +142,17 @@ class ResolutionService {
     if (resolutions.length === 0) {
       return {
         resolutions,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = resolutions;
+    const [{ total }] = resolutions;
 
     return {
       resolutions: resolutions.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 
@@ -164,17 +166,17 @@ class ResolutionService {
     if (resolutions.length === 0) {
       return {
         resolutions,
-        total: 0
+        total: 0,
       };
     }
-    let [{total}] = resolutions;
+    const [{ total }] = resolutions;
 
     return {
       resolutions: resolutions.map((item) => {
         delete item.total;
         return item;
       }),
-      total: total,
+      total,
     };
   }
 }

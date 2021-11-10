@@ -1,6 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
-import {ROLES_ID} from "../../constants";
+import { ROLES_ID } from '../../constants';
 
 class AuthenticationController {
   constructor(usersService, jwtService) {

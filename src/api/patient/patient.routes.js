@@ -5,12 +5,12 @@ import {
   authenticationMiddleware,
   photoMiddleware,
 } from '../helpers/middleware';
-import {ROUTES} from "../../constants";
-import ajvValidator from "../helpers/middleware/ajvValidator";
-import {ChangePatientSchema} from "../helpers/schemas/ChangePatientSchema";
-import {UserSchema} from "../helpers/schemas/UserSchema";
-import {IDSchema} from "../helpers/schemas/IDSchema";
-import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
+import { ROUTES } from '../../constants';
+import {ajvValidator} from '../helpers/middleware/index';
+import { ChangePatientSchema } from '../helpers/schemas/ChangePatientSchema';
+import { UserSchema } from '../helpers/schemas/UserSchema';
+import { IDSchema } from '../helpers/schemas/IDSchema';
+import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
 
 const router = express();
 const patientController = injector.getPatientController;

@@ -1,6 +1,5 @@
 import { StatusCodes } from 'http-status-codes';
-import { NOT_AVAILABLE } from '../../../constants';
-import ApiError from "../ApiError";
+import ApiError from '../ApiError';
 
 function tokenMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;

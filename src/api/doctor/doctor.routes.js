@@ -6,11 +6,11 @@ import {
   photoMiddleware,
 } from '../helpers/middleware';
 import { getArrayFromFormMiddleware } from '../helpers/middleware/getArrayFromFormMiddleware';
-import {ROUTES} from "../../constants";
-import ajvValidator from "../helpers/middleware/ajvValidator";
-import {ChangeDoctorSchema} from "../helpers/schemas/ChangeDoctorSchema";
-import {IDSchema} from "../helpers/schemas/IDSchema";
-import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
+import { ROUTES } from '../../constants';
+import {ajvValidator} from '../helpers/middleware/index';
+import { ChangeDoctorSchema } from '../helpers/schemas/ChangeDoctorSchema';
+import { IDSchema } from '../helpers/schemas/IDSchema';
+import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
 
 const router = express();
 const doctorController = injector.getDoctorController;

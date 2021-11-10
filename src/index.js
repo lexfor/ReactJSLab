@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import swaggerUi from "swagger-ui-express";
+import swaggerUi from 'swagger-ui-express';
 import patientRouter from './api/patient/patient.routes';
 import resolutionRouter from './api/resolutions/resolution.routes';
 import authenticationRouter from './api/authentication/authentication.routes';
@@ -19,9 +19,9 @@ const corsOptions = {
 const app = express();
 
 app.use(
-    '/api/docs',
-    swaggerUi.serve,
-    swaggerUi.setup(swaggerDocument)
+  '/api/docs',
+  swaggerUi.serve,
+  swaggerUi.setup(swaggerDocument),
 );
 
 app.use(cors(corsOptions));
