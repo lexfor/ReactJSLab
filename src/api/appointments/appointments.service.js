@@ -72,7 +72,7 @@ class AppointmentsService {
     const appointment = await this.appointmentsRepository.getAppointmentByID(
       appointmentID,
     );
-    if (!appointment) {
+    if (!appointment.id) {
       throw new ApiError('Appointment not exist', StatusCodes.NOT_FOUND);
     }
   }
@@ -100,7 +100,7 @@ class AppointmentsService {
       date,
       '',
     );
-    if (appointment) {
+    if (appointment.id) {
       throw new ApiError('Date and time not free', StatusCodes.BAD_REQUEST);
     }
   }

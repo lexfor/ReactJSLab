@@ -147,7 +147,7 @@ class UsersService {
    */
   async checkIsPatientExist(userID) {
     const user = await this.usersRepository.getUserByID(userID);
-    if (!user) {
+    if (!user.id) {
       throw new ApiError('User not exist', StatusCodes.NOT_FOUND);
     }
   }
@@ -158,8 +158,7 @@ class UsersService {
    */
   async checkIsUserExist(login) {
     const user = await this.usersRepository.getUserByLogin(login);
-    console.log(user);
-    if (user) {
+    if (user.id) {
       throw new ApiError('User already exist', StatusCodes.BAD_REQUEST);
     }
   }
@@ -170,7 +169,7 @@ class UsersService {
    */
   async checkIsDoctorExist(userID) {
     const doctor = await this.usersRepository.getDoctorByID(userID);
-    if (!doctor) {
+    if (!doctor.id) {
       throw new ApiError('Doctor not exist', StatusCodes.NOT_FOUND);
     }
   }
@@ -182,7 +181,7 @@ class UsersService {
      */
   async login(credentials) {
     const user = await this.usersRepository.getUserByLogin(credentials.login);
-    if (!user) {
+    if (!user.id) {
       throw new ApiError('no such user', StatusCodes.UNAUTHORIZED);
     }
     if (await bcrypt.compareSync(credentials.password, user.password)) {

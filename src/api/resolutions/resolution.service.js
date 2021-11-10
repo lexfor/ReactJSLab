@@ -54,7 +54,7 @@ class ResolutionService {
    */
   async checkIsResolutionExist(appointmentID) {
     const result = await this.resolutionRepository.getResolutionByAppointmentID(appointmentID);
-    if (result) {
+    if (result.id) {
       throw new ApiError('Resolution for appointment already exist', StatusCodes.BAD_REQUEST);
     }
   }
@@ -65,7 +65,7 @@ class ResolutionService {
    */
   async checkIsResolutionExistByID(appointmentID) {
     const result = await this.resolutionRepository.getResolutionByID(appointmentID);
-    if (!result) {
+    if (!result.id) {
       throw new ApiError('Resolution not exist', StatusCodes.BAD_REQUEST);
     }
   }

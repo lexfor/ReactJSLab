@@ -12,7 +12,7 @@ class SpecializationsService {
      */
   async getAllSpecializations() {
     const specializations = await this.specializationsRepository.getAllSpecializations();
-    if (!specializations) {
+    if (specializations.length === 0) {
       throw new ApiError('no specializations', StatusCodes.NOT_FOUND);
     }
     return specializations;
