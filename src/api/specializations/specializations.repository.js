@@ -16,7 +16,8 @@ class SpecializationsRepository {
       const { rows } = await this.pool.query(sql);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

@@ -1,5 +1,4 @@
 import pkg from 'pg';
-//import { DB_ACCESS } from '../../config';
 
 const { Pool } = pkg;
 

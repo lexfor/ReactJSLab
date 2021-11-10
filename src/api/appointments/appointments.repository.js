@@ -19,7 +19,6 @@ class AppointmentsRepository {
     try {
       const sql = `INSERT INTO appointments (id, visit_date, reason, note, patient_id, doctor_id, status) VALUES (
                    $1, $2, $3, $4, $5, $6, $7)`;
-      console.log(sql);
       await this.pool.query(sql, [
         appointmentData.id,
         appointmentData.visit_date,
@@ -30,7 +29,8 @@ class AppointmentsRepository {
         appointmentData.status]);
       return appointmentData;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -46,7 +46,8 @@ class AppointmentsRepository {
       await this.pool.query(sql, [appointmentID]);
       return appointmentID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -63,7 +64,8 @@ class AppointmentsRepository {
       await this.pool.query(sql, [statusID, appointmentID]);
       return appointmentID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -91,7 +93,8 @@ class AppointmentsRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -120,7 +123,8 @@ class AppointmentsRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -138,7 +142,8 @@ class AppointmentsRepository {
       const { rows } = await this.pool.query(sql);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -155,7 +160,8 @@ class AppointmentsRepository {
       const [result] = rows;
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

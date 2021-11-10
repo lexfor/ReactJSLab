@@ -4,6 +4,6 @@ CREATE TABLE IF NOT EXISTS resolutions (
     appointment_id VARCHAR(255),
     next_appointment_date TIMESTAMP,
     PRIMARY KEY (id),
-    FOREIGN KEY (appointment_id) REFERENCES appointments(id));
+    FOREIGN KEY (appointment_id) REFERENCES appointments(id) ON DELETE CASCADE);
 
 CREATE INDEX next_appointment_date_index ON resolutions(next_appointment_date);

@@ -1,8 +1,10 @@
+import {MIN_LENGTH} from "../../../constants";
+
 export const IDSchema = {
   type: 'object',
   properties: {
     id: {
-      type: 'string',
+      type: 'string', minLength: MIN_LENGTH
     },
   },
   required: ['id'],

@@ -49,7 +49,7 @@ class DoctorController {
       await this.usersService.deleteUser(userID);
       await this.doctorServices.deleteDoctor(userID);
       res.setValue = userID;
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -75,7 +75,7 @@ class DoctorController {
       await this.usersService.updateUser(userID, doctor);
       await this.doctorServices.updateDoctor(userID, doctor);
       res.setValue = await this.usersService.getDoctorByID(userID);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

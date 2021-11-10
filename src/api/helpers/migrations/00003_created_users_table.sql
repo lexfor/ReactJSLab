@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS users (
     password VARCHAR(255),
     role_id VARCHAR(255),
     PRIMARY KEY (id),
-    FOREIGN KEY (role_id) REFERENCES roles(id));
+    FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE CASCADE);
 
 CREATE INDEX first_name_index ON users(first_name);
 

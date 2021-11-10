@@ -1,4 +1,4 @@
 CREATE TABLE IF NOT EXISTS roles (
 id VARCHAR(255),
 role_name VARCHAR(255),
-PRIMARY KEY (id))
+PRIMARY KEY (id));

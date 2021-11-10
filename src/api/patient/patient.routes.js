@@ -3,57 +3,87 @@ import { upload } from '../helpers/fileUpload';
 import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
-  checkIDMiddleware,
-  checkUserMiddleware,
   photoMiddleware,
-  paginationMiddleware,
-  checkPatientDataMiddleware,
 } from '../helpers/middleware';
 import {ROUTES} from "../../constants";
+import ajvValidator from "../helpers/middleware/ajvValidator";
+import {ChangePatientSchema} from "../helpers/schemas/ChangePatientSchema";
+import {UserSchema} from "../helpers/schemas/UserSchema";
+import {IDSchema} from "../helpers/schemas/IDSchema";
+import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
 
 const router = express();
 const patientController = injector.getPatientController;
 
 router.patch(`${ROUTES.PATIENTS}/me`, upload.single('avatar'), async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  photoMiddleware(req, res);
-  checkPatientDataMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    photoMiddleware(req, res);
+    ajvValidator(req.body, ChangePatientSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.updatePatient(req.userID, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.get(`${ROUTES.PATIENTS}/me`, async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  next();
+  try {
+    await authenticationMiddleware(req, res);
+    next();
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.getMyProfile(req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
-  checkUserMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.body, UserSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.createPatient(req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+    next();
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.deletePatient(req.params.id);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.patch(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.updatePatient(req.params.id, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await patientController.getPatients({
     offset: req.query.offset,

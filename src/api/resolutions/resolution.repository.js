@@ -23,7 +23,8 @@ class ResolutionRepository {
       await this.pool.query(sql, [data.id, data.value, data.appointment_id, data.next_appointment_date]);
       return data;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -40,7 +41,8 @@ class ResolutionRepository {
       await this.pool.query(sql, [resolutionValue, resolutionID]);
       return resolutionID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -55,7 +57,8 @@ class ResolutionRepository {
       await this.pool.query(sql, [resolutionID]);
       return resolutionID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -73,7 +76,8 @@ class ResolutionRepository {
       const [result] = rows;
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -91,7 +95,8 @@ class ResolutionRepository {
       const [result] = rows;
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -120,7 +125,8 @@ class ResolutionRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -145,7 +151,8 @@ class ResolutionRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -180,7 +187,8 @@ class ResolutionRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -213,7 +221,8 @@ class ResolutionRepository {
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

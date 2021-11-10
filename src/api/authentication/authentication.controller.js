@@ -119,7 +119,7 @@ class AuthenticationController {
     try {
       await this.usersService.checkIsPatientExist(userID);
       res.setValue = await this.usersService.changePassword(userID, passwords);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

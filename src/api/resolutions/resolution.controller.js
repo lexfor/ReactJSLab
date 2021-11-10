@@ -73,7 +73,7 @@ class ResolutionController {
         resolution.resolution,
         userID,
       );
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -99,7 +99,7 @@ class ResolutionController {
       await this.usersService.checkIsDoctorExist(userID);
       await this.resolutionService.checkIsItYourResolution(resolutionID, userID);
       res.setValue = await this.resolutionService.deleteResolution(resolutionID, userID);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

@@ -44,7 +44,7 @@ class PatientController {
     try {
       await this.usersService.checkIsPatientExist(patientID);
       res.setValue = await this.usersService.deleteUser(patientID);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -69,7 +69,7 @@ class PatientController {
       await this.usersService.checkIsPatientExist(patientID);
       await this.usersService.updateUser(patientID, patient);
       res.setValue = await this.usersService.getUserByID(patientID, ROLES_ID.PATIENT);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;

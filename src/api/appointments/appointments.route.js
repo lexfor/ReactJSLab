@@ -2,33 +2,46 @@ import express from 'express';
 import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
-  checkIDMiddleware,
-  createAppointmentMiddleware,
-  paginationMiddleware,
 } from '../helpers/middleware';
+import ajvValidator from "../helpers/middleware/ajvValidator";
+import {CreateAppointmentSchema} from "../helpers/schemas/CreateAppointmentSchema";
+import {IDSchema} from "../helpers/schemas/IDSchema";
+import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
 
 const router = express();
 const appointmentsController = injector.getAppointmentsController;
 
 router.post('/', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  createAppointmentMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.body, CreateAppointmentSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.createAppointment(req.userID, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.delete('/:id', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.deleteAppointment(req.params.id, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.patch('/:id', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.updateAppointment(
     req.params.id,
@@ -39,8 +52,12 @@ router.patch('/:id', async (req, res, next) => {
 });
 
 router.get('/me', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.getAppointmentsForDoctor({
     doctorID: req.userID,
@@ -55,8 +72,12 @@ router.get('/me', async (req, res, next) => {
 });
 
 router.get('/patient/me', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.getAppointmentsForPatient({
     patientID: req.userID,

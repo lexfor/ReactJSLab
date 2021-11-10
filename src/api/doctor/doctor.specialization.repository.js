@@ -17,7 +17,8 @@ class DoctorSpecializationRepository {
       await this.pool.query(sql, [data.doctor_id, data.specialization_id]);
       return data;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -32,7 +33,8 @@ class DoctorSpecializationRepository {
       await this.pool.query(sql, [doctorID]);
       return doctorID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

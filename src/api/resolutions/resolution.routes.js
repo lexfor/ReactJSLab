@@ -3,41 +3,58 @@ import express from 'express';
 import { injector } from '../../Injector';
 import {
   authenticationMiddleware,
-  checkIDMiddleware,
-  paginationMiddleware,
-  createResolutionMiddleware,
 } from '../helpers/middleware';
+import ajvValidator from "../helpers/middleware/ajvValidator";
+import {CreateResolutionSchema} from "../helpers/schemas/CreateResolutionSchema";
+import {IDSchema} from "../helpers/schemas/IDSchema";
+import {PaginationSchema} from "../helpers/schemas/PaginationSchema";
 
 const router = express();
 const resolutionController = injector.getResolutionController;
 
 router.post('/', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  createResolutionMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.body, CreateResolutionSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.createResolution(req.userID, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.delete('/:id', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.deleteResolution(req.params.id, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.patch('/:id', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  checkIDMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.params, IDSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.updateResolution(req.params.id, req.body, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
 router.get('/me', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.getResolutionsForPatient({
     patientID: req.userID,
@@ -51,8 +68,12 @@ router.get('/me', async (req, res, next) => {
 });
 
 router.get('/doctor/me', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.getResolutionsForDoctor({
     doctorID: req.userID,
@@ -67,8 +88,12 @@ router.get('/doctor/me', async (req, res, next) => {
 });
 
 router.get('/doctor/specialization/:specializationID', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.getPatientResolutionsByDoctorSpecializationID({
     patientID: req.userID,
@@ -83,8 +108,12 @@ router.get('/doctor/specialization/:specializationID', async (req, res, next) =>
 });
 
 router.get('/date', async (req, res, next) => {
-  await authenticationMiddleware(req, res);
-  paginationMiddleware(req, res, next);
+  try {
+    await authenticationMiddleware(req, res);
+    ajvValidator(req.query, PaginationSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await resolutionController.getPatientResolutionsByDate({
     patientID: req.userID,

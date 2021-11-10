@@ -9,11 +9,12 @@ class DoctorService {
    * @param {object} user
    */
   async createDoctor(doctor, user) {
-    const doctorSpecialization = {
-      doctor_id: user.id,
-      specialization_id: doctor.occupationID,
-    };
-    await this.doctorSpecializationRepository.addDoctorSpecialization(doctorSpecialization);
+    for (let occupation of doctor.occupations) {
+      await this.doctorSpecializationRepository.addDoctorSpecialization({
+        doctor_id: user.id,
+        specialization_id: occupation,
+      });
+    }
   }
 
   /**

@@ -3,6 +3,7 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import {ROLES_ID, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { sort } from '../helpers/sort';
+import {dataFilter} from "../helpers/dataFilter";
 
 class UsersRepository {
   constructor(pool) {
@@ -20,9 +21,11 @@ class UsersRepository {
         $1, $2, $3, $4, $5, $6, $7
         );`;
       await this.pool.query(sql, [user.id, user.first_name, user.last_name, user.photo, user.login, user.password, user.role_id]);
-      return user;
+      const [result] = dataFilter([user]);
+      return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -37,7 +40,8 @@ class UsersRepository {
       await this.pool.query(sql, [userID]);
       return userID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -53,7 +57,8 @@ class UsersRepository {
       await this.pool.query(sql, [user.lastName, user.firstName, user.photo, userID]);
       return user;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -68,7 +73,8 @@ class UsersRepository {
       await this.pool.query(sql, [newPassword, userID]);
       return userID;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -83,10 +89,11 @@ class UsersRepository {
                    INNER JOIN roles ON roles.id = users.role_id
                    WHERE login = $1`;
       const { rows } = await this.pool.query(sql, [login]);
-      const [result] = rows;
+      const [result] = dataFilter([rows]);
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -103,10 +110,11 @@ class UsersRepository {
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1`;
       const { rows } = await this.pool.query(sql, [userID]);
-      const [result] = rows;
+      const [result] = dataFilter([rows]);
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -126,10 +134,11 @@ class UsersRepository {
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1`;
       const { rows } = await this.pool.query(sql, [userID]);
-      const [result] = rows;
+      const [result] = dataFilter([rows]);
       return result;
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -151,9 +160,10 @@ class UsersRepository {
                 ${sort(data.sort, data.variant)}
                 LIMIT $3 OFFSET $2`;
       const { rows } = await this.pool.query(sql, [data.role, +data.offset, +data.count]);
-      return rows;
+      return dataFilter([rows]);
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -176,9 +186,10 @@ class UsersRepository {
                 ${sort(data.sort, data.variant)}
                 LIMIT $3 OFFSET $2`;
       const { rows } = await this.pool.query(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]);
-      return rows;
+      return dataFilter([rows]);
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -195,9 +206,10 @@ class UsersRepository {
                    WHERE doctors_specializations.specialization_id = $1
                    ${nameCondition(name)}`;
       const { rows } = await this.pool.query(sql, [specializationID]);
-      return rows;
+      return dataFilter([rows]);
     } catch (e) {
-      throw new ApiError(e.message, StatusCodes.INTERNAL_SERVER_ERROR);
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
     }
   }
 }

@@ -1,7 +1,7 @@
 {
   "swagger": "2.0",
   "info": {
-    "version": "1.0.0",
+    "version": "1.1.0",
     "title": "React lab API",
     "description": "API on Node.js for ITRex React.js Lab",
     "license": {
@@ -22,57 +22,46 @@
       "post": {
         "tags": ["Patients"],
         "summary": "Create new patient",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
-          "name": "firstName",
+          "name": "Request body",
           "in": "body",
-          "description": "Patient first name",
           "required": true,
           "schema": {
-            "example": "Tsimafei",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "lastName",
-          "in": "body",
-          "description": "Patient last name",
-          "required": true,
-          "schema": {
-            "example": "Kinevich",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "login",
-          "in": "body",
-          "description": "Patient account login",
-          "required": true,
-          "schema": {
-            "example": "tsimafei.kinevich@itrexgroup.com",
-            "maxLength": 30,
-            "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
-            "minLength": 2,
-            "uniqueItems": true,
-            "type": "string"
-          }
-        },
-        {
-          "name": "password",
-          "in": "body",
-          "description": "Patient account password",
-          "required": true,
-          "schema": {
-            "example": "TimaPassword",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z0-9]+",
-            "minLength": 2,
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "example": "Tsimafei",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "lastName": {
+                "example": "Kinevich",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "login": {
+                "example": "tsimafei.kinevich@itrexgroup.com",
+                "maxLength": 30,
+                "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
+                "minLength": 2,
+                "uniqueItems": true,
+                "type": "string"
+              },
+              "password": {
+                "example": "TimaPassword",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z0-9]+",
+                "minLength": 2,
+                "type": "string"
+              }
+            }
           }
         }
         ],
@@ -88,6 +77,9 @@
       "get": {
         "tags": ["Patients"],
         "summary": "Get all patients",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "offset",
           "in": "query",
@@ -158,8 +150,11 @@
       "delete": {
         "tags": ["Patients"],
         "summary": "Delete a patient",
+        "security": [{
+          "Bearer": []
+        }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Deleted",
             "schema": {
               "description": "Deleted patient ID",
@@ -171,34 +166,35 @@
       "patch": {
         "tags": ["Patients"],
         "summary": "Update a patient",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
-          "name": "firstName",
+          "name": "Request body",
           "in": "body",
-          "description": "Patient new first name",
           "required": true,
           "schema": {
-            "example": "Gleb",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "lastName",
-          "in": "body",
-          "description": "Patient new last name",
-          "required": true,
-          "schema": {
-            "example": "Andreev",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "example": "Gleb",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "lastName": {
+                "example": "Andreev",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              }
+            }
           }
         }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated",
             "schema": {
               "$ref": "#/definitions/Patient"
@@ -216,29 +212,27 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "firstName",
+          "name": "Request body",
           "in": "body",
-          "description": "Patient first name",
           "required": true,
           "schema": {
-            "example": "Tsimafei",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "lastName",
-          "in": "body",
-          "description": "Patient last name",
-          "required": true,
-          "schema": {
-            "example": "Kinevich",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "example": "Gleb",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "lastName": {
+                "example": "Andreev",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              }
+            }
           }
         },
         {
@@ -250,7 +244,7 @@
         }
         ],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated",
             "schema": {
               "$ref": "#/definitions/Patient"
@@ -278,69 +272,55 @@
       "post": {
         "tags": ["Doctors"],
         "summary": "Create new doctor",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
-          "name": "firstName",
+          "name": "Request body",
           "in": "body",
-          "description": "Doctor first name",
           "required": true,
           "schema": {
-            "example": "Oleg",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-          {
-            "name": "lastName",
-            "in": "body",
-            "description": "Doctor last name",
-            "required": true,
-            "schema": {
-              "example": "Dublyanin",
-              "maxLength": 30,
-              "pattern": "[a-zA-Z]+",
-              "minLength": 2,
-              "type": "string"
-            }
-          },
-          {
-            "name": "login",
-            "in": "body",
-            "description": "Doctor account login",
-            "required": true,
-            "schema": {
-              "example": "oleg@itrexgroup.com",
-              "maxLength": 30,
-              "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
-              "minLength": 2,
-              "uniqueItems": true,
-              "type": "string"
-            }
-          },
-          {
-            "name": "password",
-            "in": "body",
-            "description": "Doctor account password",
-            "required": true,
-            "schema": {
-              "example": "OlegPassword",
-              "maxLength": 30,
-              "pattern": "[a-zA-Z0-9]+",
-              "minLength": 2,
-              "type": "string"
-            }
-          },
-          {
-            "name": "occupation",
-            "in": "body",
-            "description": "Doctor specialization ID",
-            "required": true,
-            "schema": {
-              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
-              "type": "string"
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "example": "Oleg",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "lastName": {
+                "example": "Dublyanin",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "login": {
+                "example": "oleg@itrexgroup.com",
+                "maxLength": 30,
+                "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
+                "minLength": 2,
+                "uniqueItems": true,
+                "type": "string"
+              },
+              "password": {
+                "example": "OlegPassword",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z0-9]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "occupations": {
+                "type": "array",
+                "items": {
+                  "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
+                  "type": "string"
+                }
+              }
             }
           }
+        }
         ],
         "responses": {
           "201": {
@@ -354,6 +334,9 @@
       "get": {
         "tags": ["Doctors"],
         "summary": "Get all doctors",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "offset",
           "in": "query",
@@ -424,8 +407,11 @@
       "delete": {
         "tags": ["Doctors"],
         "summary": "Delete a doctor",
+        "security": [{
+          "Bearer": []
+        }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Deleted",
             "schema": {
               "description": "Deleted doctor ID",
@@ -437,47 +423,43 @@
       "patch": {
         "tags": ["Doctors"],
         "summary": "Update a doctor",
-        "parameters": [{
-          "name": "firstName",
-          "in": "body",
-          "description": "Doctor new first name",
-          "required": true,
-          "schema": {
-            "example": "Valentin",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "lastName",
-          "in": "body",
-          "description": "Doctor new last name",
-          "required": true,
-          "schema": {
-            "example": "Doctor",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "occupations",
-          "in": "body",
-          "description": "Doctor occupations",
-          "required": true,
-          "schema": {
-            "type": "array",
-            "items": {
-              "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
-              "type": "string"
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [
+          {
+            "name": "Request body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "example": "Valentin",
+                  "maxLength": 30,
+                  "pattern": "[a-zA-Z]+",
+                  "minLength": 2,
+                  "type": "string"
+                },
+                "lastName": {
+                  "example": "Anashkevich",
+                  "maxLength": 30,
+                  "pattern": "[a-zA-Z]+",
+                  "minLength": 2,
+                  "type": "string"
+                },
+                "occupations": {
+                  "type": "array",
+                  "items": {
+                    "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
+                    "type": "string"
+                  }
+                }
+              }
             }
-          }
           }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
@@ -495,50 +477,43 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "firstName",
+          "name": "Request body",
           "in": "body",
-          "description": "Doctor first name",
           "required": true,
           "schema": {
-            "example": "Tsimafei",
-            "maxLength": 30,
-            "pattern": "[a-zA-Z]+",
-            "minLength": 2,
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "firstName": {
+                "example": "Valentin",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "lastName": {
+                "example": "Anashkevich",
+                "maxLength": 30,
+                "pattern": "[a-zA-Z]+",
+                "minLength": 2,
+                "type": "string"
+              },
+              "occupations": {
+                "type": "string",
+                "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f"
+              }
+            }
           }
         },
-          {
-            "name": "lastName",
-            "in": "body",
-            "description": "Doctor last name",
-            "required": true,
-            "schema": {
-              "example": "Kinevich",
-              "maxLength": 30,
-              "pattern": "[a-zA-Z]+",
-              "minLength": 2,
-              "type": "string"
-            }
-          },
-          {
-            "name": "avatar",
-            "in": "formData",
-            "description": "Doctor avatar",
-            "required": false,
-            "type": "file"
-          },
-          {
-            "name": "occupations",
-            "in": "body",
-            "description": "Doctor occupations",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
+        {
+          "name": "avatar",
+          "in": "formData",
+          "description": "Doctor avatar",
+          "required": false,
+          "type": "file"
+        }
         ],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization "
@@ -562,7 +537,7 @@
         }
       }
     },
-    "/api/doctors/specializations/{id}": {
+    "/api/doctors/specialization/{id}": {
       "parameters": [{
         "name": "id",
         "in": "path",
@@ -573,6 +548,13 @@
       "get": {
         "tags": ["Doctors"],
         "summary": "Get all doctors by specialization ID",
+        "parameters": [{
+          "name": "name",
+          "in": "query",
+          "description": "Doctor name",
+          "type": "string",
+          "required": false
+        }],
         "responses": {
           "200": {
             "description": "Doctor data",
@@ -589,47 +571,32 @@
           "Appointments"
         ],
         "summary": "Create new appointment",
-        "parameters": [
-          {
-            "name": "date",
-            "in": "body",
-            "description": "Visit date",
-            "required": true,
-            "schema": {
-              "example": "2021-11-23 13:00",
-              "type": "string"
-            }
-          },
-          {
-            "name": "reason",
-            "in": "body",
-            "description": "Reason for visit",
-            "required": true,
-            "schema": {
-              "example": "stomach-ache",
-              "type": "string"
-            }
-          },
-          {
-            "name": "note",
-            "in": "body",
-            "description": "Note for visit reason",
-            "required": false,
-            "schema": {
-              "example": "I have a COVID",
-              "type": "string"
-            }
-          },
-          {
-            "name": "doctorID",
-            "in": "body",
-            "description": "Doctor ID for appointment",
-            "required": true,
-            "schema": {
-              "example": "882240b7-514a-48c3-a67f-6acfb1d35030",
-              "type": "string"
+        "parameters": [{
+          "name": "Request body",
+          "in": "body",
+          "required": true,
+          "schema": {
+            "type": "object",
+            "properties": {
+              "date": {
+                "example": "2021-11-23 13:00",
+                "type": "string"
+              },
+              "reason": {
+                "example": "stomach-ache",
+                "type": "string"
+              },
+              "note": {
+                "example": "stomach-ache",
+                "type": "string"
+              },
+              "doctorID": {
+                "example": "882240b7-514a-48c3-a67f-6acfb1d35030",
+                "type": "string"
+              }
             }
           }
+        }
         ],
         "responses": {
           "201": {
@@ -724,7 +691,7 @@
         "tags": ["Appointments"],
         "summary": "Delete an appointment",
         "responses": {
-          "202": {
+          "200": {
             "description": "Deleted",
             "schema": {
               "description": "Deleted appointment ID",
@@ -737,17 +704,21 @@
         "tags": ["Appointments"],
         "summary": "Update a appointment status",
         "parameters": [{
-          "name": "status",
+          "name": "Request body",
           "in": "body",
-          "description": "Appointment status",
           "required": true,
           "schema": {
-            "example": "Waiting for confirmation",
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "status": {
+                "example": "Waiting for confirmation",
+                "type": "string"
+              }
+            }
           }
         }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated appointment ID",
             "schema": {
               "properties": {
@@ -846,8 +817,8 @@
             "name": "doctorID",
             "in": "query",
             "description": "Doctor ID",
-            "required": true,
-            "type": "number"
+            "required": false,
+            "type": "string"
           }
         ],
         "responses": {
@@ -871,27 +842,25 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "resolution",
+          "name": "Request body",
           "in": "body",
-          "description": "Resolution value for patient",
           "required": true,
           "schema": {
-            "example": "poisoning",
-            "maxLength": 30,
-            "minLength": 2,
-            "type": "string"
-          }
-        },
-        {
-          "name": "appointmentID",
-          "in": "body",
-          "description": "Appointment ID for resolution",
-          "required": true,
-          "schema": {
-            "example": "b33c379e-3238-11ec-8d3d-0242ac130003",
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "resolution": {
+                "example": "poisoning",
+                "maxLength": 30,
+                "minLength": 2,
+                "type": "string"
+              },
+              "appointmentID": {
+                "example": "b33c379e-3238-11ec-8d3d-0242ac130003",
+                "type": "string"
+              }
             }
           }
+        }
         ],
         "responses": {
           "201": {
@@ -918,7 +887,7 @@
           "Bearer": []
         }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Deleted",
             "schema": {
               "description": "Deleted resolution ID",
@@ -933,20 +902,25 @@
         "security": [{
           "Bearer": []
         }],
-        "parameters": [{
-          "name": "resolution",
-          "in": "body",
-          "description": "Doctor new first name",
-          "required": true,
-          "schema": {
-            "example": "nothing",
-            "maxLength": 30,
-            "minLength": 2,
-            "type": "string"
-          }
-        }],
+        "parameters": [
+          {
+            "name": "Request body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolution": {
+                  "example": "poisoning",
+                  "maxLength": 30,
+                  "minLength": 2,
+                  "type": "string"
+                }
+              }
+            }
+          }],
         "responses": {
-          "202": {
+          "200": {
             "description": "Updated",
             "schema": {
               "description": "Updated resolution ID",
@@ -1106,7 +1080,7 @@
           {
             "name": "date",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Date filter",
             "required": true,
             "type": "number",
             "pattern": "yyyy-mm-dd"
@@ -1241,21 +1215,25 @@
         "tags": ["Auth"],
         "summary": "user login API",
         "parameters": [{
-          "name": "login",
+          "name": "Request body",
           "in": "body",
-          "description": "Patient login",
           "required": true,
           "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "password",
-          "in": "body",
-          "description": "Patient password",
-          "required": true,
-          "schema": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "login": {
+                "example": "dima@mail.ru",
+                "maxLength": 30,
+                "minLength": 2,
+                "type": "string"
+              },
+              "password": {
+                "example": "dima@mail.ru",
+                "maxLength": 30,
+                "minLength": 2,
+                "type": "string"
+              }
+            }
           }
         }
         ],
@@ -1278,21 +1256,25 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "oldPassword",
+          "name": "Request body",
           "in": "body",
-          "description": "User current password",
           "required": true,
           "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "newPassword",
-          "in": "body",
-          "description": "User new password",
-          "required": true,
-          "schema": {
-            "type": "string"
+            "type": "object",
+            "properties": {
+              "oldPassword": {
+                "example": "dima@mail.ru",
+                "maxLength": 30,
+                "minLength": 2,
+                "type": "string"
+              },
+              "newPassword": {
+                "example": "DimaPassword",
+                "maxLength": 30,
+                "minLength": 2,
+                "type": "string"
+              }
+            }
           }
         }
         ],
@@ -1311,40 +1293,39 @@
       "post": {
         "tags": ["Auth"],
         "summary": "user registration API",
-        "parameters": [{
-          "name": "login",
-          "in": "body",
-          "description": "User login",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        },
-        {
-          "name": "password",
-          "in": "body",
-          "description": "User password",
-          "required": true,
-          "schema": {
-            "type": "string"
-          }
-        },
+        "parameters": [
           {
-            "name": "firstName",
+            "name": "Request body",
             "in": "body",
-            "description": "User first name",
             "required": true,
             "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "lastName",
-            "in": "body",
-            "description": "User last name",
-            "required": true,
-            "schema": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "login": {
+                  "example": "dima@mail.ru",
+                  "maxLength": 30,
+                  "minLength": 2,
+                  "type": "string"
+                },
+                "password": {
+                  "example": "dima@mail.ru",
+                  "maxLength": 30,
+                  "minLength": 2,
+                  "type": "string"
+                },
+                "firstName": {
+                  "example": "Dima",
+                  "maxLength": 30,
+                  "minLength": 2,
+                  "type": "string"
+                },
+                "lastName": {
+                  "example": "Mitrichenko",
+                  "maxLength": 30,
+                  "minLength": 2,
+                  "type": "string"
+                }
+              }
             }
           }
         ],

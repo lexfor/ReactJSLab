@@ -47,7 +47,7 @@ class AppointmentsController {
       await this.usersService.checkIsDoctorExist(doctorID);
       await this.appointmentService.checkIsItYoursAppointment(appointmentID, doctorID);
       res.setValue = await this.appointmentService.deleteAppointment(appointmentID);
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
@@ -76,7 +76,7 @@ class AppointmentsController {
         appointmentID,
         appointmentData.status,
       );
-      res.setStatus = StatusCodes.ACCEPTED;
+      res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
       res.setValue = e.message;
