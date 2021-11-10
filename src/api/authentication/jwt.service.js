@@ -13,7 +13,6 @@ class JwtService {
    */
   createSign(userID, tokenKey = process.env.TOKEN_KEY) {
     try {
-      console.log(userID, tokenKey);
       const token = sign({
         userID,
       }, tokenKey, { expiresIn: +process.env.TOKEN_EXPIRATION });

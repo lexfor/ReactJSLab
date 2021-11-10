@@ -97,7 +97,10 @@ class UsersRepository {
                    INNER JOIN roles ON roles.id = users.role_id
                    WHERE login = $1`;
       const { rows } = await this.pool.query(sql, [login]);
+      console.log(rows);
+      console.log(dataFilter(rows));
       const [result] = dataFilter(rows);
+      console.log(result);
       return result;
     } catch (e) {
       console.log(e.message);
