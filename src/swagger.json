@@ -571,6 +571,9 @@
           "Appointments"
         ],
         "summary": "Create new appointment",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "Request body",
           "in": "body",
@@ -612,6 +615,9 @@
       "get": {
         "tags": ["Appointments"],
         "summary": "Get all appointments for doctors",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "offset",
           "in": "query",
@@ -690,6 +696,9 @@
       "delete": {
         "tags": ["Appointments"],
         "summary": "Delete an appointment",
+        "security": [{
+          "Bearer": []
+        }],
         "responses": {
           "200": {
             "description": "Deleted",
@@ -703,6 +712,9 @@
       "patch": {
         "tags": ["Appointments"],
         "summary": "Update a appointment status",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "Request body",
           "in": "body",
@@ -735,6 +747,9 @@
       "get": {
         "tags": ["Appointments"],
         "summary": "Get all appointments for patients",
+        "security": [{
+          "Bearer": []
+        }],
         "parameters": [{
           "name": "offset",
           "in": "query",
