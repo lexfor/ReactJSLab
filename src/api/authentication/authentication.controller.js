@@ -121,7 +121,8 @@ class AuthenticationController {
     const res = new RequestResult();
     try {
       await this.usersService.checkIsPatientExist(userID);
-      res.setValue = await this.usersService.changePassword(userID, passwords);
+      const foundedUser = await this.usersService.changePassword(userID, passwords);
+      res.setValue = dataFilter([foundedUser]);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
