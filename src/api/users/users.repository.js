@@ -127,6 +127,27 @@ class UsersRepository {
   }
 
   /**
+   * Get user by ID with password
+   * @param {string} userID
+   * @returns {Promise<object>} user data
+   */
+  async getUserByIDWithPassword(userID) {
+    try {
+      const sql = `
+                SELECT users.*, roles.role_name 
+                FROM users
+                INNER JOIN roles ON roles.id = users.role_id
+                WHERE users.id = $1`;
+      const { rows } = await this.pool.query(sql, [userID]);
+      const [result] = rows;
+      return result;
+    } catch (e) {
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
    * Get doctor by ID
    * @param {string} userID
    * @returns {Promise<object>} user data

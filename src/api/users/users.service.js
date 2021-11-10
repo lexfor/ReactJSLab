@@ -196,7 +196,7 @@ class UsersService {
      * @returns {Promise<object>} user data
      */
   async changePassword(userID, passwords) {
-    const user = await this.usersRepository.getUserByID(userID);
+    const user = await this.usersRepository.getUserByIDWithPassword(userID);
     if (await bcrypt.compareSync(passwords.oldPassword, user.password)) {
       await this.usersRepository.changePassword(
         userID,
