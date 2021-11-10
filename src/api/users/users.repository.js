@@ -30,7 +30,6 @@ class UsersRepository {
           user.role_id,
       ]);
       const [result] = dataFilter([user]);
-      console.log(result);
       return result;
     } catch (e) {
       console.log(e.message);
@@ -98,7 +97,7 @@ class UsersRepository {
                    INNER JOIN roles ON roles.id = users.role_id
                    WHERE login = $1`;
       const { rows } = await this.pool.query(sql, [login]);
-      const [result] = dataFilter([rows]);
+      const [result] = dataFilter(rows);
       return result;
     } catch (e) {
       console.log(e.message);
@@ -119,7 +118,7 @@ class UsersRepository {
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1`;
       const { rows } = await this.pool.query(sql, [userID]);
-      const [result] = dataFilter([rows]);
+      const [result] = dataFilter(rows);
       return result;
     } catch (e) {
       console.log(e.message);
@@ -143,7 +142,7 @@ class UsersRepository {
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1`;
       const { rows } = await this.pool.query(sql, [userID]);
-      const [result] = dataFilter([rows]);
+      const [result] = dataFilter(rows);
       return result;
     } catch (e) {
       console.log(e.message);
@@ -169,7 +168,7 @@ class UsersRepository {
                 ${sort(data.sort, data.variant)}
                 LIMIT $3 OFFSET $2`;
       const { rows } = await this.pool.query(sql, [data.role, +data.offset, +data.count]);
-      return dataFilter([rows]);
+      return dataFilter(rows);
     } catch (e) {
       console.log(e.message);
       throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -195,7 +194,7 @@ class UsersRepository {
                 ${sort(data.sort, data.variant)}
                 LIMIT $3 OFFSET $2`;
       const { rows } = await this.pool.query(sql, [ROLES_ID.DOCTOR, +data.offset, +data.count]);
-      return dataFilter([rows]);
+      return dataFilter(rows);
     } catch (e) {
       console.log(e.message);
       throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
@@ -215,7 +214,7 @@ class UsersRepository {
                    WHERE doctors_specializations.specialization_id = $1
                    ${nameCondition(name)}`;
       const { rows } = await this.pool.query(sql, [specializationID]);
-      return dataFilter([rows]);
+      return dataFilter(rows);
     } catch (e) {
       console.log(e.message);
       throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
