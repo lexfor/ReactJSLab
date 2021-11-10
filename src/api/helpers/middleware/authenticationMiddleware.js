@@ -7,6 +7,7 @@ const authenticationController = injector.getAuthenticationController;
 async function authenticationMiddleware(req, res) {
   try {
     const authHeader = req.headers.authorization;
+    console.log(authHeader);
     if (!authHeader) {
       throw new ApiError('jwt token not found', StatusCodes.UNAUTHORIZED);
     }
