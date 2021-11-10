@@ -22,8 +22,9 @@ class AuthenticationController {
       };
       await this.usersService.checkIsUserExist(userData.login);
       const createdUser = await this.usersService.createUser(userData);
+      const foundedUser = this.usersService.getUserByID(createdUser.id);
       const result = this.jwtService.createSign(createdUser.id);
-      result.user = createdUser;
+      result.user = foundedUser;
       res.setValue = result;
       res.setStatus = StatusCodes.CREATED;
       return res;

@@ -21,9 +21,10 @@ class DoctorController {
         role_id: ROLES_ID.DOCTOR,
       };
       await this.usersService.checkIsUserExist(userData.login);
-      const user = await this.usersService.createUser(userData);
-      await this.doctorServices.createDoctor(doctor, user);
-      res.setValue = user;
+      const createdUser = await this.usersService.createUser(userData);
+      const foundedUser = await this.usersService.getUserByID(createdUser.id);
+      await this.doctorServices.createDoctor(doctor, createdUser);
+      res.setValue = foundedUser;
       res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {

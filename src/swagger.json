@@ -1436,16 +1436,9 @@
           "type": "string",
           "uniqueItems": true
         },
-        "password": {
-          "type": "string",
-          "description": "Hashed password"
-        },
         "photo": {
           "type": "string",
           "description": "Path to photo"
-        },
-        "role_id": {
-          "type": "string"
         }
       }
     },
@@ -1465,7 +1458,7 @@
         },
         "note": {
           "type": "string",
-          "description": "Hashed password"
+          "description": "Note for visit"
         },
         "photo": {
           "type": "string",
@@ -1499,7 +1492,7 @@
         },
         "note": {
           "type": "string",
-          "description": "Hashed password"
+          "description": "Note for visit"
         },
         "photo": {
           "type": "string",
@@ -1536,16 +1529,9 @@
           "type": "string",
           "uniqueItems": true
         },
-        "password": {
-          "type": "string",
-          "description": "Hashed password"
-        },
         "photo": {
           "type": "string",
           "description": "Path to photo"
-        },
-        "role_id": {
-          "type": "string"
         }
       }
     },
@@ -1564,16 +1550,9 @@
           "type": "string",
           "uniqueItems": true
         },
-        "password": {
-          "type": "string",
-          "description": "Hashed password"
-        },
         "photo": {
           "type": "string",
           "description": "Path to photo"
-        },
-        "role_id": {
-          "type": "string"
         },
         "role_name": {
           "type": "string"
@@ -1677,12 +1656,6 @@
               "type": "string"
             },
             "login": {
-              "type": "string"
-            },
-            "password": {
-              "type": "string"
-            },
-            "role_id": {
               "type": "string"
             },
             "role_name": {
