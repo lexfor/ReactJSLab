@@ -7,7 +7,14 @@ function tokenMiddleware(req, res, next) {
   if (!authHeader) {
     throw new ApiError('jwt token not found', StatusCodes.UNAUTHORIZED);
   } else {
-    [, req.token] = authHeader.split(' ');
+    const header = authHeader.split(' ');
+    console.log(header);
+    if (header[0] === 'Bearer') {
+      req.token = header[1];
+    }
+    else {
+      req.token = authHeader;
+    }
     next();
   }
 }
