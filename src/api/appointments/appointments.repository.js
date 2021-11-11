@@ -139,7 +139,6 @@ class AppointmentsRepository {
       const sql = `SELECT * FROM appointments 
                          WHERE visit_date::text LIKE '%${date}%'
                          ${checkDoctorIDCondition(doctorID)}`;
-      console.log(sql);
       const { rows } = await this.pool.query(sql);
       return rows;
     } catch (e) {
