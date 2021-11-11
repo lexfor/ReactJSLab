@@ -8,7 +8,9 @@ import ApiError from './ApiError';
 export function changeTimeToLocal(data) {
   try {
     return data.map((item) => {
-      item.visit_date = item.visit_date.toLocaleString('ru', { hour12: false });
+      if (item.visit_date) {
+        item.visit_date = item.visit_date.toLocaleString('ru', { hour12: false });
+      }
       if (item.next_appointment_date) {
         item.next_appointment_date = item.next_appointment_date.toLocaleString('ru', { hour12: false });
       }
