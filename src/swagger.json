@@ -668,7 +668,7 @@
                 "appointments": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/AppointmentsForDoctor"
+                    "$ref": "#/definitions/AppointmentForDoctor"
                   }
                 },
                 "total": {
@@ -800,7 +800,7 @@
                 "appointments": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/definitions/AppointmentsForPatient"
+                    "$ref": "#/definitions/AppointmentForPatient"
                   }
                 },
                 "total": {
@@ -1377,6 +1377,9 @@
               "type": "object",
               "properties": {
                 "access_token" : {
+                  "type": "string"
+                },
+                "refresh_token" : {
                   "type": "string"
                 }
               }
