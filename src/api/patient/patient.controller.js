@@ -25,7 +25,6 @@ class PatientController {
       const createdUser = await this.usersService.createUser(userData);
       res.setValue = await this.usersService.getUserByID(createdUser.id);
       res.setStatus = StatusCodes.CREATED;
-      console.log(res);
       return res;
     } catch (e) {
       res.setValue = e.message;

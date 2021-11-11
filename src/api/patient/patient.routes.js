@@ -49,7 +49,6 @@ router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
   }
 }, async (req, res) => {
   const result = await patientController.createPatient(req.body, req.userID);
-  console.log(result);
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -59,10 +58,12 @@ router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
     ajvValidator(req.params, IDSchema, req, res, next);
     next();
   } catch (e) {
+    console.log(e);
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
   const result = await patientController.deletePatient(req.params.id, req.userID);
+  console.log(result);
   res.status(result.getStatus).json(result.getValue);
 });
 
