@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
+import APIMessage from "../helpers/APIMessage";
 
 class SpecializationsController {
   constructor(specializationsService) {
@@ -17,7 +18,7 @@ class SpecializationsController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {

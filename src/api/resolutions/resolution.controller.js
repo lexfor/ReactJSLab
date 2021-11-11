@@ -3,6 +3,7 @@ import RequestResult from '../helpers/RequestResult';
 import {
   NEXT_VISIT_DAYS_DELAY, SECOND_VISIT, SORT_TYPE, SORTS,
 } from '../../constants';
+import APIMessage from "../helpers/APIMessage";
 
 class ResolutionController {
   constructor(resolutionService, appointmentService, usersService) {
@@ -46,7 +47,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -78,7 +79,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -105,7 +106,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -135,7 +136,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -163,7 +164,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -191,7 +192,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -219,7 +220,7 @@ class ResolutionController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {

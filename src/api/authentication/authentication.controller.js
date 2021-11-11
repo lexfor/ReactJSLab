@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
 import { ROLES_ID } from '../../constants';
 import {dataFilter} from "../helpers/dataFilter";
+import APIMessage from "../helpers/APIMessage";
 
 class AuthenticationController {
   constructor(usersService, jwtService) {
@@ -28,7 +29,7 @@ class AuthenticationController {
       res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -52,7 +53,7 @@ class AuthenticationController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -75,7 +76,7 @@ class AuthenticationController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -97,7 +98,7 @@ class AuthenticationController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -122,7 +123,7 @@ class AuthenticationController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {

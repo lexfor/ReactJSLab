@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
 import { ROLES_ID, SORT_TYPE, SORTS } from '../../constants';
+import APIMessage from "../helpers/APIMessage";
 
 class PatientController {
   constructor(usersService) {
@@ -27,7 +28,7 @@ class PatientController {
       res.setStatus = StatusCodes.CREATED;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -52,7 +53,7 @@ class PatientController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -79,7 +80,7 @@ class PatientController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -105,7 +106,7 @@ class PatientController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -129,7 +130,7 @@ class PatientController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
@@ -159,7 +160,7 @@ class PatientController {
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
-      res.setValue = e.message;
+      res.setValue = new APIMessage(e.message).message;
       if (e.status) {
         res.setStatus = e.status;
       } else {
