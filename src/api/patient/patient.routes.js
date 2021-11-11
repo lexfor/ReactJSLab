@@ -49,6 +49,7 @@ router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
   }
 }, async (req, res) => {
   const result = await patientController.createPatient(req.body, req.userID);
+  console.log(result);
   res.status(result.getStatus).json(result.getValue);
 });
 
