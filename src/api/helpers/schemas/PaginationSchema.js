@@ -4,7 +4,7 @@ export const PaginationSchema = {
     offset: {
       type: 'string',
     },
-    count: {
+    limit: {
       type: 'string',
     },
   },
