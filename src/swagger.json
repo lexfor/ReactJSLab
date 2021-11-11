@@ -511,7 +511,7 @@
           "200": {
             "description": "Updated",
             "schema": {
-              "$ref": "#/definitions/DoctorWithSpecialization "
+              "$ref": "#/definitions/DoctorWithSpecialization"
             }
           }
         }

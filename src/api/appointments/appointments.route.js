@@ -7,6 +7,7 @@ import {ajvValidator} from '../helpers/middleware/index';
 import { CreateAppointmentSchema } from '../helpers/schemas/CreateAppointmentSchema';
 import { IDSchema } from '../helpers/schemas/IDSchema';
 import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
+import {FreeTimeSchema} from "../helpers/schemas/FreeTimeSchema";
 
 const router = express();
 const appointmentsController = injector.getAppointmentsController;
@@ -92,7 +93,11 @@ router.get('/patient/me', async (req, res, next) => {
 });
 
 router.get('/time/free', async (req, res, next) => {
-  next();
+  try {
+    ajvValidator(req.query, FreeTimeSchema, req, res, next);
+  } catch (e) {
+    res.status(e.status).json(e.message);
+  }
 }, async (req, res) => {
   const result = await appointmentsController.getFreeAppointmentsTime(
     req.query.date,
