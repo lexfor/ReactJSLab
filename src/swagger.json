@@ -472,41 +472,40 @@
         "security": [{
           "Bearer": []
         }],
-        "parameters": [{
-          "name": "Request body",
-          "in": "body",
-          "required": true,
-          "schema": {
-            "type": "object",
-            "properties": {
-              "firstName": {
-                "example": "Valentin",
-                "maxLength": 30,
-                "pattern": "[a-zA-Z]+",
-                "minLength": 2,
-                "type": "string"
-              },
-              "lastName": {
-                "example": "Anashkevich",
-                "maxLength": 30,
-                "pattern": "[a-zA-Z]+",
-                "minLength": 2,
-                "type": "string"
-              },
-              "occupations": {
-                "type": "string",
-                "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f"
-              }
-            }
-          }
-        },
-        {
-          "name": "avatar",
+        "parameters":[{
+          "name": "firstName",
           "in": "formData",
-          "description": "Doctor avatar",
-          "required": false,
-          "type": "file"
-        }
+          "description": "Doctor new first name",
+          "required": true,
+          "maxLength": 30,
+          "pattern": "[a-zA-Z]+",
+          "minLength": 2,
+          "type": "string"
+        },
+          {
+            "name": "lastName",
+            "in": "formData",
+            "description": "Doctor new last name",
+            "required": true,
+            "maxLength": 30,
+            "pattern": "[a-zA-Z]+",
+            "minLength": 2,
+            "type": "string"
+          },
+          {
+            "name": "occupations",
+            "in": "formData",
+            "description": "Doctor occupations",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "avatar",
+            "in": "formData",
+            "description": "Doctor avatar",
+            "required": false,
+            "type": "file"
+          }
         ],
         "responses": {
           "200": {

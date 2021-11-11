@@ -19,7 +19,6 @@ router.patch(`${ROUTES.PATIENTS}/me`, upload.single('avatar'), async (req, res, 
   try {
     await authenticationMiddleware(req, res);
     photoMiddleware(req, res);
-    console.log(req.body);
     ajvValidator(req.body, ChangePatientSchema, req, res, next);
   } catch (e) {
     res.status(e.status).json(e.message);
