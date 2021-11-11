@@ -56,9 +56,7 @@ router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
   try {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
-    next();
   } catch (e) {
-    console.log(e);
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
