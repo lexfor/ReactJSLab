@@ -178,9 +178,31 @@ class UsersService {
    * @param {string} userID
    */
   async checkIsAdmin(userID) {
-    const admin = await this.usersRepository.getAdminByID(userID);
+    const admin = await this.usersRepository.checkIsAdmin(userID);
     if (!admin) {
-      throw new ApiError('Admin not exist', StatusCodes.NOT_FOUND);
+      throw new ApiError('You are not admin', StatusCodes.NOT_FOUND);
+    }
+  }
+
+  /**
+   * check is patient
+   * @param {string} userID
+   */
+  async checkIsPatient(userID) {
+    const admin = await this.usersRepository.checkIsPatient(userID);
+    if (!admin) {
+      throw new ApiError('You are not patient', StatusCodes.NOT_FOUND);
+    }
+  }
+
+  /**
+   * check is doctor
+   * @param {string} userID
+   */
+  async checkIsDoctor(userID) {
+    const admin = await this.usersRepository.checkIsDoctor(userID);
+    if (!admin) {
+      throw new ApiError('You are not doctor', StatusCodes.NOT_FOUND);
     }
   }
 

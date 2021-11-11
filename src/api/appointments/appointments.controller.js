@@ -17,6 +17,7 @@ class AppointmentsController {
   async createAppointment(patientID, appointmentData) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsPatient(patientID);
       await this.usersService.checkIsPatientExist(patientID);
       await this.usersService.checkIsDoctorExist(appointmentData.doctorID);
       await this.appointmentService.checkAppointmentDate(appointmentData.date);
@@ -43,6 +44,7 @@ class AppointmentsController {
   async deleteAppointment(appointmentID, doctorID) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsDoctor(doctorID);
       await this.appointmentService.checkIsAppointmentExist(appointmentID);
       await this.usersService.checkIsDoctorExist(doctorID);
       await this.appointmentService.checkIsItYoursAppointment(appointmentID, doctorID);
@@ -70,11 +72,14 @@ class AppointmentsController {
   async updateAppointment(appointmentID, appointmentData, doctorID) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsDoctor(doctorID);
+      await this.appointmentService.checkAppointmentDate(appointmentData.date);
       await this.appointmentService.checkIsAppointmentExist(appointmentID);
       await this.appointmentService.checkIsItYoursAppointment(appointmentID, doctorID);
       res.setValue = await this.appointmentService.updateAppointment(
         appointmentID,
         appointmentData.status,
+        appointmentData.date
       );
       res.setStatus = StatusCodes.OK;
       return res;
@@ -103,6 +108,7 @@ class AppointmentsController {
         variant: SORT_TYPE[data.variant],
         dateStatus: DATE_STATUS_TYPE[data.dateStatus],
       };
+      await this.usersService.checkIsDoctor(data.doctorID);
       res.setValue = await this.appointmentService.getAppointmentsForDoctor(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
@@ -131,6 +137,7 @@ class AppointmentsController {
     };
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsPatient(data.patientID);
       res.setValue = await this.appointmentService.getAppointmentsForPatient(searchData);
       res.setStatus = StatusCodes.OK;
       return res;

@@ -87,10 +87,10 @@ router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
 }, async (req, res) => {
   const result = await patientController.getPatients({
     offset: req.query.offset,
-    count: req.query.count,
+    count: req.query.limit,
     name: req.query.name,
-    sort: req.query.sort,
-    variant: req.query.variant,
+    sort: req.query.sortBy,
+    variant: req.query.order,
   }, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });

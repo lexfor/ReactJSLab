@@ -9,10 +9,10 @@ export function changeTimeToLocal(data) {
   try {
     return data.map((item) => {
       if (item.visit_date) {
-        item.visit_date = item.visit_date.toLocaleString('ru', { hour12: false });
+        item.visit_date = item.visit_date.toISOString();
       }
       if (item.next_appointment_date) {
-        item.next_appointment_date = item.next_appointment_date.toLocaleString('ru', { hour12: false });
+        item.next_appointment_date = item.next_appointment_date.toISOString();
       }
       return item;
     });

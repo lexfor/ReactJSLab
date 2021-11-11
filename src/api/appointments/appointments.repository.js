@@ -55,13 +55,13 @@ class AppointmentsRepository {
      * update an appointment
      * @param {string} appointmentID
      * @param {string} statusID
-     * @param {string} doctorID
+     * @param {string} date
      * @returns {Promise<object>} updated appointment ID
      */
-  async updateAppointment(appointmentID, statusID, doctorID) {
+  async updateAppointment(appointmentID, statusID, date) {
     try {
-      const sql = 'UPDATE appointments SET status = $1 WHERE id = $2';
-      await this.pool.query(sql, [statusID, appointmentID]);
+      const sql = 'UPDATE appointments SET status = $1, visit_date = $3 WHERE id = $2';
+      await this.pool.query(sql, [statusID, appointmentID, date]);
       return appointmentID;
     } catch (e) {
       console.log(e.message);

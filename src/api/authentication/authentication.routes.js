@@ -33,7 +33,7 @@ router.post('/registration', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/token', async (req, res, next) => {
+router.post('/token/refresh', async (req, res, next) => {
   try {
     tokenMiddleware(req, res, next);
   } catch (e) {
@@ -56,7 +56,7 @@ router.patch('/password', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/check', async (req, res, next) => {
+router.post('/profile', async (req, res, next) => {
   try {
     await tokenMiddleware(req, res, next);
   } catch (e) {

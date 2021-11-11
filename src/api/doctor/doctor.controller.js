@@ -104,9 +104,9 @@ class DoctorController {
   async updateMyProfile(doctorID, doctor) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsDoctor(doctorID);
       await this.usersService.checkIsDoctorExist(doctorID);
       await this.usersService.updateUser(doctorID, doctor);
-      await this.doctorServices.updateDoctor(doctorID, doctor);
       res.setValue = await this.usersService.getDoctorByID(doctorID);
       res.setStatus = StatusCodes.OK;
       return res;
@@ -129,6 +129,7 @@ class DoctorController {
   async getMyProfile(userID) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsDoctor(userID);
       await this.usersService.checkIsDoctorExist(userID);
       res.setValue = await this.usersService.getDoctorByID(userID);
       res.setStatus = StatusCodes.OK;

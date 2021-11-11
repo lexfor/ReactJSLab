@@ -172,11 +172,11 @@ class UsersRepository {
   }
 
   /**
-   * Get admin by ID
+   * check is admin by ID
    * @param {string} userID
    * @returns {Promise<object>} admin data
    */
-  async getAdminByID(userID) {
+  async checkIsAdmin(userID) {
     try {
       const sql = `
                 SELECT 
@@ -186,6 +186,52 @@ class UsersRepository {
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1 AND users.role_id = $2`;
       const { rows } = await this.pool.query(sql, [userID, ROLES_ID.ADMIN]);
+      const [result] = dataFilter(rows);
+      return result;
+    } catch (e) {
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * check is patient by ID
+   * @param {string} userID
+   * @returns {Promise<object>} patient data
+   */
+  async checkIsPatient(userID) {
+    try {
+      const sql = `
+                SELECT 
+                users.*, 
+                roles.role_name
+                FROM users
+                INNER JOIN roles ON roles.id = users.role_id
+                WHERE users.id = $1 AND users.role_id = $2`;
+      const { rows } = await this.pool.query(sql, [userID, ROLES_ID.PATIENT]);
+      const [result] = dataFilter(rows);
+      return result;
+    } catch (e) {
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
+   * check is doctor by ID
+   * @param {string} userID
+   * @returns {Promise<object>} doctor data
+   */
+  async checkIsDoctor(userID) {
+    try {
+      const sql = `
+                SELECT 
+                users.*, 
+                roles.role_name
+                FROM users
+                INNER JOIN roles ON roles.id = users.role_id
+                WHERE users.id = $1 AND users.role_id = $2`;
+      const { rows } = await this.pool.query(sql, [userID, ROLES_ID.DOCTOR]);
       const [result] = dataFilter(rows);
       return result;
     } catch (e) {
@@ -253,7 +299,7 @@ class UsersRepository {
    */
   async getDoctorsBySpecializations(specializationID, name) {
     try {
-      const sql = `SELECT users.* FROM users
+      const sql = `SELECT users.firstName, users.lastName, users.id FROM users
                    INNER JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id
                    WHERE doctors_specializations.specialization_id = $1
                    ${nameCondition(name)}`;

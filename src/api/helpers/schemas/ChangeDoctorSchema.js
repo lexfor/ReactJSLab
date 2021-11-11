@@ -8,12 +8,7 @@ export const ChangeDoctorSchema = {
     },
     lastName: {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH,
-    },
-    occupations: {
-      type: 'array',
-      minItems: 1,
-      items: { type: 'string' },
-    },
+    }
   },
   required: ['firstName', 'lastName'],
   additionalProperties: true,

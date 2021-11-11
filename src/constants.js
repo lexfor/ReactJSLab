@@ -14,8 +14,6 @@ export const ROLES_ID = {
   ADMIN: '58ad6448-283c-11ec-9621-0242ac130002',
 };
 
-export const DEFAULT_PHOTO_PATH = '/src/public/users/images/default.jpg';
-
 export const NEXT_VISIT_DAYS_DELAY = 7;
 
 export const NOT_AVAILABLE = 'N/A';
@@ -31,8 +29,8 @@ export const WORK_HOURS = {
 };
 
 export const SORT_TYPE = {
-  Up: 'ASC',
-  Down: 'DESC',
+  Asc: 'ASC',
+  Desc: 'DESC',
 };
 
 export const DATE_STATUS_TYPE = {
@@ -40,11 +38,11 @@ export const DATE_STATUS_TYPE = {
   Outdate: 'done',
 };
 
-export const APPOINTMENTS_STATUSES = [
-  'waiting for confirmation',
-  'appointments is canceled',
-  'appointments is confirmed',
-];
+export const APPOINTMENTS_STATUSES = {
+  waiting: 'waiting for confirmation',
+  canceled: 'appointments is canceled',
+  confirmed: 'appointments is confirmed',
+}
 
 export const SORTS = {
   dateSort: 'appointments.visit_date',
@@ -77,3 +75,7 @@ export const SPECIALIZATION_NAME_JOIN = `(
                            INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
                            WHERE users.id = doctors_specializations.doctor_id
                          ) as specialization_name`;
+
+export const SITE_ROOT_PATH = 'https://reactlabapi.herokuapp.com'
+
+export const DEFAULT_PHOTO_PATH = `${SITE_ROOT_PATH}/src/public/users/images/default.jpg`;

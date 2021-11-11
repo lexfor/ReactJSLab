@@ -98,6 +98,7 @@ class PatientController {
   async updateMyProfile(patientID, patient) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsPatient(patientID);
       await this.usersService.checkIsPatientExist(patientID);
       await this.usersService.updateUser(patientID, patient);
       res.setValue = await this.usersService.getUserByID(patientID, ROLES_ID.PATIENT);
@@ -122,6 +123,7 @@ class PatientController {
   async getMyProfile(patientID) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsPatient(patientID);
       await this.usersService.checkIsPatientExist(patientID);
       res.setValue = await this.usersService.getUserByID(patientID);
       res.setStatus = StatusCodes.OK;

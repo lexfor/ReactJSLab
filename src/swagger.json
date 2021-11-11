@@ -88,9 +88,9 @@
           "type": "number"
         },
         {
-          "name": "count",
+          "name": "limit",
           "in": "query",
-          "description": "Count for pagination",
+          "description": "Limit for pagination",
           "required": true,
           "type": "number"
         },
@@ -102,20 +102,20 @@
           "type": "string"
         },
         {
-          "name": "sort",
+          "name": "sortBy",
           "in": "query",
-          "description": "Sort type",
+          "description": "Sort by",
           "required": false,
           "type": "string",
           "enum": ["firstNameSort", "lastNameSort"]
         },
         {
-          "name": "variant",
+          "name": "order",
           "in": "query",
           "description": "Sort variant",
           "required": false,
           "type": "string",
-          "enum": ["Up", "Down"]
+          "enum": ["Asc", "Desc"]
         }
         ],
         "responses": {
@@ -341,9 +341,9 @@
           "type": "number"
         },
         {
-          "name": "count",
+          "name": "limit",
           "in": "query",
-          "description": "Count for pagination",
+          "description": "Limit for pagination",
           "required": true,
           "type": "number"
         },
@@ -355,20 +355,20 @@
           "type": "string"
         },
         {
-          "name": "sort",
+          "name": "sortBy",
           "in": "query",
-          "description": "Sort type",
+          "description": "Sort by",
           "required": false,
           "type": "string",
           "enum": ["firstNameSort", "lastNameSort", "specializationSort"]
         },
         {
-          "name": "variant",
+          "name": "order",
           "in": "query",
           "description": "Sort variant",
           "required": false,
           "type": "string",
-          "enum": ["Up", "Down"]
+          "enum": ["Asc", "Desc"]
         }
         ],
         "responses": {
@@ -554,7 +554,18 @@
           "200": {
             "description": "Doctor data",
             "schema": {
-              "$ref": "#/definitions/Doctor"
+              "type": "object",
+              "properties": {
+                "firstName": {
+                  "type": "string"
+                },
+                "lastName": {
+                  "type": "string"
+                },
+                "id": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -606,7 +617,7 @@
         }
       }
     },
-    "/api/appointments/me": {
+    "/api/appointments/doctor/me": {
       "get": {
         "tags": ["Appointments"],
         "summary": "Get all appointments for doctors",
@@ -621,9 +632,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -635,20 +646,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           },
           {
             "name": "dateStatus",
@@ -753,9 +764,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -767,20 +778,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           },
           {
             "name": "dateStatus",
@@ -940,7 +951,7 @@
         }
       }
     },
-    "/api/resolutions/me": {
+    "/api/resolutions/patient/me": {
       "get": {
         "tags": ["Resolutions"],
         "summary": "Get all resolutions for patient page",
@@ -955,9 +966,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -969,20 +980,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           }
         ],
         "responses": {
@@ -1028,9 +1039,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -1042,20 +1053,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           }
         ],
         "responses": {
@@ -1102,9 +1113,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -1116,20 +1127,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           }
         ],
         "responses": {
@@ -1168,9 +1179,9 @@
           "type": "number"
         },
           {
-            "name": "count",
+            "name": "limit",
             "in": "query",
-            "description": "Count for pagination",
+            "description": "Limit for pagination",
             "required": true,
             "type": "number"
           },
@@ -1182,20 +1193,20 @@
             "type": "string"
           },
           {
-            "name": "sort",
+            "name": "sortBy",
             "in": "query",
-            "description": "Sort type",
+            "description": "Sort by",
             "required": false,
             "type": "string",
             "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
           },
           {
-            "name": "variant",
+            "name": "order",
             "in": "query",
             "description": "Sort variant",
             "required": false,
             "type": "string",
-            "enum": ["Up", "Down"]
+            "enum": ["Asc", "Desc"]
           }
         ],
         "responses": {
@@ -1339,7 +1350,7 @@
           }
         ],
         "responses": {
-          "200": {
+          "201": {
             "description": "User",
             "schema": {
               "type": "object",
@@ -1349,7 +1360,7 @@
         }
       }
     },
-    "/api/auth/check": {
+    "/api/auth/profile": {
       "post": {
         "tags": ["Auth"],
         "summary": "check user access",
@@ -1358,12 +1369,38 @@
         }],
         "responses": {
           "200": {
-            "description": "Access status"
+            "description": "Access status",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string"
+                },
+                "first_name": {
+                  "type": "string"
+                },
+                "last_name": {
+                  "type": "string"
+                },
+                "login": {
+                  "type": "string",
+                  "uniqueItems": true
+                },
+                "photo": {
+                  "type": "string",
+                  "description": "Path to photo"
+                },
+                "role_name": {
+                  "type": "string",
+                  "description": "User role"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/auth/token": {
+    "/api/auth/token/refresh": {
       "post": {
         "tags": ["Auth"],
         "summary": "Refresh JWT token ",
@@ -1585,7 +1622,7 @@
         "next_appointment_date": {
           "type": "string"
         },
-        "value": {
+        "resolution": {
           "type": "string"
         }
       }
@@ -1601,7 +1638,7 @@
         "next_appointment_date": {
           "type": "string"
         },
-        "value": {
+        "resolution": {
           "type": "string"
         },
         "visit_date": {
@@ -1629,7 +1666,7 @@
         "next_appointment_date": {
           "type": "string"
         },
-        "value": {
+        "resolution": {
           "type": "string"
         },
         "visit_date": {
@@ -1651,29 +1688,6 @@
         },
         "refresh_token": {
           "type": "string"
-        },
-        "user": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string"
-            },
-            "first_name": {
-              "type": "string"
-            },
-            "last_name": {
-              "type": "string"
-            },
-            "photo": {
-              "type": "string"
-            },
-            "login": {
-              "type": "string"
-            },
-            "role_name": {
-              "type": "string"
-            }
-          }
         }
       }
     },

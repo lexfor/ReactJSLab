@@ -18,11 +18,11 @@ class ResolutionRepository {
    */
   async createResolution(data) {
     try {
-      const sql = `INSERT INTO resolutions (id, value, appointment_id, next_appointment_date) VALUES (
+      const sql = `INSERT INTO resolutions (id, resolution, appointment_id, next_appointment_date) VALUES (
                    $1, $2, $3, $4) `;
       await this.pool.query(sql, [
           data.id,
-          data.value,
+          data.resolution,
           data.appointment_id,
           data.next_appointment_date,
       ]);
@@ -42,7 +42,7 @@ class ResolutionRepository {
   async updateResolution(resolutionID, resolutionValue) {
     try {
       const sql = `UPDATE resolutions 
-                   SET value = $1 WHERE resolutions.id = $2`;
+                   SET resolution = $1 WHERE resolutions.id = $2`;
       await this.pool.query(sql, [resolutionValue, resolutionID]);
       return resolutionID;
     } catch (e) {
@@ -122,6 +122,8 @@ class ResolutionRepository {
                    appointments.visit_date, 
                    users.first_name, 
                    users.last_name,
+                   users.photo,
+                   users.id
                    ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -148,7 +150,12 @@ class ResolutionRepository {
     try {
       const sql = `
                    SELECT COUNT(*) OVER() as total,
-                   resolutions.*, appointments.visit_date, users.first_name, users.last_name FROM resolutions
+                   resolutions.*,
+                   appointments.visit_date, 
+                   users.first_name, 
+                   users.last_name,
+                   users.photo,
+                   users.id FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.patient_id = users.id
                    WHERE appointments.doctor_id = $1
@@ -178,6 +185,8 @@ class ResolutionRepository {
                    appointments.visit_date, 
                    users.first_name, 
                    users.last_name,
+                   users.photo,
+                   users.id,
                    specializations.specialization_name
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -214,6 +223,8 @@ class ResolutionRepository {
                    appointments.visit_date, 
                    users.first_name, 
                    users.last_name,
+                   users.photo,
+                   users.id,
                    ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id

@@ -22,7 +22,7 @@ class AppointmentsService {
       visit_date: appointmentData.date,
       reason: appointmentData.reason,
       note: appointmentData.note,
-      status: APPOINTMENTS_STATUSES[0],
+      status: 'waiting',
     };
     const createdAppointment = await this.appointmentsRepository.createAppointment(data);
     return createdAppointment;
@@ -42,12 +42,14 @@ class AppointmentsService {
      * update an appointment
      * @param {string} appointmentID
      * @param {string} statusID
+     * @param {string} date
      * @returns {Promise<string>} update appointment ID
      */
-  async updateAppointment(appointmentID, statusID) {
+  async updateAppointment(appointmentID, statusID, date) {
     const updatedAppointmentID = await this.appointmentsRepository.updateAppointment(
       appointmentID,
       statusID,
+      date
     );
     return updatedAppointmentID;
   }
@@ -156,15 +158,16 @@ class AppointmentsService {
    * get free time for appointments
    * @param {string} date
    * @param {string} doctorID
-   * @returns {Promise<number[]>} array of available hours
+   * @returns {Promise<string[]>} array of available hours
    */
   async getFreeAppointmentsTime(date, doctorID) {
+    const filteredDate = date.split("T")[0];
     const availableHours = [];
-    const appointments = await this.appointmentsRepository.getAppointments(date, doctorID);
+    const appointments = await this.appointmentsRepository.getAppointments(filteredDate, doctorID);
     const notAvailableHours = appointments.map((appointment) => appointment.visit_date.getHours());
     for (let hour = WORK_HOURS.start; hour <= WORK_HOURS.end; hour += WORK_HOURS.step) {
       if (notAvailableHours.indexOf(hour) === -1) {
-        availableHours.push(hour);
+        availableHours.push(new Date(`${filteredDate} ${hour}:`).toISOString());
       }
     }
     return availableHours;

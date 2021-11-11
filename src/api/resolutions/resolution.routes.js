@@ -48,7 +48,7 @@ router.patch('/:id', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/me', async (req, res, next) => {
+router.get('/patient/me', async (req, res, next) => {
   try {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
@@ -59,10 +59,10 @@ router.get('/me', async (req, res, next) => {
   const result = await resolutionController.getResolutionsForPatient({
     patientID: req.userID,
     offset: req.query.offset,
-    count: req.query.count,
+    count: req.query.limit,
     name: req.query.name,
-    sort: req.query.sort,
-    variant: req.query.variant,
+    sort: req.query.sortBy,
+    variant: req.query.order,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -79,10 +79,10 @@ router.get('/doctor/me', async (req, res, next) => {
     doctorID: req.userID,
     date: req.query.date,
     offset: req.query.offset,
-    count: req.query.count,
+    count: req.query.limit,
     name: req.query.name,
-    sort: req.query.sort,
-    variant: req.query.variant,
+    sort: req.query.sortBy,
+    variant: req.query.order,
   });
   res.status(result.getStatus).json(result.getValue);
 });
@@ -100,9 +100,9 @@ router.get('/doctor/specialization/:specializationID', async (req, res, next) =>
     specializationID: req.params.specializationID,
     name: req.query.name,
     offset: req.query.offset,
-    count: req.query.count,
-    sort: req.query.sort,
-    variant: req.query.variant,
+    count: req.query.limit,
+    sort: req.query.sortBy,
+    variant: req.query.order,
   });
   res.status(result.getStatus).json(result.getValue);
 });
