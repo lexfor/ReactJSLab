@@ -212,28 +212,24 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "Request body",
-          "in": "body",
+          "name": "firstName",
+          "in": "formData",
+          "description": "Patient new first name",
           "required": true,
-          "schema": {
-            "type": "object",
-            "properties": {
-              "firstName": {
-                "example": "Gleb",
-                "maxLength": 30,
-                "pattern": "[a-zA-Z]+",
-                "minLength": 2,
-                "type": "string"
-              },
-              "lastName": {
-                "example": "Andreev",
-                "maxLength": 30,
-                "pattern": "[a-zA-Z]+",
-                "minLength": 2,
-                "type": "string"
-              }
-            }
-          }
+          "maxLength": 30,
+          "pattern": "[a-zA-Z]+",
+          "minLength": 2,
+          "type": "string"
+        },
+        {
+          "name": "lastName",
+          "in": "formData",
+          "description": "Patient new last name",
+          "required": true,
+          "maxLength": 30,
+          "pattern": "[a-zA-Z]+",
+          "minLength": 2,
+          "type": "string"
         },
         {
           "name": "avatar",
