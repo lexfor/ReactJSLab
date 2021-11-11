@@ -10,15 +10,17 @@ class PatientController {
   /**
    * register new patient
    * @param {object} patient
+   * @param {string} userID
    * @returns {Promise<object>} patient and status
    */
-  async createPatient(patient) {
+  async createPatient(patient, userID) {
     const res = new RequestResult();
     try {
       const userData = {
         ...patient,
         role_id: ROLES_ID.PATIENT,
       };
+      await this.usersService.checkIsAdmin(userID);
       await this.usersService.checkIsUserExist(userData.login);
       const createdUser = await this.usersService.createUser(userData);
       res.setValue = await this.usersService.getUserByID(createdUser.id);
@@ -38,11 +40,13 @@ class PatientController {
   /**
    * delete patient
    * @param {string} patientID
+   * @param {string} userID
    * @returns {Promise<object>} deleted patient id and status
    */
-  async deletePatient(patientID) {
+  async deletePatient(patientID, userID) {
     const res = new RequestResult();
     try {
+      await this.usersService.checkIsAdmin(userID);
       await this.usersService.checkIsPatientExist(patientID);
       res.setValue = await this.usersService.deleteUser(patientID);
       res.setStatus = StatusCodes.OK;
@@ -62,9 +66,36 @@ class PatientController {
    * update patient
    * @param {string} patientID
    * @param {object} patient
+   * @param {string} userID
    * @returns {Promise<object>} updated patient and status
    */
-  async updatePatient(patientID, patient) {
+  async updatePatient(patientID, patient, userID) {
+    const res = new RequestResult();
+    try {
+      await this.usersService.checkIsAdmin(userID);
+      await this.usersService.checkIsPatientExist(patientID);
+      await this.usersService.updateUser(patientID, patient);
+      res.setValue = await this.usersService.getUserByID(patientID, ROLES_ID.PATIENT);
+      res.setStatus = StatusCodes.OK;
+      return res;
+    } catch (e) {
+      res.setValue = e.message;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
+      return res;
+    }
+  }
+
+  /**
+   * update patient
+   * @param {string} patientID
+   * @param {object} patient
+   * @returns {Promise<object>} updated patient and status
+   */
+  async updateMyProfile(patientID, patient) {
     const res = new RequestResult();
     try {
       await this.usersService.checkIsPatientExist(patientID);
@@ -109,9 +140,10 @@ class PatientController {
   /**
    * Get all patients
    * @param {object} data
+   * @param {string} userID
    * @returns {Promise<object>} all founded patients with condition and status
    */
-  async getPatients(data) {
+  async getPatients(data, userID) {
     const res = new RequestResult();
     try {
       const patientData = {
@@ -120,6 +152,7 @@ class PatientController {
         variant: SORT_TYPE[data.variant],
         role: ROLES_ID.PATIENT,
       };
+      await this.usersService.checkIsAdmin(userID);
       res.setValue = await this.usersService.getUsers(patientData);
       res.setStatus = StatusCodes.OK;
       return res;

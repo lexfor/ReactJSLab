@@ -172,6 +172,29 @@ class UsersRepository {
   }
 
   /**
+   * Get admin by ID
+   * @param {string} userID
+   * @returns {Promise<object>} admin data
+   */
+  async getAdminByID(userID) {
+    try {
+      const sql = `
+                SELECT 
+                users.*, 
+                roles.role_name,
+                FROM users
+                INNER JOIN roles ON roles.id = users.role_id
+                WHERE users.id = $1 AND users.role_id = $2`;
+      const { rows } = await this.pool.query(sql, [userID, ROLES_ID.ADMIN]);
+      const [result] = dataFilter(rows);
+      return result;
+    } catch (e) {
+      console.log(e.message);
+      throw new ApiError('SQL error', StatusCodes.INTERNAL_SERVER_ERROR);
+    }
+  }
+
+  /**
      * Get all users with role
      * @param {object} data
      * @returns {Promise<object>} users

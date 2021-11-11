@@ -11,15 +11,17 @@ class DoctorController {
   /**
    * create new doctor
    * @param {object} doctor
+   * @param {string} userID
    * @returns {Promise<object>} doctor and status
    */
-  async createDoctor(doctor) {
+  async createDoctor(doctor, userID) {
     const res = new RequestResult();
     try {
       const userData = {
         ...doctor,
         role_id: ROLES_ID.DOCTOR,
       };
+      await this.usersService.checkIsAdmin(userID);
       await this.usersService.checkIsUserExist(userData.login);
       const createdUser = await this.usersService.createUser(userData);
       const foundedUser = await this.usersService.getUserByID(createdUser.id);
@@ -40,16 +42,18 @@ class DoctorController {
 
   /**
    * delete doctor
+   * @param {string} doctorID
    * @param {string} userID
    * @returns {Promise<object>} doctor ID and status
    */
-  async deleteDoctor(userID) {
+  async deleteDoctor(doctorID, userID) {
     const res = new RequestResult();
     try {
-      await this.usersService.checkIsDoctorExist(userID);
-      await this.usersService.deleteUser(userID);
-      await this.doctorServices.deleteDoctor(userID);
-      res.setValue = userID;
+      await this.usersService.checkIsAdmin(userID);
+      await this.usersService.checkIsDoctorExist(doctorID);
+      await this.usersService.deleteUser(doctorID);
+      await this.doctorServices.deleteDoctor(doctorID);
+      res.setValue = doctorID;
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -65,17 +69,45 @@ class DoctorController {
 
   /**
    * update doctor
+   * @param {string} doctorID
+   * @param {object} doctor
    * @param {string} userID
+   * @returns {Promise<object>} doctor and status
+   */
+  async updateDoctor(doctorID, doctor, userID) {
+    const res = new RequestResult();
+    try {
+      await this.usersService.checkIsAdmin(userID);
+      await this.usersService.checkIsDoctorExist(doctorID);
+      await this.usersService.updateUser(doctorID, doctor);
+      await this.doctorServices.updateDoctor(doctorID, doctor);
+      res.setValue = await this.usersService.getDoctorByID(doctorID);
+      res.setStatus = StatusCodes.OK;
+      return res;
+    } catch (e) {
+      res.setValue = e.message;
+      if (e.status) {
+        res.setStatus = e.status;
+      } else {
+        res.setStatus = StatusCodes.INTERNAL_SERVER_ERROR;
+      }
+      return res;
+    }
+  }
+
+  /**
+   * update doctor
+   * @param {string} doctorID
    * @param {object} doctor
    * @returns {Promise<object>} doctor and status
    */
-  async updateDoctor(userID, doctor) {
+  async updateMyProfile(doctorID, doctor) {
     const res = new RequestResult();
     try {
-      await this.usersService.checkIsDoctorExist(userID);
-      await this.usersService.updateUser(userID, doctor);
-      await this.doctorServices.updateDoctor(userID, doctor);
-      res.setValue = await this.usersService.getDoctorByID(userID);
+      await this.usersService.checkIsDoctorExist(doctorID);
+      await this.usersService.updateUser(doctorID, doctor);
+      await this.doctorServices.updateDoctor(doctorID, doctor);
+      res.setValue = await this.usersService.getDoctorByID(doctorID);
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {
@@ -115,9 +147,10 @@ class DoctorController {
   /**
    * get all doctors
    * @param {object} data
+   * @param {string} userID
    * @returns {Promise<object>} doctors array and status
    */
-  async getDoctors(data) {
+  async getDoctors(data, userID) {
     const res = new RequestResult();
     try {
       const searchData = {
@@ -125,6 +158,7 @@ class DoctorController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
+      await this.usersService.checkIsAdmin(userID);
       res.setValue = await this.usersService.getDoctors(searchData);
       res.setStatus = StatusCodes.OK;
       return res;

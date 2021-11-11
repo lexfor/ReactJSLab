@@ -174,6 +174,17 @@ class UsersService {
   }
 
   /**
+   * check is admin
+   * @param {string} userID
+   */
+  async checkIsAdmin(userID) {
+    const admin = await this.usersRepository.getAdminByID(userID);
+    if (!admin) {
+      throw new ApiError('Admin not exist', StatusCodes.NOT_FOUND);
+    }
+  }
+
+  /**
      * login
      * @param {object} credentials
      * @returns {Promise<object>} user data

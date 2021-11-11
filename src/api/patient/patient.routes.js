@@ -24,7 +24,7 @@ router.patch(`${ROUTES.PATIENTS}/me`, upload.single('avatar'), async (req, res, 
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
-  const result = await patientController.updatePatient(req.userID, req.body);
+  const result = await patientController.updateMyProfile(req.userID, req.body);
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -48,7 +48,7 @@ router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
-  const result = await patientController.createPatient(req.body);
+  const result = await patientController.createPatient(req.body, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -61,7 +61,7 @@ router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
-  const result = await patientController.deletePatient(req.params.id);
+  const result = await patientController.deletePatient(req.params.id, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -73,7 +73,7 @@ router.patch(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
     res.status(e.status).json(e.message);
   }
 }, async (req, res) => {
-  const result = await patientController.updatePatient(req.params.id, req.body);
+  const result = await patientController.updatePatient(req.params.id, req.body, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
@@ -91,7 +91,7 @@ router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
     name: req.query.name,
     sort: req.query.sort,
     variant: req.query.variant,
-  });
+  }, req.userID);
   res.status(result.getStatus).json(result.getValue);
 });
 
