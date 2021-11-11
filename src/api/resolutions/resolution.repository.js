@@ -77,7 +77,8 @@ class ResolutionRepository {
       const sql = `SELECT resolutions.*, appointments.doctor_id FROM resolutions 
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE resolutions.id = $1`;
-      const { rows } = await this.pool.query(sql, [resolutionID]);
+      let { rows } = await this.pool.query(sql, [resolutionID]);
+      rows = changeTimeToLocal(rows);
       const [result] = rows;
       return result;
     } catch (e) {
@@ -96,7 +97,8 @@ class ResolutionRepository {
       const sql = `SELECT resolutions.*, appointments.doctor_id FROM resolutions 
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE appointments.id = $1`;
-      const { rows } = await this.pool.query(sql, [appointmentID]);
+      let { rows } = await this.pool.query(sql, [appointmentID]);
+      rows = changeTimeToLocal(rows);
       const [result] = rows;
       return result;
     } catch (e) {
