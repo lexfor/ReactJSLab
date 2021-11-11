@@ -821,7 +821,8 @@
           "in": "query",
           "description": "date for visit",
           "required": true,
-          "type": "string"
+          "type": "string",
+          "pattern": "yyyy-mm-dd"
         },
           {
             "name": "doctorID",
@@ -1006,7 +1007,7 @@
         }
       }
     },
-    "/api/resolutions/doctor/specializations/{id}": {
+    "/api/resolutions/doctor/specialization/{id}": {
       "parameters": [{
         "name": "id",
         "in": "path",
@@ -1092,7 +1093,7 @@
             "in": "query",
             "description": "Date filter",
             "required": true,
-            "type": "number",
+            "type": "string",
             "pattern": "yyyy-mm-dd"
           },
           {
