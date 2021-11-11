@@ -8,6 +8,6 @@ export const PaginationSchema = {
       type: 'string',
     },
   },
-  required: ['offset', 'count'],
+  required: ['offset', 'limit'],
   additionalProperties: true,
 };
