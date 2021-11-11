@@ -78,6 +78,7 @@ class ResolutionRepository {
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE resolutions.id = $1`;
       let { rows } = await this.pool.query(sql, [resolutionID]);
+      console.log(rows);
       rows = changeTimeToLocal(rows);
       const [result] = rows;
       return result;
@@ -98,6 +99,7 @@ class ResolutionRepository {
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    WHERE appointments.id = $1`;
       let { rows } = await this.pool.query(sql, [appointmentID]);
+      console.log(rows);
       rows = changeTimeToLocal(rows);
       const [result] = rows;
       return result;
