@@ -181,7 +181,7 @@ class UsersRepository {
       const sql = `
                 SELECT 
                 users.*, 
-                roles.role_name,
+                roles.role_name
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1 AND users.role_id = $2`;
