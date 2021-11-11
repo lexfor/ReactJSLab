@@ -821,8 +821,7 @@
           "in": "query",
           "description": "date for visit",
           "required": true,
-          "type": "string",
-          "pattern": "yyyy-mm-dd"
+          "type": "string"
         },
           {
             "name": "doctorID",
@@ -1093,8 +1092,7 @@
             "in": "query",
             "description": "Date filter",
             "required": true,
-            "type": "string",
-            "pattern": "yyyy-mm-dd"
+            "type": "string"
           },
           {
           "name": "offset",
