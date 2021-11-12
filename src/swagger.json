@@ -614,7 +614,7 @@
     "/api/appointments/doctor/me": {
       "get": {
         "tags": ["Appointments"],
-        "summary": "Get all appointments for doctors",
+        "summary": "Get all appointments for doctor",
         "security": [{
           "Bearer": []
         }],
@@ -727,7 +727,7 @@
                 "type": "string"
               },
               "date": {
-                "example": "New appointment date",
+                "example": "2021-11-23T11:00:00.000Z",
                 "type": "string"
               }
             }
@@ -1359,13 +1359,13 @@
     "/api/auth/profile": {
       "post": {
         "tags": ["Auth"],
-        "summary": "check user access",
+        "summary": "Get user profile",
         "security": [{
           "Bearer": []
         }],
         "responses": {
           "200": {
-            "description": "Access status",
+            "description": "Profile",
             "schema": {
               "type": "object",
               "properties": {
