@@ -120,9 +120,9 @@ router.get('/date', async (req, res, next) => {
     date: req.query.date,
     name: req.query.name,
     offset: req.query.offset,
-    count: req.query.count,
-    sort: req.query.sort,
-    variant: req.query.variant,
+    count: req.query.limit,
+    sort: req.query.sortBy,
+    variant: req.query.order,
   });
   res.status(result.getStatus).json(result.getValue);
 });

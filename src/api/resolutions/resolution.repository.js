@@ -217,7 +217,6 @@ class ResolutionRepository {
    */
   async getPatientResolutionsByDate(data) {
     try {
-      console.log(data);
       const sql = `
                    SELECT COUNT(*) OVER() as total,
                    resolutions.*,
@@ -235,7 +234,6 @@ class ResolutionRepository {
                    ${nameCondition(data.name)}
                    ${sort(data.sort, data.variant)}
                    LIMIT $3 OFFSET $2`;
-      console.log(sql);
       let { rows } = await this.pool.query(
         sql,
         [data.patientID, +data.offset, +data.count],
