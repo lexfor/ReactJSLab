@@ -71,6 +71,38 @@
             "schema": {
               "$ref": "#/definitions/Patient"
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "409": {
+            "description": "Access error",
+            "schema": {
+              "type": "string",
+              "example": "User already exist"
+            }
           }
         }
       },
@@ -135,6 +167,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
           }
         }
       }
@@ -159,6 +216,38 @@
             "schema": {
               "description": "Deleted patient ID",
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
             }
           }
         }
@@ -198,6 +287,38 @@
             "description": "Updated patient",
             "schema": {
               "$ref": "#/definitions/Patient"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
             }
           }
         }
@@ -245,6 +366,38 @@
             "schema": {
               "$ref": "#/definitions/Patient"
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
+            }
           }
         }
       },
@@ -259,6 +412,38 @@
             "description": "Patients data",
             "schema": {
               "$ref": "#/definitions/Patient"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
             }
           }
         }
@@ -324,6 +509,38 @@
             "schema": {
               "$ref": "#/definitions/Doctor"
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "409": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User already exist"
+            }
           }
         }
       },
@@ -388,6 +605,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
           }
         }
       }
@@ -412,6 +654,38 @@
             "schema": {
               "description": "doctor ID",
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Doctor not exist"
             }
           }
         }
@@ -460,6 +734,38 @@
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
             }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotAdmin"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
+            }
           }
         }
       }
@@ -506,6 +812,38 @@
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Doctor not exist"
+            }
           }
         }
       },
@@ -520,6 +858,38 @@
             "description": "Doctors data",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Doctor not exist"
             }
           }
         }
@@ -559,6 +929,18 @@
                   "type": "string"
                 }
               }
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
             }
           }
         }
@@ -606,6 +988,38 @@
             "description": "Appointment data",
             "schema": {
               "$ref": "#/definitions/Appointment"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
             }
           }
         }
@@ -681,6 +1095,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
           }
         }
       }
@@ -705,6 +1144,38 @@
             "schema": {
               "description": "appointment ID",
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Appointment not exist"
             }
           }
         }
@@ -738,6 +1209,45 @@
             "description": "Updated appointment ID",
             "schema": {
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
+            }
+          },
+          "409": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Date and time not free"
             }
           }
         }
@@ -813,6 +1323,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
           }
         }
       }
@@ -845,6 +1380,18 @@
                 "example": "2021-11-23T13:00:00.000Z",
                 "type": "string"
               }
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
             }
           }
         }
@@ -883,6 +1430,45 @@
             "description": "Resolution data",
             "schema": {
               "$ref": "#/definitions/Resolution"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Appointment not exist"
+            }
+          },
+          "409": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Date and time not free"
             }
           }
         }
@@ -956,6 +1542,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
+            }
           }
         }
       }
@@ -980,6 +1591,38 @@
             "schema": {
               "description": "resolution ID",
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Resolution not exist"
             }
           }
         }
@@ -1013,6 +1656,38 @@
             "schema": {
               "description": "resolution ID",
               "type": "string"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Resolution not exist"
             }
           }
         }
@@ -1079,6 +1754,31 @@
                   "type": "number"
                 }
               }
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
             }
           }
         }
@@ -1153,6 +1853,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotPatient"
+            }
           }
         }
       }
@@ -1219,6 +1944,31 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
+          },
+          "403": {
+            "description": "Access error",
+            "schema": {
+              "$ref": "#/definitions/NotDoctor"
+            }
           }
         }
       }
@@ -1256,6 +2006,25 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/AuthData"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "401": {
+            "description": "Auth data error",
+            "schema": {
+              "type": "string",
+              "example": "wrong user data"
             }
           }
         }
@@ -1297,6 +2066,26 @@
             "schema": {
               "type": "object",
               "$ref": "#/definitions/User"
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "404": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User not exist"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
             }
           }
         }
@@ -1349,12 +2138,31 @@
               "type": "object",
               "$ref": "#/definitions/AuthData"
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "schema": {
+              "$ref": "#/definitions/Validation"
+            }
+          },
+          "409": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "User already exist"
+            }
           }
         }
       }
     },
     "/api/auth/profile": {
-      "post": {
+      "get": {
         "tags": ["Auth"],
         "summary": "Get user profile",
         "security": [{
@@ -1389,6 +2197,19 @@
                 }
               }
             }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
+            }
           }
         }
       }
@@ -1413,6 +2234,13 @@
                   "type": "string"
                 }
               }
+            }
+          },
+          "401": {
+            "description": "Token error",
+            "schema": {
+              "type": "string",
+              "example": "wrong token"
             }
           }
         }
@@ -1455,6 +2283,12 @@
                   }
                 }
               }
+            }
+          },
+          "500": {
+            "description": "Server error ",
+            "schema": {
+              "$ref": "#/definitions/MySql"
             }
           }
         }
@@ -1759,6 +2593,26 @@
           "type": "string"
         }
       }
+    },
+    "MySql": {
+      "type": "string",
+      "example": "SQL error"
+    },
+    "Validation": {
+      "type": "string",
+      "example": "login should be mail"
+    },
+    "NotAdmin": {
+      "type": "string",
+      "example": "You are not admin"
+    },
+    "NotPatient": {
+      "type": "string",
+      "example": "You are not patient"
+    },
+    "NotDoctor": {
+      "type": "string",
+      "example": "You are not doctor"
     }
   },
   "securityDefinitions": {

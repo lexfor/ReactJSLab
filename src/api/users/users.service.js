@@ -158,7 +158,7 @@ class UsersService {
   async checkIsUserExist(login) {
     const user = await this.usersRepository.getUserByLogin(login);
     if (user) {
-      throw new ApiError('User already exist', StatusCodes.BAD_REQUEST);
+      throw new ApiError('User already exist', StatusCodes.CONFLICT);
     }
   }
 

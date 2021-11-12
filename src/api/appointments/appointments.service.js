@@ -105,7 +105,7 @@ class AppointmentsService {
       doctorID,
     );
     if (appointment) {
-      throw new ApiError('Date and time not free', StatusCodes.BAD_REQUEST);
+      throw new ApiError('Date and time not free', StatusCodes.CONFLICT);
     }
   }
 

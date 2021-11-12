@@ -5,7 +5,6 @@ import {
   authenticationMiddleware,
   photoMiddleware,
 } from '../helpers/middleware';
-import { getArrayFromFormMiddleware } from '../helpers/middleware/getArrayFromFormMiddleware';
 import { ROUTES } from '../../constants';
 import {ajvValidator} from '../helpers/middleware/index';
 import { ChangeDoctorSchema } from '../helpers/schemas/ChangeDoctorSchema';
