@@ -100,12 +100,10 @@ class AppointmentsService {
    * @param {string} doctorID
    */
   async checkAppointmentDate(date, doctorID = '') {
-    console.log(`${date}k`);
     const [appointment] = await this.appointmentsRepository.getAppointments(
       ISOdateFixes(date),
       doctorID,
     );
-    console.log(appointment);
     if (appointment) {
       throw new ApiError('Date and time not free', StatusCodes.BAD_REQUEST);
     }

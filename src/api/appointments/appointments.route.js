@@ -39,7 +39,7 @@ router.delete('/:id', async (req, res, next) => {
 router.patch('/:id', async (req, res, next) => {
   try {
     await authenticationMiddleware(req, res);
-    ajvValidator(req.params, IDSchema, req, res, next);
+    ajvValidator(req.body, FreeTimeSchema, req, res, next);
   } catch (e) {
     res.status(e.status).json(e.message);
   }
