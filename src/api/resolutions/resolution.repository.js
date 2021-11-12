@@ -123,7 +123,7 @@ class ResolutionRepository {
                    users.first_name, 
                    users.last_name,
                    users.photo,
-                   users.id as user_id
+                   users.id as user_id,
                    ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
