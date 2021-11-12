@@ -635,7 +635,7 @@
           {
             "name": "name",
             "in": "query",
-            "description": "Doctor name filter",
+            "description": "Patient name filter",
             "required": false,
             "type": "string"
           },
