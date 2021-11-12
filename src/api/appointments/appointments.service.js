@@ -2,6 +2,7 @@ import { v1 as uuidv1 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
 import { APPOINTMENTS_STATUSES, WORK_HOURS } from '../../constants';
 import ApiError from '../helpers/ApiError';
+import {ISOdateFixes} from "../helpers/ISOdateFixes";
 
 class AppointmentsService {
   constructor(appointmentsRepository) {
@@ -100,7 +101,7 @@ class AppointmentsService {
    */
   async checkAppointmentDate(date, doctorID = '') {
     const [appointment] = await this.appointmentsRepository.getAppointments(
-      date.replace(/[A-Z]/g, ' '),
+      ISOdateFixes(date),
       doctorID,
     );
     console.log(appointment);
