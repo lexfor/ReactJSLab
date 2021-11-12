@@ -96,12 +96,14 @@ class AppointmentsService {
   /**
    * check appointment date free
    * @param {string} date
+   * @param {string} doctorID
    */
-  async checkAppointmentDate(date) {
+  async checkAppointmentDate(date, doctorID = '') {
     const [appointment] = await this.appointmentsRepository.getAppointments(
       date.replace(/[A-Z]/g, ' '),
-      '',
+      doctorID,
     );
+    console.log(appointment);
     if (appointment) {
       throw new ApiError('Date and time not free', StatusCodes.BAD_REQUEST);
     }

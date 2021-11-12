@@ -140,6 +140,7 @@ class AppointmentsRepository {
                          WHERE visit_date::text LIKE '%${date}%'
                          ${checkDoctorIDCondition(doctorID)}`;
       const { rows } = await this.pool.query(sql);
+      console.log(rows);
       return rows;
     } catch (e) {
       console.log(e.message);
