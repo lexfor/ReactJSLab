@@ -299,7 +299,7 @@ class UsersRepository {
    */
   async getDoctorsBySpecializations(specializationID, name) {
     try {
-      const sql = `SELECT users.firstName, users.lastName, users.id FROM users
+      const sql = `SELECT users.first_name, users.last_name, users.id FROM users
                    INNER JOIN doctors_specializations ON users.id = doctors_specializations.doctor_id
                    WHERE doctors_specializations.specialization_id = $1
                    ${nameCondition(name)}`;

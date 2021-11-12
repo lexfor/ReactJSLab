@@ -99,7 +99,7 @@ class AppointmentsService {
    */
   async checkAppointmentDate(date) {
     const [appointment] = await this.appointmentsRepository.getAppointments(
-      date,
+      date.replace(/[A-Z]/g, ' '),
       '',
     );
     if (appointment) {
@@ -161,13 +161,15 @@ class AppointmentsService {
    * @returns {Promise<string[]>} array of available hours
    */
   async getFreeAppointmentsTime(date, doctorID) {
-    const filteredDate = date.split("T")[0];
+
+    const filteredDate = date.replace(/[A-Z]/g, ' ');
+    const checkedDate = filteredDate.split(' ')[0];
     const availableHours = [];
-    const appointments = await this.appointmentsRepository.getAppointments(filteredDate, doctorID);
+    const appointments = await this.appointmentsRepository.getAppointments(checkedDate, doctorID);
     const notAvailableHours = appointments.map((appointment) => appointment.visit_date.getHours());
     for (let hour = WORK_HOURS.start; hour <= WORK_HOURS.end; hour += WORK_HOURS.step) {
       if (notAvailableHours.indexOf(hour) === -1) {
-        availableHours.push(new Date(`${filteredDate} ${hour}:`).toISOString());
+        availableHours.push(new Date(`${checkedDate} ${hour}:`).toISOString());
       }
     }
     return availableHours;

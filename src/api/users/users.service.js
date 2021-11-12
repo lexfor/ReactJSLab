@@ -180,7 +180,7 @@ class UsersService {
   async checkIsAdmin(userID) {
     const admin = await this.usersRepository.checkIsAdmin(userID);
     if (!admin) {
-      throw new ApiError('You are not admin', StatusCodes.NOT_FOUND);
+      throw new ApiError('You are not admin', StatusCodes.FORBIDDEN);
     }
   }
 
@@ -191,7 +191,7 @@ class UsersService {
   async checkIsPatient(userID) {
     const admin = await this.usersRepository.checkIsPatient(userID);
     if (!admin) {
-      throw new ApiError('You are not patient', StatusCodes.NOT_FOUND);
+      throw new ApiError('You are not patient', StatusCodes.FORBIDDEN);
     }
   }
 
@@ -202,7 +202,7 @@ class UsersService {
   async checkIsDoctor(userID) {
     const admin = await this.usersRepository.checkIsDoctor(userID);
     if (!admin) {
-      throw new ApiError('You are not doctor', StatusCodes.NOT_FOUND);
+      throw new ApiError('You are not doctor', StatusCodes.FORBIDDEN);
     }
   }
 

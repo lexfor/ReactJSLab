@@ -47,7 +47,7 @@
                 "type": "string"
               },
               "login": {
-                "example": "tsimafei.kinevich@itrexgroup.com",
+                "example": "tsimafei@itrexgroup.com",
                 "maxLength": 30,
                 "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
                 "minLength": 2,
@@ -588,7 +588,8 @@
             "type": "object",
             "properties": {
               "date": {
-                "example": "2021-11-23 13:00",
+                "example": "2021-11-23T10:00:00Z",
+                "description": "ISO string",
                 "type": "string"
               },
               "reason": {
@@ -730,6 +731,10 @@
             "properties": {
               "status": {
                 "example": "Waiting for confirmation",
+                "type": "string"
+              },
+              "date": {
+                "example": "New appointment date",
                 "type": "string"
               }
             }
@@ -1488,6 +1493,10 @@
         "photo": {
           "type": "string",
           "description": "Path to photo"
+        },
+        "role_name": {
+          "type": "string",
+          "description": "User role name"
         }
       }
     },
@@ -1553,6 +1562,10 @@
         "doctor_id": {
           "type": "string"
         },
+        "visit_date": {
+          "type": "string",
+          "description": "Visit date"
+        },
         "status": {
           "type": "string",
           "description": "Appointment status name"
@@ -1581,6 +1594,10 @@
         "photo": {
           "type": "string",
           "description": "Path to photo"
+        },
+        "role_name": {
+          "type": "string",
+          "description": "Users role name"
         }
       }
     },
