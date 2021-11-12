@@ -2183,10 +2183,6 @@
                 "last_name": {
                   "type": "string"
                 },
-                "login": {
-                  "type": "string",
-                  "uniqueItems": true
-                },
                 "photo": {
                   "type": "string",
                   "description": "Path to photo"
@@ -2308,10 +2304,6 @@
         "last_name": {
           "type": "string"
         },
-        "login": {
-          "type": "string",
-          "uniqueItems": true
-        },
         "photo": {
           "type": "string",
           "description": "Path to photo"
@@ -2409,10 +2401,6 @@
         "last_name": {
           "type": "string"
         },
-        "login": {
-          "type": "string",
-          "uniqueItems": true
-        },
         "photo": {
           "type": "string",
           "description": "Path to photo"
@@ -2433,10 +2421,6 @@
         },
         "last_name": {
           "type": "string"
-        },
-        "login": {
-          "type": "string",
-          "uniqueItems": true
         },
         "photo": {
           "type": "string",
@@ -2552,9 +2536,6 @@
           "type": "string"
         },
         "last_name": {
-          "type": "string"
-        },
-        "login": {
           "type": "string"
         },
         "password": {

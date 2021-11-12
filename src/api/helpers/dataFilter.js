@@ -6,6 +6,9 @@ export function dataFilter(rows) {
     if (row.role_id) {
       delete row.role_id;
     }
+    if (row.login) {
+      delete row.login;
+    }
     return row;
   });
 }
