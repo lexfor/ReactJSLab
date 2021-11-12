@@ -123,7 +123,7 @@ class ResolutionRepository {
                    users.first_name, 
                    users.last_name,
                    users.photo,
-                   users.id
+                   users.id as user_id
                    ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -155,7 +155,7 @@ class ResolutionRepository {
                    users.first_name, 
                    users.last_name,
                    users.photo,
-                   users.id FROM resolutions
+                   users.id as user_id FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.patient_id = users.id
                    WHERE appointments.doctor_id = $1
@@ -186,7 +186,7 @@ class ResolutionRepository {
                    users.first_name, 
                    users.last_name,
                    users.photo,
-                   users.id,
+                   users.id as user_id,
                    specializations.specialization_name
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
@@ -224,7 +224,7 @@ class ResolutionRepository {
                    users.first_name, 
                    users.last_name,
                    users.photo,
-                   users.id,
+                   users.id as user_id,
                    ${SPECIALIZATION_NAME_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
