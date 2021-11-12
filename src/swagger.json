@@ -493,13 +493,6 @@
             "type": "string"
           },
           {
-            "name": "occupations",
-            "in": "formData",
-            "description": "Doctor occupations",
-            "required": true,
-            "type": "string"
-          },
-          {
             "name": "avatar",
             "in": "formData",
             "description": "Doctor avatar",

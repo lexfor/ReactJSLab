@@ -17,7 +17,6 @@ const doctorController = injector.getDoctorController;
 
 router.patch(`${ROUTES.DOCTORS}/me`, upload.single('avatar'), async (req, res, next) => {
   try {
-    getArrayFromFormMiddleware(req);
     await authenticationMiddleware(req, res);
     photoMiddleware(req, res);
     ajvValidator(req.body, ChangeDoctorSchema, req, res, next);
