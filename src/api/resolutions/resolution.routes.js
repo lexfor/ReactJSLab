@@ -107,7 +107,7 @@ router.get('/doctor/specialization/:specializationID', async (req, res, next) =>
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.get('/date', async (req, res, next) => {
+router.get('/', async (req, res, next) => {
   try {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);

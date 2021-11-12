@@ -307,7 +307,7 @@
                 "minLength": 2,
                 "type": "string"
               },
-              "occupations": {
+              "specializations": {
                 "type": "array",
                 "items": {
                   "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
@@ -444,7 +444,7 @@
                   "minLength": 2,
                   "type": "string"
                 },
-                "occupations": {
+                "specializations": {
                   "type": "array",
                   "items": {
                     "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
@@ -889,6 +889,78 @@
             }
           }
         }
+      },
+      "get": {
+        "tags": ["Resolutions"],
+        "summary": "Filter by dates for patient page resolutions",
+        "security": [{
+          "Bearer": []
+        }],
+        "parameters": [
+          {
+            "name": "date",
+            "in": "query",
+            "description": "Date filter",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "description": "Offset for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "Limit for pagination",
+            "required": true,
+            "type": "number"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Doctor name filter",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sortBy",
+            "in": "query",
+            "description": "Sort by",
+            "required": false,
+            "type": "string",
+            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
+          },
+          {
+            "name": "order",
+            "in": "query",
+            "description": "Sort variant",
+            "required": false,
+            "type": "string",
+            "enum": ["Asc", "Desc"]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Resolutions",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "resolutions": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/ResolutionForPatient"
+                  }
+                },
+                "total": {
+                  "type": "number"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/api/resolutions/{id}": {
@@ -1030,80 +1102,6 @@
           "Bearer": []
         }],
         "parameters": [{
-          "name": "offset",
-          "in": "query",
-          "description": "Offset for pagination",
-          "required": true,
-          "type": "number"
-        },
-          {
-            "name": "limit",
-            "in": "query",
-            "description": "Limit for pagination",
-            "required": true,
-            "type": "number"
-          },
-          {
-            "name": "name",
-            "in": "query",
-            "description": "Doctor name filter",
-            "required": false,
-            "type": "string"
-          },
-          {
-            "name": "sortBy",
-            "in": "query",
-            "description": "Sort by",
-            "required": false,
-            "type": "string",
-            "enum": ["firstNameSort", "lastNameSort", "dateSort", "nextDateSort"]
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "Sort variant",
-            "required": false,
-            "type": "string",
-            "enum": ["Asc", "Desc"]
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Resolutions",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "resolutions": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/definitions/ResolutionForPatient"
-                  }
-                },
-                "total": {
-                  "type": "number"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/resolutions/date": {
-      "get": {
-        "tags": ["Resolutions"],
-        "summary": "Filter by dates for patient page resolutions",
-        "security": [{
-          "Bearer": []
-        }],
-        "parameters": [
-          {
-            "name": "date",
-            "in": "query",
-            "description": "Date filter",
-            "required": true,
-            "type": "string"
-          },
-          {
           "name": "offset",
           "in": "query",
           "description": "Offset for pagination",
