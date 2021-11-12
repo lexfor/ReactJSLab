@@ -21,7 +21,7 @@ class AppointmentsController {
       await this.usersService.checkIsPatient(patientID);
       await this.usersService.checkIsPatientExist(patientID);
       await this.usersService.checkIsDoctorExist(appointmentData.doctorID);
-      await this.appointmentService.checkAppointmentDate(appointmentData.date);
+      await this.appointmentService.checkAppointmentDate(appointmentData.date, appointmentData.doctorID);
       res.setValue = await this.appointmentService.createAppointment(patientID, appointmentData);
       res.setStatus = StatusCodes.CREATED;
       return res;
