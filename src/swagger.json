@@ -307,7 +307,7 @@
                 "minLength": 2,
                 "type": "string"
               },
-              "specializations": {
+              "occupations": {
                 "type": "array",
                 "items": {
                   "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
@@ -444,7 +444,7 @@
                   "minLength": 2,
                   "type": "string"
                 },
-                "specializations": {
+                "occupations": {
                   "type": "array",
                   "items": {
                     "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
@@ -1359,15 +1359,15 @@
       }
     },
     "/api/auth/profile": {
-      "get": {
+      "post": {
         "tags": ["Auth"],
-        "summary": "get user profile",
+        "summary": "check user access",
         "security": [{
           "Bearer": []
         }],
         "responses": {
           "200": {
-            "description": "User profile",
+            "description": "Access status",
             "schema": {
               "type": "object",
               "properties": {
