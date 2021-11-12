@@ -842,6 +842,7 @@
             "schema": {
               "type": "array",
               "items": {
+                "example": "2021-11-23T13:00:00.000Z",
                 "type": "string"
               }
             }
