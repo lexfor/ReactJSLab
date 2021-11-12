@@ -67,7 +67,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Patient ",
             "schema": {
               "$ref": "#/definitions/Patient"
             }
@@ -155,7 +155,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Deleted",
+            "description": "Deleted patient ID",
             "schema": {
               "description": "Deleted patient ID",
               "type": "string"
@@ -195,7 +195,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Updated",
+            "description": "Updated patient",
             "schema": {
               "$ref": "#/definitions/Patient"
             }
@@ -241,7 +241,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Updated",
+            "description": "Updated patient",
             "schema": {
               "$ref": "#/definitions/Patient"
             }
@@ -256,7 +256,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Patient data",
+            "description": "Patients data",
             "schema": {
               "$ref": "#/definitions/Patient"
             }
@@ -320,7 +320,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Doctor ID",
             "schema": {
               "$ref": "#/definitions/Doctor"
             }
@@ -373,7 +373,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Doctors",
+            "description": "Doctors data",
             "schema": {
               "type": "object",
               "properties": {
@@ -408,9 +408,9 @@
         }],
         "responses": {
           "200": {
-            "description": "Deleted",
+            "description": "Deleted patient ID",
             "schema": {
-              "description": "Deleted doctor ID",
+              "description": "doctor ID",
               "type": "string"
             }
           }
@@ -456,7 +456,7 @@
           }],
         "responses": {
           "200": {
-            "description": "Updated",
+            "description": "Updated doctor data",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
             }
@@ -502,7 +502,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Updated",
+            "description": "Updated doctor data",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
             }
@@ -517,7 +517,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Doctor data",
+            "description": "Doctors data",
             "schema": {
               "$ref": "#/definitions/DoctorWithSpecialization"
             }
@@ -545,7 +545,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Doctor data",
+            "description": "Doctors data",
             "schema": {
               "type": "object",
               "properties": {
@@ -603,7 +603,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Appointment data",
             "schema": {
               "$ref": "#/definitions/Appointment"
             }
@@ -666,7 +666,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Doctors",
+            "description": "Doctor appointments data",
             "schema": {
               "type": "object",
               "properties": {
@@ -701,9 +701,9 @@
         }],
         "responses": {
           "200": {
-            "description": "Deleted",
+            "description": "Deleted appointment ID",
             "schema": {
-              "description": "Deleted appointment ID",
+              "description": "appointment ID",
               "type": "string"
             }
           }
@@ -737,11 +737,7 @@
           "200": {
             "description": "Updated appointment ID",
             "schema": {
-              "properties": {
-                "id": {
-                  "type": "string"
-                }
-              }
+              "type": "string"
             }
           }
         }
@@ -802,7 +798,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Doctors",
+            "description": "Patients appointments data",
             "schema": {
               "type": "object",
               "properties": {
@@ -842,7 +838,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Doctor data",
+            "description": "Free time in ISO format",
             "schema": {
               "type": "array",
               "items": {
@@ -883,7 +879,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Created",
+            "description": "Resolution data",
             "schema": {
               "$ref": "#/definitions/Resolution"
             }
@@ -944,7 +940,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resolutions",
+            "description": "Resolutions data",
             "schema": {
               "type": "object",
               "properties": {
@@ -979,9 +975,9 @@
         }],
         "responses": {
           "200": {
-            "description": "Deleted",
+            "description": "Deleted resolution ID",
             "schema": {
-              "description": "Deleted resolution ID",
+              "description": "resolution ID",
               "type": "string"
             }
           }
@@ -1012,9 +1008,9 @@
           }],
         "responses": {
           "200": {
-            "description": "Updated",
+            "description": "Updated resolution ID",
             "schema": {
-              "description": "Updated resolution ID",
+              "description": "resolution ID",
               "type": "string"
             }
           }
@@ -1068,7 +1064,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resolutions",
+            "description": "Resolutions data",
             "schema": {
               "type": "object",
               "properties": {
@@ -1141,7 +1137,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resolutions",
+            "description": "Resolutions data",
             "schema": {
               "type": "object",
               "properties": {
@@ -1207,7 +1203,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Resolutions",
+            "description": "Resolutions for doctor",
             "schema": {
               "type": "object",
               "properties": {
@@ -1405,7 +1401,7 @@
         }],
         "responses": {
           "200": {
-            "description": "Access status",
+            "description": "Access data",
             "schema": {
               "type": "object",
               "properties": {
@@ -1427,7 +1423,7 @@
         "summary": "all available statuses",
         "responses": {
           "200": {
-            "description": "Statuses",
+            "description": "Statuses data",
             "schema": {
               "type": "array",
               "items": {
@@ -1444,7 +1440,7 @@
         "summary": "all available doctors specializations",
         "responses": {
           "200": {
-            "description": "Specializations",
+            "description": "Specializations data",
             "schema": {
               "type": "array",
               "items": {
