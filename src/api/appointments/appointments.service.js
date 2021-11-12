@@ -100,6 +100,7 @@ class AppointmentsService {
    * @param {string} doctorID
    */
   async checkAppointmentDate(date, doctorID = '') {
+    console.log(`${date}k`);
     const [appointment] = await this.appointmentsRepository.getAppointments(
       ISOdateFixes(date),
       doctorID,
@@ -165,7 +166,7 @@ class AppointmentsService {
    */
   async getFreeAppointmentsTime(date, doctorID) {
 
-    const filteredDate = date.replace(/[A-Z]/g, ' ');
+    const filteredDate = ISOdateFixes(date);
     const checkedDate = filteredDate.split(' ')[0];
     const availableHours = [];
     const appointments = await this.appointmentsRepository.getAppointments(checkedDate, doctorID);

@@ -136,6 +136,7 @@ class AppointmentsRepository {
    */
   async getAppointments(date, doctorID) {
     try {
+      console.log(`${date}k`);
       const sql = `SELECT * FROM appointments 
                          WHERE visit_date::text LIKE '%${date}%'
                          ${checkDoctorIDCondition(doctorID)}`;
