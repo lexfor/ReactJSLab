@@ -56,7 +56,7 @@ router.patch('/password', async (req, res, next) => {
   res.status(result.getStatus).json(result.getValue);
 });
 
-router.post('/profile', async (req, res, next) => {
+router.get('/profile', async (req, res, next) => {
   try {
     await tokenMiddleware(req, res, next);
   } catch (e) {

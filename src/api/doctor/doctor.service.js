@@ -9,7 +9,7 @@ class DoctorService {
    * @param {object} user
    */
   async createDoctor(doctor, user) {
-    for (const occupation of doctor.occupations) {
+    for (const occupation of doctor.specializations) {
       await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: user.id,
         specialization_id: occupation,
@@ -32,7 +32,7 @@ class DoctorService {
    */
   async updateDoctor(doctorID, doctor) {
     await this.doctorSpecializationRepository.deleteDoctorSpecialization(doctorID);
-    for (const occupation of doctor.occupations) {
+    for (const occupation of doctor.specializations) {
       await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: doctorID,
         specialization_id: occupation,
