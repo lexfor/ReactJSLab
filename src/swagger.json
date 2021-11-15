@@ -495,7 +495,7 @@
               "specializations": {
                 "type": "array",
                 "items": {
-                  "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
+                  "example": "surgeon",
                   "type": "string"
                 }
               }
@@ -721,7 +721,7 @@
                 "specializations": {
                   "type": "array",
                   "items": {
-                    "example": "c43fca01-3ea9-48f5-b5d8-4d7a4705e30f",
+                    "example": "surgeon",
                     "type": "string"
                   }
                 }

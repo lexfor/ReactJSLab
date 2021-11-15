@@ -158,7 +158,7 @@ class UsersRepository {
                 SELECT 
                 users.*, 
                 roles.role_name,
-                ${SPECIALIZATION_NAME_JOIN}
+                ${SPECIALIZATION_NAME_JOIN} as specialization_name
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE users.id = $1`;
@@ -276,7 +276,7 @@ class UsersRepository {
                 SELECT COUNT(*) OVER() as total,
                 users.*,
                 roles.role_name, 
-                ${SPECIALIZATION_NAME_JOIN}
+                ${SPECIALIZATION_NAME_JOIN} as specialization_name
                 FROM users
                 INNER JOIN roles ON roles.id = users.role_id
                 WHERE role_id = $1
