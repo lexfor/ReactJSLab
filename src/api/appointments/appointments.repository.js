@@ -90,8 +90,8 @@ class AppointmentsRepository {
                          ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
                          LIMIT $3 OFFSET $2`;
-      let { rows } = await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
       console.log(sql);
+      let { rows } = await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
