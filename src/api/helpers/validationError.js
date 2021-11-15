@@ -9,8 +9,8 @@ export default class ValidationError extends Error {
 
     get getValue() {
         return {
-            title: `title: ${this.message}`,
-            message: `message: ${this.description}`,
+            title: this.message,
+            message: this.description,
         };
     }
 
