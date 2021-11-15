@@ -104,6 +104,7 @@ class AppointmentsService {
       ISOdateFixes(date),
       doctorID,
     );
+    console.log(appointment);
     if (appointment) {
       throw new ApiError('Date and time not free', StatusCodes.CONFLICT);
     }

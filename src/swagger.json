@@ -2339,6 +2339,10 @@
         "doctor_id": {
           "type": "string"
         },
+        "visit_date": {
+          "type": "string",
+          "description": "Visit date"
+        },
         "status": {
           "type": "string",
           "description": "Appointment status name"
@@ -2388,7 +2392,7 @@
           "type": "string",
           "description": "Appointment status name"
         },
-        "patient": {
+        "doctor": {
           "type": "object",
           "properties": {
             "last_name": {
@@ -2526,7 +2530,7 @@
         "visit_date": {
           "type": "string"
         },
-        "doctor": {
+        "patient": {
           "type": "object",
           "properties": {
             "last_name": {

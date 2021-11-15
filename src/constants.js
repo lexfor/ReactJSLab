@@ -23,8 +23,8 @@ export const SECOND_VISIT = 'repeat visit';
 export const MAX_FILE_SIZE = 1000000;
 
 export const WORK_HOURS = {
-  start: 8,
-  end: 20,
+  start: 5,
+  end: 17,
   step: 1,
 };
 
