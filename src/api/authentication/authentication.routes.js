@@ -15,7 +15,7 @@ router.post('/login', async (req, res, next) => {
   try {
     ajvValidator(req.body, LogingSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await authenticationController.login(req.body);
