@@ -21,7 +21,7 @@ class UsersService {
       last_name: userData.lastName,
       first_name: userData.firstName,
       photo: DEFAULT_PHOTO_PATH,
-      login: userData.login,
+      login: userData.userName,
       password: await bcrypt.hashSync(userData.password, +process.env.SALT),
       role_id: userData.role_id,
     };
@@ -212,7 +212,7 @@ class UsersService {
      * @returns {Promise<object>} user data
      */
   async login(credentials) {
-    const user = await this.usersRepository.getUserByLogin(credentials.login);
+    const user = await this.usersRepository.getUserByLogin(credentials.userName);
     if (!user) {
       throw new ApiError('no such user', StatusCodes.UNAUTHORIZED);
     }

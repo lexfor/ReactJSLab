@@ -10,6 +10,7 @@ import {ajvValidator} from '../helpers/middleware/index';
 import { ChangeDoctorSchema } from '../helpers/schemas/ChangeDoctorSchema';
 import { IDSchema } from '../helpers/schemas/IDSchema';
 import { PaginationSchema } from '../helpers/schemas/PaginationSchema';
+import {DoctorSchema} from "../helpers/schemas/DoctorSchema";
 
 const router = express();
 const doctorController = injector.getDoctorController;
@@ -53,7 +54,7 @@ router.get(`${ROUTES.DOCTORS}/specialization/:id`, async (req, res, next) => {
 router.post(`${ROUTES.ADMIN}/doctors`, async (req, res, next) => {
   try {
     await authenticationMiddleware(req, res);
-    ajvValidator(req.body, ChangeDoctorSchema, req, res, next);
+    ajvValidator(req.body, DoctorSchema, req, res, next);
   } catch (e) {
     res.status(e.status).json(e.message);
   }

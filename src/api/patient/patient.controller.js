@@ -22,7 +22,7 @@ class PatientController {
         role_id: ROLES_ID.PATIENT,
       };
       await this.usersService.checkIsAdmin(userID);
-      await this.usersService.checkIsUserExist(userData.login);
+      await this.usersService.checkIsUserExist(userData.userName);
       const createdUser = await this.usersService.createUser(userData);
       res.setValue = await this.usersService.getUserByID(createdUser.id);
       res.setStatus = StatusCodes.CREATED;

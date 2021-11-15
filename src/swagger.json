@@ -46,7 +46,7 @@
                 "minLength": 2,
                 "type": "string"
               },
-              "login": {
+              "userName": {
                 "example": "tsimafei@itrexgroup.com",
                 "maxLength": 30,
                 "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
@@ -477,7 +477,7 @@
                 "minLength": 2,
                 "type": "string"
               },
-              "login": {
+              "userName": {
                 "example": "oleg@itrexgroup.com",
                 "maxLength": 30,
                 "pattern": "([0-9A-Za-z]+)@([a-z]+).([a-z]+)",
@@ -1984,7 +1984,7 @@
           "schema": {
             "type": "object",
             "properties": {
-              "login": {
+              "userName": {
                 "example": "dima@mail.ru",
                 "maxLength": 30,
                 "minLength": 2,
@@ -2103,7 +2103,7 @@
             "schema": {
               "type": "object",
               "properties": {
-                "login": {
+                "userName": {
                   "example": "dima@mail.ru",
                   "maxLength": 30,
                   "minLength": 2,

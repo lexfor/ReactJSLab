@@ -3,7 +3,7 @@ import { MAX_LENGTH, MIN_LENGTH } from '../../../constants';
 export const LogingSchema = {
   type: 'object',
   properties: {
-    login: {
+    userName: {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '([0-9A-Za-z]+)@([a-z]+).([a-z]+)',
     },
     password: {

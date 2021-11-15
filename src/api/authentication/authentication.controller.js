@@ -22,7 +22,7 @@ class AuthenticationController {
         ...user,
         role_id: ROLES_ID.PATIENT,
       };
-      await this.usersService.checkIsUserExist(userData.login);
+      await this.usersService.checkIsUserExist(userData.userName);
       const createdUser = await this.usersService.createUser(userData);
       const result = this.jwtService.createSign(createdUser.id);
       res.setValue = result;

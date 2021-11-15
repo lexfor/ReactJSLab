@@ -3,8 +3,8 @@ import { MAX_LENGTH, MIN_LENGTH } from '../../../constants';
 export const DoctorSchema = {
   type: 'object',
   properties: {
-    login: {
-      type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '([0-9A-Za-z]+)@([a-z]+).([a-z]+)', message: 'login should be mail',
+    userName: {
+      type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '([0-9A-Za-z]+)@([a-z]+).([a-z]+)', message: 'userName should be a mail',
     },
     password: {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '[a-zA-Z0-9]+',
@@ -15,10 +15,10 @@ export const DoctorSchema = {
     lastName: {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '[a-zA-Z]+',
     },
-    occupationID: {
-      type: 'string',
+    specializations: {
+      type: 'array'
     },
   },
-  required: ['login', 'password', 'firstName', 'lastName', 'occupationID'],
+  required: ['userName', 'password', 'firstName', 'lastName', 'specializations'],
   additionalProperties: false,
 };
