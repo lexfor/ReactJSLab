@@ -2238,6 +2238,13 @@
               "type": "string",
               "example": "wrong token"
             }
+          },
+          "500": {
+            "description": "Wrong refresh token",
+            "schema": {
+              "type": "string",
+              "example": "wrong refresh token"
+            }
           }
         }
       }

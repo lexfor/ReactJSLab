@@ -52,7 +52,7 @@ class UsersService {
     if (!userData.photo) {
       userData.photo = currentUser.photo;
     } else {
-      await fs.unlinkSync(`.${currentUser.photo}`);
+      await fs.unlinkSync(`.${currentUser.photo.split('.com')[1]}`);
     }
     await this.usersRepository.updateUser(userID, userData);
     return userID;
