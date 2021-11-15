@@ -5,6 +5,7 @@ import { sort } from '../helpers/sort';
 import {DOCTOR_JOIN, PATIENT_JOIN, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { changeTimeToLocal } from '../helpers/ChangeTimeToLocal';
 import {patientParse} from "../helpers/patientParse";
+import {doctorParse} from "../helpers/doctorParse";
 
 class AppointmentsRepository {
   constructor(pool) {
@@ -116,8 +117,8 @@ class AppointmentsRepository {
                          ${checkDateStatus(data.dateStatus)}
                          ${sort(data.sort, data.variant)}
                          LIMIT $3 OFFSET $2`;
-      console.log(sql);
       let { rows } = await this.pool.query(sql, [data.patientID, +data.offset, +data.count]);
+      rows = doctorParse(rows);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {

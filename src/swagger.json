@@ -2319,22 +2319,12 @@
         "id": {
           "type": "string"
         },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
         "reason": {
           "type": "string"
         },
         "note": {
           "type": "string",
           "description": "Note for visit"
-        },
-        "photo": {
-          "type": "string",
-          "description": "Path to photo"
         },
         "patient_id": {
           "type": "string"
@@ -2345,6 +2335,23 @@
         "status": {
           "type": "string",
           "description": "Appointment status name"
+        },
+        "patient": {
+          "type": "object",
+          "properties": {
+            "last_name": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -2353,22 +2360,12 @@
         "id": {
           "type": "string"
         },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
         "reason": {
           "type": "string"
         },
         "note": {
           "type": "string",
           "description": "Note for visit"
-        },
-        "photo": {
-          "type": "string",
-          "description": "Path to photo"
         },
         "patient_id": {
           "type": "string"
@@ -2384,9 +2381,25 @@
           "type": "string",
           "description": "Appointment status name"
         },
-        "specialization_name": {
-          "type": "string",
-          "description": "Doctor specialization name"
+        "patient": {
+          "type": "object",
+          "properties": {
+            "last_name": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            },
+            "specialization_name": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -2467,20 +2480,25 @@
         "visit_date": {
           "type": "string"
         },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "specialization_name": {
-          "type": "string"
-        },
-        "photo": {
-          "type": "string"
-        },
-        "user_id": {
-          "type": "string"
+        "doctor": {
+          "type": "object",
+          "properties": {
+            "last_name": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            },
+            "specialization_name": {
+              "type": "string"
+            }
+          }
         }
       }
     },
@@ -2501,17 +2519,22 @@
         "visit_date": {
           "type": "string"
         },
-        "first_name": {
-          "type": "string"
-        },
-        "last_name": {
-          "type": "string"
-        },
-        "photo": {
-          "type": "string"
-        },
-        "user_id": {
-          "type": "string"
+        "doctor": {
+          "type": "object",
+          "properties": {
+            "last_name": {
+              "type": "string"
+            },
+            "first_name": {
+              "type": "string"
+            },
+            "id": {
+              "type": "string"
+            },
+            "photo": {
+              "type": "string"
+            }
+          }
         }
       }
     },

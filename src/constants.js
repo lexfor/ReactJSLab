@@ -74,7 +74,7 @@ export const SPECIALIZATION_NAME_JOIN = `(
                            SELECT STRING_AGG(specializations.specialization_name, ', ') FROM specializations
                            INNER JOIN doctors_specializations ON specializations.id = doctors_specializations.specialization_id
                            WHERE users.id = doctors_specializations.doctor_id
-                         ) as specialization_name`;
+                         )`;
 
 export const SITE_ROOT_PATH = 'https://reactlabapi.herokuapp.com'
 

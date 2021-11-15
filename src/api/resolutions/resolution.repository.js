@@ -3,8 +3,10 @@ import ApiError from '../helpers/ApiError';
 import { nameCondition } from '../helpers/conditions';
 import { dateCondition } from '../helpers/conditions/dateCondition';
 import { sort } from '../helpers/sort';
-import { SPECIALIZATION_NAME_JOIN } from '../../constants';
+import {DOCTOR_JOIN, PATIENT_JOIN, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { changeTimeToLocal } from '../helpers/ChangeTimeToLocal';
+import {doctorParse} from "../helpers/doctorParse";
+import {patientParse} from "../helpers/patientParse";
 
 class ResolutionRepository {
   constructor(pool) {
@@ -120,11 +122,7 @@ class ResolutionRepository {
                    SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
-                   users.first_name, 
-                   users.last_name,
-                   users.photo,
-                   users.id as user_id,
-                   ${SPECIALIZATION_NAME_JOIN}
+                   ${DOCTOR_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.doctor_id = users.id
@@ -133,6 +131,7 @@ class ResolutionRepository {
                    ${sort(data.sort, data.variant)}
                    LIMIT $3 OFFSET $2`;
       let { rows } = await this.pool.query(sql, [data.patientID, +data.offset, +data.count]);
+      rows = doctorParse(rows);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
@@ -152,10 +151,8 @@ class ResolutionRepository {
                    SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
-                   users.first_name, 
-                   users.last_name,
-                   users.photo,
-                   users.id as user_id FROM resolutions
+                   ${PATIENT_JOIN}
+                   FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.patient_id = users.id
                    WHERE appointments.doctor_id = $1
@@ -164,6 +161,7 @@ class ResolutionRepository {
                    ${sort(data.sort, data.variant)}
                    LIMIT $3 OFFSET $2`;
       let { rows } = await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
+      rows = patientParse(rows);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
@@ -183,11 +181,7 @@ class ResolutionRepository {
                    SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
-                   users.first_name, 
-                   users.last_name,
-                   users.photo,
-                   users.id as user_id,
-                   specializations.specialization_name
+                   (users.first_name, users.last_name, users.photo, users.id, specializations.specialization_name) as doctor
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.doctor_id = users.id
@@ -202,6 +196,7 @@ class ResolutionRepository {
         sql,
         [data.patientID, data.specializationID, +data.offset, +data.count],
       );
+      rows = doctorParse(rows);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
@@ -221,11 +216,7 @@ class ResolutionRepository {
                    SELECT COUNT(*) OVER() as total,
                    resolutions.*,
                    appointments.visit_date, 
-                   users.first_name, 
-                   users.last_name,
-                   users.photo,
-                   users.id as user_id,
-                   ${SPECIALIZATION_NAME_JOIN}
+                   ${DOCTOR_JOIN}
                    FROM resolutions
                    INNER JOIN appointments ON appointments.id = resolutions.appointment_id
                    INNER JOIN users ON appointments.doctor_id = users.id
@@ -238,6 +229,7 @@ class ResolutionRepository {
         sql,
         [data.patientID, +data.offset, +data.count],
       );
+      rows = doctorParse(rows);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
