@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import ApiError from '../helpers/ApiError';
 import { nameCondition, checkDoctorIDCondition, checkDateStatus } from '../helpers/conditions';
 import { sort } from '../helpers/sort';
-import {PATIENT_JOIN, SPECIALIZATION_NAME_JOIN} from '../../constants';
+import {DOCTOR_JOIN, PATIENT_JOIN, SPECIALIZATION_NAME_JOIN} from '../../constants';
 import { changeTimeToLocal } from '../helpers/ChangeTimeToLocal';
 import {patientParse} from "../helpers/patientParse";
 
@@ -111,7 +111,7 @@ class AppointmentsRepository {
                          users.first_name,
                          users.last_name,
                          users.photo,
-                         ${SPECIALIZATION_NAME_JOIN}
+                         ${DOCTOR_JOIN}
                          FROM appointments 
                          JOIN users ON users.id = appointments.doctor_id
                          WHERE appointments.patient_id = $1

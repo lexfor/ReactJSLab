@@ -92,3 +92,5 @@ export const STATUSES = ['pending', 'canceled', 'confirmed']
 export const SPECIALIZATIONS = ['surgeon', 'therapist', 'ophthalmologist', 'pediatrician']
 
 export const PATIENT_JOIN = '(users.first_name, users.last_name, users.photo, users.id) as patient'
+
+export const DOCTOR_JOIN = `(users.first_name, users.last_name, users.photo, users.id, ${SPECIALIZATION_NAME_JOIN}) as patient`
