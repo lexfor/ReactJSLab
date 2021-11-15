@@ -81,7 +81,8 @@ class AppointmentsRepository {
                          appointments.*,
                          (users.last_name as last_name,
                           users.first_name as first_name,
-                          users.photo as photo ) as patient
+                          users.photo as photo,
+                          users.id as id) as patient
                          FROM appointments 
                          JOIN users ON users.id = appointments.patient_id
                          WHERE appointments.doctor_id = $1
@@ -90,6 +91,7 @@ class AppointmentsRepository {
                          ${sort(data.sort, data.variant)}
                          LIMIT $3 OFFSET $2`;
       let { rows } = await this.pool.query(sql, [data.doctorID, +data.offset, +data.count]);
+      console.log(sql);
       rows = changeTimeToLocal(rows);
       return rows;
     } catch (e) {
