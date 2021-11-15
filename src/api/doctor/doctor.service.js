@@ -1,6 +1,6 @@
 import {StatusCodes} from "http-status-codes";
 import ApiError from "../helpers/ApiError";
-import {SPECIALIZATIONS_ENUM} from "../../constants";
+import {SPECIALIZATIONS, SPECIALIZATIONS_ENUM} from "../../constants";
 
 class DoctorService {
   constructor(doctorSpecializationRepository) {
@@ -49,9 +49,8 @@ class DoctorService {
    * @param {string[]} specializations
    */
   async checkSpecializations(specializations) {
-    const specializationNames = ['surgeon', 'therapist', 'ophthalmologist', 'pediatrician'];
     for (const specialization of specializations) {
-        if (specializationNames.indexOf(specialization) === -1) {
+        if (SPECIALIZATIONS.indexOf(specialization) === -1) {
           throw new ApiError('wrong specializations name', StatusCodes.BAD_REQUEST);
         }
     }

@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import RequestResult from '../helpers/RequestResult';
 import APIMessage from "../helpers/APIMessage";
+import {STATUSES} from "../../constants";
 
 class StatusesController {
   /**
@@ -10,7 +11,7 @@ class StatusesController {
   async getAllStatuses() {
     const res = new RequestResult();
     try {
-      res.setValue = ['waiting', 'canceled', 'confirmed'];
+      res.setValue = STATUSES;
       res.setStatus = StatusCodes.OK;
       return res;
     } catch (e) {

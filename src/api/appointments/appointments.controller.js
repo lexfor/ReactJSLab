@@ -74,6 +74,7 @@ class AppointmentsController {
     const res = new RequestResult();
     try {
       await this.usersService.checkIsDoctor(doctorID);
+      await this.appointmentService.checkStatus(appointmentData.status);
       await this.appointmentService.checkAppointmentDate(appointmentData.date, doctorID);
       await this.appointmentService.checkIsAppointmentExist(appointmentID);
       await this.appointmentService.checkIsItYoursAppointment(appointmentID, doctorID);

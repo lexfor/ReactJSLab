@@ -86,3 +86,7 @@ export const SPECIALIZATIONS_ENUM = {
   ophthalmologist: 'ff01ee4f-f005-48f2-830c-7dd456a1cc17',
   pediatrician: 'fbebec6f-5ec0-4dcd-8e87-2a27af771f5a',
 }
+
+export const STATUSES = ['pending', 'canceled', 'confirmed']
+
+export const SPECIALIZATIONS = ['surgeon', 'therapist', 'ophthalmologist', 'pediatrician']

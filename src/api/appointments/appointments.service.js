@@ -1,6 +1,6 @@
 import { v1 as uuidv1 } from 'uuid';
 import { StatusCodes } from 'http-status-codes';
-import { APPOINTMENTS_STATUSES, WORK_HOURS } from '../../constants';
+import {APPOINTMENTS_STATUSES, STATUSES, WORK_HOURS} from '../../constants';
 import ApiError from '../helpers/ApiError';
 import {ISOdateFixes} from "../helpers/ISOdateFixes";
 
@@ -175,6 +175,16 @@ class AppointmentsService {
       }
     }
     return availableHours;
+  }
+
+  /**
+   * check statuses
+   * @param {string} status
+   */
+  async checkStatus(status) {
+    if (STATUSES.indexOf(status) === -1) {
+      throw new ApiError('wrong status', StatusCodes.BAD_REQUEST)
+    }
   }
 }
 

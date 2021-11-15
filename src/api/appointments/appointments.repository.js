@@ -79,9 +79,7 @@ class AppointmentsRepository {
       const sql = `
                          SELECT COUNT(*) OVER() as total,
                          appointments.*,
-                         users.first_name, 
-                         users.last_name, 
-                         users.photo
+                         users.* as patient
                          FROM appointments 
                          JOIN users ON users.id = appointments.patient_id
                          WHERE appointments.doctor_id = $1
