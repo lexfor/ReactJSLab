@@ -171,8 +171,8 @@ class AppointmentsService {
     const notAvailableHours = appointments.map((appointment) => appointment.visit_date.getHours());
     for (let hour = WORK_HOURS.start; hour <= WORK_HOURS.end; hour += WORK_HOURS.step) {
       if (notAvailableHours.indexOf(hour) === -1) {
-        console.log(new Date(hour), new Date());
-        if (new Date(hour) <= new Date()) {
+        console.log(new Date(`${checkedDate} ${hour}:`), new Date());
+        if (new Date(`${checkedDate} ${hour}:`) <= new Date()) {
           continue;
         }
         availableHours.push(new Date(`${checkedDate} ${hour}:`).toISOString());
