@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.body, CreateResolutionSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.createResolution(req.userID, req.body);
@@ -29,7 +29,7 @@ router.delete('/:id', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.deleteResolution(req.params.id, req.userID);
@@ -41,7 +41,7 @@ router.patch('/:id', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.updateResolution(req.params.id, req.body, req.userID);
@@ -53,7 +53,7 @@ router.get('/patient/me', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.getResolutionsForPatient({
@@ -72,7 +72,7 @@ router.get('/doctor/me', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.getResolutionsForDoctor({
@@ -92,7 +92,7 @@ router.get('/doctor/specialization/:specializationID', async (req, res, next) =>
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.getPatientResolutionsByDoctorSpecializationID({
@@ -112,7 +112,7 @@ router.get('/', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await resolutionController.getPatientResolutionsByDate({

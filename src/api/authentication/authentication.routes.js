@@ -26,7 +26,7 @@ router.post('/registration', async (req, res, next) => {
   try {
     ajvValidator(req.body, UserSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await authenticationController.register(req.body);
@@ -37,7 +37,7 @@ router.post('/token/refresh', async (req, res, next) => {
   try {
     tokenMiddleware(req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await authenticationController.refreshToken(req.token);
@@ -49,7 +49,7 @@ router.patch('/password', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     next();
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await authenticationController.changePassword(req.userID, req.body);
@@ -60,7 +60,7 @@ router.get('/profile', async (req, res, next) => {
   try {
     await tokenMiddleware(req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await authenticationController.checkToken(req.token);

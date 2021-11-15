@@ -21,7 +21,7 @@ router.patch(`${ROUTES.DOCTORS}/me`, upload.single('avatar'), async (req, res, n
     photoMiddleware(req, res);
     ajvValidator(req.body, ChangeDoctorSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.updateMyProfile(req.userID, req.body);
@@ -33,7 +33,7 @@ router.get(`${ROUTES.DOCTORS}/me`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     next();
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.getMyProfile(req.userID);
@@ -44,7 +44,7 @@ router.get(`${ROUTES.DOCTORS}/specialization/:id`, async (req, res, next) => {
   try {
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.getDoctorsBySpecializations(req.params.id, req.query.name);
@@ -56,7 +56,7 @@ router.post(`${ROUTES.ADMIN}/doctors`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.body, DoctorSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.createDoctor(req.body, req.userID);
@@ -68,7 +68,7 @@ router.delete(`${ROUTES.ADMIN}/doctors/:id`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.deleteDoctor(req.params.id, req.userID);
@@ -80,7 +80,7 @@ router.patch(`${ROUTES.ADMIN}/doctors/:id`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.updateDoctor(req.params.id, req.body, req.userID);
@@ -92,7 +92,7 @@ router.get(`${ROUTES.ADMIN}/doctors`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.getValue).json(e.getStatus);
+    res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
   const result = await doctorController.getDoctors({
