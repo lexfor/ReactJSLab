@@ -11,7 +11,7 @@ export function ajvValidator(data, schema, req, res, next) {
 
   if (!valid) {
     const validationErrors = ajvParseErrorLog(
-      validateEnqueueSchema.errors[0],
+      validateEnqueueSchema.errors,
     );
     throw new ApiError(validationErrors, StatusCodes.BAD_REQUEST);
   }

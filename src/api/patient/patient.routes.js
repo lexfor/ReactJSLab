@@ -21,7 +21,7 @@ router.patch(`${ROUTES.PATIENTS}/me`, upload.single('avatar'), async (req, res, 
     photoMiddleware(req, res);
     ajvValidator(req.body, ChangePatientSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.updateMyProfile(req.userID, req.body);
@@ -33,7 +33,7 @@ router.get(`${ROUTES.PATIENTS}/me`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     next();
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.getMyProfile(req.userID);
@@ -45,7 +45,7 @@ router.post(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.body, UserSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.createPatient(req.body, req.userID);
@@ -57,7 +57,7 @@ router.delete(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.deletePatient(req.params.id, req.userID);
@@ -70,7 +70,7 @@ router.patch(`${ROUTES.ADMIN}/patients/:id`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.updatePatient(req.params.id, req.body, req.userID);
@@ -82,7 +82,7 @@ router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await patientController.getPatients({

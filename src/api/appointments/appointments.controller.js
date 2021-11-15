@@ -18,9 +18,9 @@ class AppointmentsController {
   async createAppointment(patientID, appointmentData) {
     const res = new RequestResult();
     try {
-      await this.usersService.checkIsPatient(patientID);
       await this.usersService.checkIsPatientExist(patientID);
       await this.usersService.checkIsDoctorExist(appointmentData.doctorID);
+      await this.appointmentService.checkCurrentDate(appointmentData.date);
       await this.appointmentService.checkAppointmentDate(appointmentData.date, appointmentData.doctorID);
       res.setValue = await this.appointmentService.createAppointment(patientID, appointmentData);
       res.setStatus = StatusCodes.CREATED;
@@ -75,6 +75,7 @@ class AppointmentsController {
     try {
       await this.usersService.checkIsDoctor(doctorID);
       await this.appointmentService.checkStatus(appointmentData.status);
+      await this.appointmentService.checkCurrentDate(appointmentData.date);
       await this.appointmentService.checkAppointmentDate(appointmentData.date, doctorID);
       await this.appointmentService.checkIsAppointmentExist(appointmentID);
       await this.appointmentService.checkIsItYoursAppointment(appointmentID, doctorID);
@@ -139,7 +140,6 @@ class AppointmentsController {
     };
     const res = new RequestResult();
     try {
-      await this.usersService.checkIsPatient(data.patientID);
       res.setValue = await this.appointmentService.getAppointmentsForPatient(searchData);
       res.setStatus = StatusCodes.OK;
       return res;

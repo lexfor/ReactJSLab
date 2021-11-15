@@ -171,6 +171,9 @@ class AppointmentsService {
     const notAvailableHours = appointments.map((appointment) => appointment.visit_date.getHours());
     for (let hour = WORK_HOURS.start; hour <= WORK_HOURS.end; hour += WORK_HOURS.step) {
       if (notAvailableHours.indexOf(hour) === -1) {
+        if (new Date(hour) <= new Date()) {
+          continue;
+        }
         availableHours.push(new Date(`${checkedDate} ${hour}:`).toISOString());
       }
     }
@@ -184,6 +187,16 @@ class AppointmentsService {
   async checkStatus(status) {
     if (STATUSES.indexOf(status) === -1) {
       throw new ApiError('wrong status', StatusCodes.BAD_REQUEST)
+    }
+  }
+
+  /**
+   * check statuses
+   * @param {string} date
+   */
+  async checkCurrentDate(date) {
+    if (new Date(date) <= new Date()) {
+      throw new ApiError('wrong date', StatusCodes.BAD_REQUEST)
     }
   }
 }

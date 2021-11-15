@@ -1,9 +1,17 @@
-export function ajvParseErrorLog(error) {
-  console.log(error);
+import ValidationError from "./validationError";
 
-  if (error.dataPath === '') {
-    return `${error.message}`;
-  }
+export function ajvParseErrorLog(errors) {
+  console.log(errors);
+  let messages = '';
+  const title = 'Validation error';
 
-  return `field '${error.dataPath.replace('.', '')}' ${error.message}`;
+  errors.forEach((error) => {
+    if (error.dataPath === '') {
+      messages += `${error.message}`;
+    }
+
+    messages += `field '${error.dataPath.replace('.', '')}' ${error.message}`;
+  });
+
+  throw new ValidationError(title, messages);
 }

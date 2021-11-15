@@ -17,7 +17,7 @@ router.post('/', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.body, CreateAppointmentSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.createAppointment(req.userID, req.body);
@@ -29,7 +29,7 @@ router.delete('/:id', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.params, IDSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.deleteAppointment(req.params.id, req.userID);
@@ -41,7 +41,7 @@ router.patch('/:id', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.body, FreeTimeSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.updateAppointment(
@@ -57,7 +57,7 @@ router.get('/doctor/me', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.getAppointmentsForDoctor({
@@ -77,7 +77,7 @@ router.get('/patient/me', async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.getAppointmentsForPatient({
@@ -96,7 +96,7 @@ router.get('/time/free', async (req, res, next) => {
   try {
     ajvValidator(req.query, FreeTimeSchema, req, res, next);
   } catch (e) {
-    res.status(e.status).json(e.message);
+    res.status(e.getValue).json(e.getStatus);
   }
 }, async (req, res) => {
   const result = await appointmentsController.getFreeAppointmentsTime(

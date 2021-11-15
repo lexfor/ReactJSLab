@@ -129,7 +129,6 @@ class ResolutionController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
-      await this.usersService.checkIsPatient(data.patientID);
       res.setValue = await this.resolutionService.getPatientResolutionsByDoctorSpecializationID(
         searchData,
       );
@@ -159,7 +158,6 @@ class ResolutionController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
-      await this.usersService.checkIsPatient(data.patientID);
       res.setValue = await this.resolutionService.getPatientResolutionsByDate(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
@@ -187,7 +185,6 @@ class ResolutionController {
         sort: SORTS[data.sort],
         variant: SORT_TYPE[data.variant],
       };
-      await this.usersService.checkIsPatient(data.patientID);
       res.setValue = await this.resolutionService.getResolutionsForPatient(searchData);
       res.setStatus = StatusCodes.OK;
       return res;
