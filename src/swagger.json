@@ -963,7 +963,7 @@
             "type": "object",
             "properties": {
               "date": {
-                "example": "2021-11-23T10:00:00Z",
+                "example": "2021-11-23T10:00:00.000Z",
                 "description": "ISO string",
                 "type": "string"
               },
@@ -1020,6 +1020,13 @@
             "schema": {
               "type": "string",
               "example": "User not exist"
+            }
+          },
+          "409": {
+            "description": "Request error",
+            "schema": {
+              "type": "string",
+              "example": "Date and time not free"
             }
           }
         }
