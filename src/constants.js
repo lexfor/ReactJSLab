@@ -90,3 +90,5 @@ export const SPECIALIZATIONS_ENUM = {
 export const STATUSES = ['pending', 'canceled', 'confirmed']
 
 export const SPECIALIZATIONS = ['surgeon', 'therapist', 'ophthalmologist', 'pediatrician']
+
+export const PATIENT_JOIN = '(users.first_name, users.last_name, users.photo, users.id) as patient'
