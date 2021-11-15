@@ -79,3 +79,10 @@ export const SPECIALIZATION_NAME_JOIN = `(
 export const SITE_ROOT_PATH = 'https://reactlabapi.herokuapp.com'
 
 export const DEFAULT_PHOTO_PATH = `${SITE_ROOT_PATH}/src/public/users/images/default.jpg`;
+
+export const SPECIALIZATIONS_ENUM = {
+  surgeon: 'c43fca01-3ea9-48f5-b5d8-4d7a4705e30f',
+  therapist: '902240b7-514a-48c3-a67f-6acfb1d35030',
+  ophthalmologist: 'ff01ee4f-f005-48f2-830c-7dd456a1cc17',
+  pediatrician: 'fbebec6f-5ec0-4dcd-8e87-2a27af771f5a',
+}

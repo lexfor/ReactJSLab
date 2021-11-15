@@ -129,7 +129,7 @@ class AppointmentsService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 
@@ -152,7 +152,7 @@ class AppointmentsService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 

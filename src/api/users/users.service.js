@@ -78,7 +78,7 @@ class UsersService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 
@@ -102,7 +102,7 @@ class UsersService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 

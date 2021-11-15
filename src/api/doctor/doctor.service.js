@@ -1,3 +1,7 @@
+import {StatusCodes} from "http-status-codes";
+import ApiError from "../helpers/ApiError";
+import {SPECIALIZATIONS_ENUM} from "../../constants";
+
 class DoctorService {
   constructor(doctorSpecializationRepository) {
     this.doctorSpecializationRepository = doctorSpecializationRepository;
@@ -12,7 +16,7 @@ class DoctorService {
     for (const occupation of doctor.specializations) {
       await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: user.id,
-        specialization_id: occupation,
+        specialization_id: SPECIALIZATIONS_ENUM[occupation],
       });
     }
   }
@@ -35,8 +39,21 @@ class DoctorService {
     for (const occupation of doctor.specializations) {
       await this.doctorSpecializationRepository.addDoctorSpecialization({
         doctor_id: doctorID,
-        specialization_id: occupation,
+        specialization_id: SPECIALIZATIONS_ENUM[occupation],
       });
+    }
+  }
+
+  /**
+   * check doctor specialization
+   * @param {string[]} specializations
+   */
+  async checkSpecializations(specializations) {
+    const specializationNames = ['surgeon', 'therapist', 'ophthalmologist', 'pediatrician'];
+    for (const specialization of specializations) {
+        if (specializationNames.indexOf(specialization) === -1) {
+          throw new ApiError('wrong specializations name', StatusCodes.BAD_REQUEST);
+        }
     }
   }
 }

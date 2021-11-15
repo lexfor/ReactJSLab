@@ -102,7 +102,7 @@ class ResolutionService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 
@@ -128,7 +128,7 @@ class ResolutionService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 
@@ -152,7 +152,7 @@ class ResolutionService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 
@@ -176,7 +176,7 @@ class ResolutionService {
         delete item.total;
         return item;
       }),
-      total,
+      total: Number(total),
     };
   }
 }
