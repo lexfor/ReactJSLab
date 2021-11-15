@@ -16,6 +16,6 @@ export const UserSchema = {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '[a-zA-Z]+',
     },
   },
-  required: ['login', 'password', 'firstName', 'lastName'],
+  required: ['userName', 'password', 'firstName', 'lastName'],
   additionalProperties: false,
 };

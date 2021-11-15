@@ -10,6 +10,6 @@ export const LogingSchema = {
       type: 'string', maxLength: MAX_LENGTH, minLength: MIN_LENGTH, pattern: '[a-zA-Z0-9]+',
     },
   },
-  required: ['login', 'password'],
+  required: ['userName', 'password'],
   additionalProperties: false,
 };
