@@ -3,7 +3,7 @@
   "info": {
     "version": "1.1.0",
     "title": "React lab API",
-    "description": "API on Node.js for ITRex React.js Lab. Credentials: https://docs.google.com/document/d/1iha99P5S3Rz6ZrERbF5Vg89hJy0YtiK9n3VGQmZl3bw/edit?usp=sharing",
+    "description": "API on Node.js for ITRex React.js Lab.",
     "license": {
       "name": "MIT",
       "url": "https://opensource.org/licenses/MIT"
