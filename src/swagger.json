@@ -1189,7 +1189,7 @@
       },
       "patch": {
         "tags": ["Appointments"],
-        "summary": "Update a appointment status",
+        "summary": "Update a appointment status and date",
         "security": [{
           "Bearer": []
         }],
