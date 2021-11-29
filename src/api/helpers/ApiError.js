@@ -5,4 +5,13 @@ export default class ApiError extends Error {
     super(message);
     this.status = status;
   }
+
+  get getStatus() {
+    return this.status;
+  }
+
+  get getValue() {
+    return this.message;
+  }
+
 }

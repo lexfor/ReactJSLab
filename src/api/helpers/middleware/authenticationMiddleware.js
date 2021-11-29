@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { injector } from '../../../Injector';
 import ApiError from '../ApiError';
+import APIMessage from "../APIMessage";
 
 const authenticationController = injector.getAuthenticationController;
 
@@ -9,7 +10,7 @@ async function authenticationMiddleware(req, res) {
     const authHeader = req.headers.authorization;
     console.log(authHeader);
     if (!authHeader) {
-      throw new ApiError('jwt token not found', StatusCodes.UNAUTHORIZED);
+      throw new ApiError(new APIMessage('jwt token not found').message, StatusCodes.UNAUTHORIZED);
     }
     const header = authHeader.split(' ');
     console.log(header);
@@ -31,7 +32,7 @@ async function authenticationMiddleware(req, res) {
     if (e.status) {
       throw new ApiError(e.message, e.status);
     }
-    throw new ApiError('Auth server error, check sent token', StatusCodes.BAD_REQUEST);
+    throw new ApiError('Auth server error, check token', StatusCodes.BAD_REQUEST);
   }
 }
 
