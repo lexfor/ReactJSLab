@@ -82,6 +82,7 @@ router.get(`${ROUTES.ADMIN}/patients`, async (req, res, next) => {
     await authenticationMiddleware(req, res);
     ajvValidator(req.query, PaginationSchema, req, res, next);
   } catch (e) {
+    console.log(e);
     res.status(e.getStatus).json(e.getValue);
   }
 }, async (req, res) => {
