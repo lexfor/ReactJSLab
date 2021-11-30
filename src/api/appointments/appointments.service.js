@@ -100,6 +100,7 @@ class AppointmentsService {
    * @param {string} doctorID
    */
   async checkAppointmentDate(date, doctorID = '') {
+
     const [appointment] = await this.appointmentsRepository.getAppointments(
       ISOdateFixes(date),
       doctorID,
